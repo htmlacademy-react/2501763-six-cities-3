@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Ruslan Mulyukov](https://up.htmlacademy.ru/react-individual/3/user/2501763).
-* Наставник: `Неизвестно`.
+* Наставник: [Oleg Petrov](https://htmlacademy.ru/profile/fyvfyv).
 
 ---
 
