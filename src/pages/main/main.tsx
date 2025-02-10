@@ -1,10 +1,10 @@
 import PlaceCard from '../../components/place-card';
 
-type MainProps = {
+  type MainProps = {
   dataMain: {
     RentalOffers: number;
   };
-}
+  }
 
 export default function Main({ dataMain }: MainProps): JSX.Element {
   return (
