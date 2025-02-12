@@ -1,13 +1,13 @@
 import Main from '../pages/main/main';
 
 type AppProps = {
-  dataMain: {
-     RentalOffers: number;
+  data: {
+    rentalOffersAmount: number;
    };
 }
 
-export default function App({ dataMain }: AppProps): JSX.Element {
+export default function App({ data }: AppProps): JSX.Element {
   return (
-    <Main dataMain={dataMain} />
+    <Main data={data} />
   );
 }

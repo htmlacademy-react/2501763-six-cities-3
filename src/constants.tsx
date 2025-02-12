@@ -1,3 +1,3 @@
-export const DataMain = {
-  RentalOffers: 312,
+export const dataMain = {
+  rentalOffersAmount: 312,
 } as const;
