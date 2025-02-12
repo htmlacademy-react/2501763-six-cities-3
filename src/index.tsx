@@ -10,7 +10,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <App
-      data={dataMain}
+      rentalOffersAmount={dataMain.rentalOffersAmount}
     />
   </React.StrictMode>
 );
