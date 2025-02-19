@@ -44,9 +44,7 @@
     "faker": "5.5.3",
     "jsdom": "22.1.0",
     "typescript": "5.2.2",
-    "vite": "^4.4.11",
-    "vitest": "0.34.6",
-    "lint": "^0.8.19"
+    "vite": "4.4.11"
   },
   "browserslist": {
     "production": [
