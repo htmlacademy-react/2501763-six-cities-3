@@ -1,13 +1,14 @@
-import PlaceCard from '../../components/place-card';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo';
+import {Offers} from '../../types/offer';
+import CardsList from '../../components/cards-list';
 
 type MainProps = {
-  rentalOffersAmount: number;
+  offers: Offers;
 }
 
-export default function Main ({rentalOffersAmount}: MainProps): JSX.Element {
+export default function Main ({offers}: MainProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -99,7 +100,7 @@ export default function Main ({rentalOffersAmount}: MainProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {[...Array(rentalOffersAmount).keys()].map((card) => <PlaceCard key={card}/>)}
+                <CardsList offers={offers}/>
               </div>
             </section>
             <div className="cities__right-section">
