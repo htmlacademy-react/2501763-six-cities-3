@@ -12,7 +12,6 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <App
-      rentalOffersAmount = {offers.length}
       offers = {offers}
       favoriteOffers = {favoriteOffers}
       reviews = {reviews}
