@@ -11,20 +11,19 @@ import {Offers} from '../types/offer';
 import {Reviews} from '../types/review';
 
 type AppProps = {
-  rentalOffersAmount: number;
   offers: Offers;
   favoriteOffers: Offers;
   reviews: Reviews;
 }
 
-export default function App({rentalOffersAmount, offers, favoriteOffers, reviews}: AppProps): JSX.Element {
+export default function App({offers, favoriteOffers, reviews}: AppProps): JSX.Element {
   return(
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<Main rentalOffersAmount={rentalOffersAmount} offers={offers}/>}
+            element={<Main offers={offers}/>}
           />
           <Route
             path={AppRoute.Login}
