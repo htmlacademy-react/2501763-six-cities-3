@@ -7,41 +7,46 @@ import Favorites from '../pages/favorites/favorites';
 import Offer from '../pages/offer/offer';
 import NotFound from '../pages/not-found/not-found';
 import PrivateRoute from './private-route';
+import {Offers} from '../types/offer';
+import {Reviews} from '../types/review';
 
 type AppProps = {
   rentalOffersAmount: number;
+  offers: Offers;
+  favoriteOffers: Offers;
+  reviews: Reviews;
 }
 
-export default function App({rentalOffersAmount}: AppProps): JSX.Element {
+export default function App({rentalOffersAmount, offers, favoriteOffers, reviews}: AppProps): JSX.Element {
   return(
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<Main rentalOffersAmount={rentalOffersAmount} />}
+            element={<Main rentalOffersAmount={rentalOffersAmount} offers={offers}/>}
+          />
+          <Route
+            path={AppRoute.Login}
+            element={<Login/>}
           />
           <Route
             path={AppRoute.Favorites}
             element={
               <PrivateRoute
-                authorizationStatus={AuthorizationStatus.NoAuth}
+                authorizationStatus={AuthorizationStatus.Auth}
               >
-                <Favorites />
+                <Favorites favoriteOffers={favoriteOffers}/>
               </PrivateRoute>
             }
           />
           <Route
-            path={AppRoute.Login}
-            element={<Login />}
+            path={`${AppRoute.Offer}/:id`}
+            element={<Offer reviews={reviews}/>}
           />
           <Route
-            path={AppRoute.Offer}
-            element={<Offer />}
-          />
-          <Route
-            path="*"
-            element={<NotFound />}
+            path='*'
+            element={<NotFound/>}
           />
         </Routes>
       </BrowserRouter>
