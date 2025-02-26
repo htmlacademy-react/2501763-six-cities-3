@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import Logo from '../../components/logo';
 import ReviewForm from '../../components/review-form';
 import {Reviews} from '../../types/review';
-import {getStarsStyle} from '../../constants';
+import getStarsStyle from '../../components/utils';
 
 type OfferProps = {
   reviews: Reviews;

@@ -12,9 +12,7 @@ export enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
   Main = '/',
-  Offer = 'offer'
+  Offer = '/offer'
 }
 
 export const cities = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
-
-export const getStarsStyle = (rating:number):string=>`${(Math.round(rating) * 20).toString() }%`;
