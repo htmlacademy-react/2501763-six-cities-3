@@ -4,19 +4,13 @@ import {useState} from 'react';
 
 type CardsListProp = {
   offers: Offers;
+  onListItemHover: (listItemId: string) => void;
+  onListItemOut: () => void;
 }
 
 export default function CardsList(props: CardsListProp): JSX.Element {
-  const { offers } = props;
-  const [activeCardId, setActiveCardId] = useState<string | null>(null);
-
-  const handleMouseOver = (id: string) => {
-    setActiveCardId(id);
-  };
-
-  const handleMouseOut = () => {
-    setActiveCardId(null);
-  };
+  const {offers, onListItemHover, onListItemOut} = props;
+  const [activeCardId, ] = useState<string | null>(null);
 
   return (
     <>
@@ -24,8 +18,8 @@ export default function CardsList(props: CardsListProp): JSX.Element {
         <PlaceCard
           key={item.id}
           offer={item}
-          onListItemHover={handleMouseOver}
-          onListItemOut={handleMouseOut}
+          onListItemHover={onListItemHover}
+          onListItemOut={onListItemOut}
           isActive={activeCardId === item.id}
         />
       ))}
