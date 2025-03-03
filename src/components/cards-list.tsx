@@ -10,7 +10,17 @@ type CardsListProp = {
 
 export default function CardsList(props: CardsListProp): JSX.Element {
   const {offers, onListItemHover, onListItemOut} = props;
-  const [activeCardId, ] = useState<string | null>(null);
+  const [activeCardId, setActiveCardId] = useState<string | null>(null);
+
+  const handleMouseHover = (id: string) => {
+    setActiveCardId(id);
+    onListItemHover(id);
+  };
+
+  const handleMouseOut = () => {
+    setActiveCardId(null);
+    onListItemOut();
+  };
 
   return (
     <>
@@ -18,8 +28,8 @@ export default function CardsList(props: CardsListProp): JSX.Element {
         <PlaceCard
           key={item.id}
           offer={item}
-          onListItemHover={onListItemHover}
-          onListItemOut={onListItemOut}
+          onListItemHover={() => handleMouseHover(item.id)}
+          onListItemOut={handleMouseOut}
           isActive={activeCardId === item.id}
         />
       ))}

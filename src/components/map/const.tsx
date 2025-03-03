@@ -1,6 +1,6 @@
 import {City} from '../../types/offer';
 
-const EMPTY_LOCATION:City = {
+export const EMPTY_LOCATION: City = {
   name: '',
   location: {
     latitude: 0,
@@ -9,7 +9,7 @@ const EMPTY_LOCATION:City = {
   }
 };
 
-const URL_MARKER_DEFAULT = '/public/img/pin.svg';
-const URL_MARKER_CURRENT = '/public/img/pin-active.svg';
-
-export {URL_MARKER_DEFAULT, URL_MARKER_CURRENT, EMPTY_LOCATION};
+export enum UrlMarker {
+  DEFAULT = '/public/img/pin.svg',
+  CURRENT = '/public/img/pin-active.svg',
+}

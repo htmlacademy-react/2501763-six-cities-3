@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo';
-import {Offer, Offers} from '../../types/offer';
+import {Offers} from '../../types/offer';
 import CardsList from '../../components/cards-list';
 import {useState} from 'react';
 import Map from '../../components/map/map';
@@ -10,18 +10,18 @@ type MainProps = {
   offers: Offers;
 }
 
-export default function Main ({offers}: MainProps): JSX.Element {
-  const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(
-    undefined
-  );
+export default function Main({offers}: MainProps): JSX.Element {
+  const [selectedOfferId, setSelectedOfferId] = useState<string | undefined>(undefined);
+
   const handleListItemHover = (listItemId: string) => {
-    const currentPin = offers.find((offer) => offer.id === listItemId);
-    setSelectedOffer(currentPin);
+    setSelectedOfferId(listItemId);
   };
+
   const handleListItemOut = () => {
-    setSelectedOffer(undefined);
+    setSelectedOfferId(undefined);
   };
-  return(
+
+  return (
     <div className="page page--gray page--main">
       <Helmet>
         <title>Шесть городов. Главная</title>
@@ -108,10 +108,7 @@ export default function Main ({offers}: MainProps): JSX.Element {
                   </svg>
                 </span>
                 <ul className="places__options places__options--custom places__options--opened">
-                  <li
-                    className="places__option places__option--active"
-                    tabIndex={0}
-                  >
+                  <li className="places__option places__option--active" tabIndex={0}>
                   Popular
                   </li>
                   <li className="places__option" tabIndex={0}>
@@ -131,7 +128,7 @@ export default function Main ({offers}: MainProps): JSX.Element {
             </section>
             <div className="cities__right-section">
               <section className="cities__map map" >
-                <Map offers={offers} selectedOffer={selectedOffer}/>
+                <Map offers={offers} selectedOfferId={selectedOfferId}/>
               </section>
             </div>
           </div>
