@@ -1,13 +1,11 @@
 import {Review} from '../types/review';
 import getStarsStyle from '../components/utils';
 
-
 type ReviewProps = {
   review: Review;
 }
 
-export default function ReviewItem(props: ReviewProps): JSX.Element {
-  const {review} = props;
+export default function ReviewItem({review}: ReviewProps): JSX.Element {
   const options:Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'long',

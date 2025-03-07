@@ -40,7 +40,7 @@ export default function App({offers, favoriteOffers, reviews}: AppProps): JSX.El
             }
           />
           <Route
-            path={`${AppRoute.Offer}/:id`}
+            path={`${AppRoute.Offer}/:offerId`}
             element={<Offer reviews={reviews} offers={offers}/>}
           />
           <Route

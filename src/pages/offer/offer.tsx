@@ -8,18 +8,27 @@ import ReviewList from '../../components/review-list';
 import Map from '../../components/map/map';
 import CardsList from '../../components/cards-list';
 import {useState} from 'react';
+import {getNearOffers} from '../offer/utils';
+import {useParams} from 'react-router-dom';
+import {offers as offerPageMock} from '../../mocks/offers';
 
 type OfferProps = {
   reviews: Reviews;
   offers: Offers;
 }
 
-export default function Offer(props:OfferProps): JSX.Element {
-  const {reviews, offers} = props;
-
-  const offersNear = offers.slice(0,3);
+export default function Offer({offers, reviews}:OfferProps): JSX.Element {
+  const {offerId} = useParams();
+  const foundOffer = offers.find((item) => item.id.toString() === offerId);
 
   const [selectedOfferId, setSelectedOfferId] = useState<string | undefined>(undefined);
+
+  if (!foundOffer) {
+    return <div>Offer not found</div>;
+  }
+
+  const offerPage = {...offerPageMock,...foundOffer};
+  const offersNear = getNearOffers(offerPage);
 
   const handleListItemHover = (listItemId: string) => {
     setSelectedOfferId(listItemId);
@@ -203,9 +212,6 @@ export default function Offer(props:OfferProps): JSX.Element {
           <section className="offer__map map" >
             <Map offers={offersNear}
               selectedOfferId={selectedOfferId}
-              mapWidth = {'1145px'}
-              mapHeight = {'579px'}
-              mapMargin ={'auto'}
             />
           </section>
         </section>
