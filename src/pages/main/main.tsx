@@ -108,7 +108,7 @@ export default function Main({offers}: MainProps): JSX.Element {
             </section>
             <div className="cities__right-section">
               <section className="cities__map map" >
-                <Map offers={offers} selectedOfferId={selectedOfferId} mapWidth = {'auto'} mapHeight = {'100%'} mapMargin ={'auto'}/>
+                <Map offers={offers} selectedOfferId={selectedOfferId}/>
               </section>
             </div>
           </div>
