@@ -8,6 +8,7 @@ import 'leaflet/dist/leaflet.css';
 type MapProps = {
   offers: Offers;
   selectedOfferId: string | undefined;
+  actualCity: string;
 };
 
 const defaultCustomIcon = new Icon({
@@ -19,11 +20,9 @@ const currentCustomIcon = new Icon({
 });
 
 export default function Map(props: MapProps): JSX.Element {
-  const {offers, selectedOfferId} = props;
+  const {offers, selectedOfferId, actualCity} = props;
 
-  const selectedCity = 'Amsterdam';
-
-  const selectedOffer = offers.find((item) => item.city.name === selectedCity);
+  const selectedOffer = offers.find((item) => item.city.name === actualCity);
 
   const getCityFromOffer = (offer: Offer | undefined): City => offer?.city ?? EMPTY_LOCATION;
 
