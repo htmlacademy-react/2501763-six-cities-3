@@ -7,6 +7,7 @@ import {useState} from 'react';
 import Map from '../../components/map/map';
 import CitiesList from '../../components/cities-list';
 import {getOffersByCity} from '../main/common';
+import MainEmpty from '../main-empty/main-empty';
 
 type MainProps = {
   offers: Offers;
@@ -27,6 +28,10 @@ export default function Main({offers, cities, actualCity}: MainProps): JSX.Eleme
   const handleListItemOut = () => {
     setSelectedOfferId(undefined);
   };
+
+  if (cardsCount === 0) {
+    return <MainEmpty cities={cities} />;
+  }
 
   return (
     <div className="page page--gray page--main">

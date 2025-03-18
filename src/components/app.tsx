@@ -2,7 +2,6 @@ import {Route, BrowserRouter, Routes} from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { AppRoute, AuthorizationStatus } from '../constants';
 import Main from '../pages/main/main';
-import MainEmpty from '../pages/main-empty/main-empty';
 import Login from '../pages/login/login';
 import Favorites from '../pages/favorites/favorites';
 import Offer from '../pages/offer/offer';
@@ -11,7 +10,7 @@ import PrivateRoute from './private-route';
 import {Offers} from '../types/offer';
 import {Reviews} from '../types/review';
 import {useAppSelector} from '../hooks/index';
-import {getOffersByCity} from '../pages/main/common';
+import {selectOffers, selectCurrentCity} from '../store/selectors';
 
 type AppProps = {
   favoriteOffers: Offers;
@@ -20,16 +19,16 @@ type AppProps = {
 }
 
 export default function App({favoriteOffers, reviews, cities}:AppProps) : JSX.Element {
-  const storeOffers = useAppSelector((state)=>state.offers);
-  const actualCity = useAppSelector((state) => state.city);
-  const filtredOffersByCity = getOffersByCity(actualCity, storeOffers);
+  const storeOffers = useAppSelector(selectOffers);
+  const actualCity = useAppSelector(selectCurrentCity);
+
   return(
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={filtredOffersByCity.length > 0 ? <Main cities={cities} actualCity={actualCity} offers={storeOffers}/> : <MainEmpty cities={cities}/>}
+            element={<Main cities={cities} actualCity={actualCity} offers={storeOffers}/>}
           />
           <Route
             path={AppRoute.Login}
