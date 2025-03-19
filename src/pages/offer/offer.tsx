@@ -15,9 +15,10 @@ import {offers as offerPageMock} from '../../mocks/offers';
 type OfferProps = {
   reviews: Reviews;
   offers: Offers;
+  actualCity: string;
 }
 
-export default function Offer({offers, reviews}:OfferProps): JSX.Element {
+export default function Offer({offers, reviews, actualCity}:OfferProps): JSX.Element {
   const {offerId} = useParams();
   const foundOffer = offers.find((item) => item.id.toString() === offerId);
 
@@ -212,6 +213,7 @@ export default function Offer({offers, reviews}:OfferProps): JSX.Element {
           <section className="offer__map map" >
             <Map offers={offersNear}
               selectedOfferId={selectedOfferId}
+              actualCity= {actualCity}
             />
           </section>
         </section>
