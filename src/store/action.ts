@@ -11,3 +11,9 @@ export const selectCity = createAction(Action.SELECT_CITY, (value:string)=>({
 }));
 
 export const loadOffers = createAction<{offers:Offers}>(Action.LOAD_OFFERS);
+
+export const changeSort = createAction<string>('CHANGE_SORT');
+
+export const toggleSortsMenu = createAction('TOGGLE_SORTS_MENU');
+
+export const resetSort = createAction('RESET_SORT');
