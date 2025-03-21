@@ -16,3 +16,12 @@ export enum AppRoute {
 }
 
 export const cities = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+
+
+export enum APIRoute {
+  Offers = '/offers',
+  Favorite = '/favorite',
+  Comments = '/comments',
+  Login = '/login',
+  Logout = '/logout'
+}

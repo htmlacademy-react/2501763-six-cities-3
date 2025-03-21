@@ -10,7 +10,6 @@ import CardsList from '../../components/cards-list';
 import {useState} from 'react';
 import {getNearOffers} from '../offer/utils';
 import {useParams} from 'react-router-dom';
-import {offers as offerPageMock} from '../../mocks/offers';
 
 type OfferProps = {
   reviews: Reviews;
@@ -28,8 +27,7 @@ export default function Offer({offers, reviews, actualCity}:OfferProps): JSX.Ele
     return <div>Offer not found</div>;
   }
 
-  const offerPage = {...offerPageMock,...foundOffer};
-  const offersNear = getNearOffers(offerPage);
+  const offersNear = getNearOffers(foundOffer, offers);
 
   const handleListItemHover = (listItemId: string) => {
     setSelectedOfferId(listItemId);

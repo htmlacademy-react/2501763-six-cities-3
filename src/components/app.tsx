@@ -11,6 +11,7 @@ import {Offers} from '../types/offer';
 import {Reviews} from '../types/review';
 import {useAppSelector} from '../hooks/index';
 import {selectOffers, selectCurrentCity} from '../store/selectors';
+import Loading from '../components/loading';
 
 type AppProps = {
   favoriteOffers: Offers;
@@ -21,6 +22,14 @@ type AppProps = {
 export default function App({favoriteOffers, reviews, cities}:AppProps) : JSX.Element {
   const storeOffers = useAppSelector(selectOffers);
   const actualCity = useAppSelector(selectCurrentCity);
+
+  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+
+  if (isOffersDataLoading) {
+    return (
+      <Loading />
+    );
+  }
 
   return(
     <HelmetProvider>
