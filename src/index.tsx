@@ -6,6 +6,9 @@ import {favoriteOffers} from './mocks/favorite-offers';
 import {reviews} from './mocks/reviews';
 import {cities} from './constants';
 import {store} from './store/index';
+import {fetchOffersAction} from './store/api-actions';
+
+store.dispatch(fetchOffersAction());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
