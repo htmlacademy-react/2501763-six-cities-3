@@ -1,10 +1,14 @@
 import {createAction} from '@reduxjs/toolkit';
 import {Offer} from '../types/offer';
-import {AuthorizationStatus} from '../constants';
+import {AuthorizationStatus, AppRoute} from '../constants';
 
-const Action = {
+
+export const Action = {
   SELECT_CITY:'SELECT_CITY',
-  LOAD_OFFERS: 'LOAD_OFFERS'
+  LOAD_OFFERS: 'LOAD_OFFERS',
+  SET_ERROR:'offers/SET_ERROR',
+  REDIRECT:'login/redirectToRoute',
+  LOGIN: 'user/login'
 };
 
 export const selectCity = createAction(Action.SELECT_CITY, (value:string)=>({
@@ -22,3 +26,9 @@ export const resetSort = createAction('RESET_SORT');
 export const requireAuthorization = createAction<AuthorizationStatus>('REQUIRE_AUTHORIZATION');
 
 export const setOffersDataLoadingStatus = createAction<boolean>('SET_QUESTIONS_DATA_LOADING_STATUS');
+
+export const setError = createAction<string | null>(Action.SET_ERROR);
+
+export const redirectToRoute = createAction<AppRoute>(Action.REDIRECT);
+
+export const login = createAction(Action.LOGIN, (value:string)=>({payload:value}));

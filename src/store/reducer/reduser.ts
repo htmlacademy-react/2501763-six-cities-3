@@ -1,6 +1,5 @@
-//import {offers} from '../../mocks/offers';
 import {createReducer} from '@reduxjs/toolkit';
-import {selectCity, loadOffers, changeSort, toggleSortsMenu, resetSort, requireAuthorization, setOffersDataLoadingStatus} from '../action';
+import {selectCity, loadOffers, changeSort, toggleSortsMenu, resetSort, requireAuthorization, setOffersDataLoadingStatus, login} from '../action';
 import {sortOffers} from '../../components/sort/utils';
 import {Sorts} from '../../components/sort/const';
 import {AuthorizationStatus} from '../../constants';
@@ -15,6 +14,8 @@ type State = {
   isFiltersOpen: boolean;
   authorizationStatus: AuthorizationStatus;
   isOffersDataLoading: boolean;
+  error: string | null;
+  user: string;
 };
 
 const initialState: State = {
@@ -23,7 +24,9 @@ const initialState: State = {
   sortOffers: Sorts.POPULAR,
   isFiltersOpen: false,
   authorizationStatus: AuthorizationStatus.Unknown,
-  isOffersDataLoading: false
+  isOffersDataLoading: false,
+  error: null,
+  user:''
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -49,5 +52,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setOffersDataLoadingStatus, (state, action) => {
       state.isOffersDataLoading = action.payload;
+    })
+    .addCase(login, (state, action) => {
+      state.user = action.payload;
     });
 });
