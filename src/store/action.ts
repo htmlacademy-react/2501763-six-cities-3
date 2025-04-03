@@ -1,21 +1,21 @@
 import {createAction} from '@reduxjs/toolkit';
-import {Offer, OfferPage} from '../types/offer';
+import {Offer, ExtendedOffer} from '../types/offer';
 import {Review} from '../types/review';
 import {AuthorizationStatus, AppRoute} from '../constants';
 
-
 export const Action = {
-  SELECT_CITY:'SELECT_CITY',
+  SELECT_CITY: 'SELECT_CITY',
   LOAD_OFFERS: 'LOAD_OFFERS',
-  LOAD_OFFER: 'offer/LOAD_OFFER',
-  LOAD_AROUND_OFFERS: 'aroundOffer/LOAD_AROUND_OFFERS',
-  LOAD_REVIEWS: 'reviews/LOAD_REVIEWS',
-  SET_ERROR:'offers/SET_ERROR',
-  REDIRECT:'login/redirectToRoute',
-  LOGIN: 'user/login',
-  ACTIVE_OFFER: 'offers/ACTIVE_OFFER',
-  SET_REVIEW: 'offer/review',
-  SET_RATING: 'offer/rating'
+  LOAD_OFFER: 'LOAD_OFFER',
+  LOAD_NEAR_OFFERS: 'LOAD_NEAR_OFFERS',
+  LOAD_REVIEWS: 'LOAD_REVIEWS',
+  SET_ERROR: 'SET_ERROR',
+  REDIRECT: 'REDIRECT',
+  LOGIN: 'LOGIN',
+  ACTIVE_OFFER: 'ACTIVE_OFFER',
+  SET_REVIEW: 'SET_REVIEW',
+  SET_RATING: 'SET_RATING',
+  SUBMIT_REVIEW: 'SUBMIT_REVIEW'
 };
 
 export const selectCity = createAction(Action.SELECT_CITY, (value:string)=>({
@@ -23,9 +23,9 @@ export const selectCity = createAction(Action.SELECT_CITY, (value:string)=>({
 }));
 
 export const loadOffers = createAction<Offer[]>('LOAD_OFFERS');
-export const loadOffer = createAction<OfferPage|undefined>(Action.LOAD_OFFER);
+export const loadOffer = createAction<ExtendedOffer|undefined>(Action.LOAD_OFFER);
 export const loadReviews = createAction<Review[]>(Action.LOAD_REVIEWS);
-export const loadAroundOffers = createAction<Offer[]>(Action.LOAD_AROUND_OFFERS);
+export const loadAroundOffers = createAction<Offer[]>(Action.LOAD_NEAR_OFFERS);
 
 export const changeSort = createAction<string>('CHANGE_SORT');
 
@@ -56,3 +56,5 @@ export const setComment = createAction(Action.SET_REVIEW, (value:string)=>({
 export const setRating = createAction(Action.SET_RATING, (value:number)=>({
   payload:value
 }));
+
+export const submitReviewAction = createAction<boolean>(Action.SUBMIT_REVIEW);

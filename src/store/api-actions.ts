@@ -4,7 +4,7 @@ import {AxiosInstance} from 'axios';
 import {APIRoute, AppRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR} from '../constants';
 import {loadOffers, requireAuthorization, setOffersDataLoadingStatus, setError, redirectToRoute, setEmail, loadReviews, loadAroundOffers, setComment, setRating, loadOffer} from './action';
 import {Login} from '../types/login-type';
-import {Offers, OfferPage} from '../types/offer';
+import {Offers, ExtendedOffer} from '../types/offer';
 import {Review, NewComment} from '../types/review';
 import {AuthData} from '../types/auth-type';
 import {UserData} from '../types/user-data-type';
@@ -57,7 +57,7 @@ export const fetchOfferPageAction = createAsyncThunk<void, string, {
   async (id, {dispatch, extra: api}) => {
     try {
       dispatch(setOffersDataLoadingStatus(true));
-      const {data} = await api.get<OfferPage>(`${APIRoute.Offers}/${id}`);
+      const {data} = await api.get<ExtendedOffer>(`${APIRoute.Offers}/${id}`);
       dispatch(loadOffer(data));
       dispatch(setOffersDataLoadingStatus(false));
     } catch {
@@ -79,22 +79,36 @@ export const fetchReviewsAction = createAsyncThunk<void, string,{
   },
 );
 
-export const postReviewAction = createAsyncThunk<void, NewComment,{
+export const postReviewAction = createAsyncThunk<void, NewComment, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'offer/review',
-  async ({pageId, comment, rating, formRef}, {dispatch, extra: api}) => {
-
-    await api.post<NewComment>(`${APIRoute.Comments}/${pageId}`, {comment, rating});
+  async ({ pageId, comment, rating }, { dispatch, extra: api }) => {
+    await api.post<NewComment>(`${APIRoute.Comments}/${pageId}`, { comment, rating });
     dispatch(setComment(''));
     dispatch(setRating(0));
-    if(formRef) {
-      formRef.reset();
-    }
     dispatch(fetchReviewsAction(pageId));
-  },
+  }
+);
+
+export const submitReviewAction = createAsyncThunk<void, NewComment, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'offer/submitReview',
+  async (reviewData, { dispatch }) => {
+    dispatch(setOffersDataLoadingStatus(true));
+    try {
+      await dispatch(postReviewAction(reviewData)).unwrap();
+    } catch (error) {
+      dispatch(setError('Ошибка при отправке отзыва'));
+    } finally {
+      dispatch(setOffersDataLoadingStatus(false));
+    }
+  }
 );
 
 export const checkAuthAction = createAsyncThunk<void, undefined, {

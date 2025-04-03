@@ -1,9 +1,9 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {selectCity, loadOffers, changeSort, toggleSortsMenu, resetSort, requireAuthorization, setOffersDataLoadingStatus, setEmail, loadReviews, loadAroundOffers, setComment, setRating, loadOffer, hoverOffer, setError} from '../action';
+import {selectCity, loadOffers, changeSort, toggleSortsMenu, resetSort, requireAuthorization, setOffersDataLoadingStatus, setEmail, loadReviews, loadAroundOffers, setComment, setRating, loadOffer, hoverOffer, setError, submitReviewAction} from '../action';
 import {sortOffers} from '../../components/sort/utils';
 import {Sorts} from '../../components/sort/const';
 import {AuthorizationStatus} from '../../constants';
-import {Offer, OfferPage} from '../../types/offer';
+import {Offer, ExtendedOffer} from '../../types/offer';
 import {Review} from '../../types/review';
 
 const INITIAL_CITY = 'Paris';
@@ -18,11 +18,12 @@ type State = {
   isOffersDataLoading: boolean;
   error: string | null;
   user: string;
-  offer: OfferPage | undefined;
+  offer: ExtendedOffer | undefined;
   reviews: Review[];
   comment: string;
   rating: number;
   activeOfferId: string;
+  isSubmittingReview: boolean;
 };
 
 const initialState: State = {
@@ -39,7 +40,8 @@ const initialState: State = {
   aroundOffers: [],
   comment: '',
   activeOfferId: '',
-  rating: 0
+  rating: 0,
+  isSubmittingReview: false
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -89,5 +91,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setRating, (state, action) => {
       state.rating = action.payload;
+    })
+    .addCase(submitReviewAction, (state, action) => {
+      state.isSubmittingReview = action.payload;
     });
 });

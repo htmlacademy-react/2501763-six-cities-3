@@ -19,7 +19,7 @@ type AppProps = {
   cities: string[];
 }
 
-export default function App({favoriteOffers, cities}:AppProps) : JSX.Element {
+export default function App({favoriteOffers, cities}:AppProps): JSX.Element {
   const storeOffers = useAppSelector(selectOffers);
   const actualCity = useAppSelector(selectCurrentCity);
 

@@ -29,14 +29,7 @@ type Host = {
   isPro: boolean;
   }
 
-export type OfferPage = {
-  id: Offer['id'];
-  title: Offer['title'];
-  type: Offer['type'];
-  price: Offer['price'];
-  isFavorite: Offer['isFavorite'];
-  isPremium: Offer['isPremium'];
-  rating: Offer['rating'];
+export type ExtendedOffer = Offer & {
   description: string;
   bedrooms: number;
   goods: string[];
