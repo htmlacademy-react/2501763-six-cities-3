@@ -1,14 +1,15 @@
 import {useRef, useEffect} from 'react';
 import {Icon, Marker, layerGroup} from 'leaflet';
 import useMap from '../../hooks/use-map';
-import {City, Offers, Offer} from '../../types/offer';
+import {City, Offer} from '../../types/offer';
 import {UrlMarker, EMPTY_LOCATION} from '../map/const';
 import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
-  offers: Offers;
+  offers: Offer[];
   selectedOfferId: string | undefined;
   actualCity: string;
+  offerPageMap: boolean;
 };
 
 const defaultCustomIcon = new Icon({
@@ -20,14 +21,13 @@ const currentCustomIcon = new Icon({
 });
 
 export default function Map(props: MapProps): JSX.Element {
-  const {offers, selectedOfferId, actualCity} = props;
-
-  const selectedOffer = offers.find((item) => item.city.name === actualCity);
-
+  const { offers, selectedOfferId, actualCity, offerPageMap } = props;
+  const cityOffer = offers.find((item) => item.city.name === actualCity);
+  const selectedOffer = offers.find((offer) => offer.id === selectedOfferId);
   const getCityFromOffer = (offer: Offer | undefined): City => offer?.city ?? EMPTY_LOCATION;
-
+  const activeCity = getCityFromOffer(cityOffer);
   const mapRef = useRef(null);
-  const map = useMap(mapRef, getCityFromOffer(selectedOffer));
+  const map = useMap(mapRef, activeCity);
 
   useEffect(() => {
     if (map) {
@@ -37,6 +37,17 @@ export default function Map(props: MapProps): JSX.Element {
           lat: item.location.latitude,
           lng: item.location.longitude,
         });
+
+        const selectedMarker = selectedOffer ? new Marker({
+          lat: selectedOffer.location.latitude,
+          lng: selectedOffer.location.longitude,
+        }) : null;
+
+        if (offerPageMap && selectedMarker) {
+          selectedMarker
+            .setIcon(currentCustomIcon)
+            .addTo(markerLayer);
+        }
 
         marker
           .setIcon(
@@ -51,7 +62,7 @@ export default function Map(props: MapProps): JSX.Element {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, offers, selectedOfferId]);
+  }, [map, offers, selectedOfferId, offerPageMap, selectedOffer]);
 
-  return <div style={{height: '100%'}} ref={mapRef}></div>;
+  return <div style={{ height: '100%' }} ref={mapRef}></div>;
 }

@@ -12,7 +12,8 @@ export enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
   Main = '/',
-  Offer = '/offer'
+  Offer = '/offer',
+  NotFound = '/*'
 }
 
 export const cities = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
@@ -27,3 +28,7 @@ export enum APIRoute {
 }
 
 export const TIMEOUT_SHOW_ERROR = 2000;
+
+export const MIN_COMMENT_LENGTH = 50;
+
+export const DEFAULT_RATING = 0;

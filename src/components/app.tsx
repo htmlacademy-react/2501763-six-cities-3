@@ -8,7 +8,6 @@ import Offer from '../pages/offer/offer';
 import NotFound from '../pages/not-found/not-found';
 import PrivateRoute from './private-route';
 import {Offers} from '../types/offer';
-import {Reviews} from '../types/review';
 import {useAppSelector} from '../hooks/index';
 import {selectOffers, selectCurrentCity} from '../store/selectors';
 import Loading from '../components/loading';
@@ -17,11 +16,10 @@ import browserHistory from '../components/browser-history';
 
 type AppProps = {
   favoriteOffers: Offers;
-  reviews: Reviews;
   cities: string[];
 }
 
-export default function App({favoriteOffers, reviews, cities}:AppProps) : JSX.Element {
+export default function App({favoriteOffers, cities}:AppProps): JSX.Element {
   const storeOffers = useAppSelector(selectOffers);
   const actualCity = useAppSelector(selectCurrentCity);
 
@@ -59,7 +57,7 @@ export default function App({favoriteOffers, reviews, cities}:AppProps) : JSX.El
           />
           <Route
             path={`${AppRoute.Offer}/:offerId`}
-            element={<Offer reviews={reviews} offers={storeOffers} actualCity={actualCity}/>}
+            element={<Offer/>}
           />
           <Route
             path='*'

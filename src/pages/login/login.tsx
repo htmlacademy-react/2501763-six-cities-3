@@ -1,7 +1,7 @@
 import Logo from '../../components/logo';
 import {Link} from 'react-router-dom';
 import {Helmet} from 'react-helmet-async';
-import {useRef, FormEvent} from 'react';
+import {useRef, FormEvent, useState} from 'react';
 import {useAppDispatch} from '../../hooks';
 import {loginAction} from '../../store/api-actions';
 import {AppRoute} from '../../constants';
@@ -11,20 +11,25 @@ export default function Login(): JSX.Element {
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useAppDispatch();
 
+  const [disabled, setDisabled] = useState(false);
+
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if (loginRef.current !== null && passwordRef.current !== null) {
+      setDisabled(true);
       dispatch(loginAction({
         login: loginRef.current.value,
         password: passwordRef.current.value
-      }));
+      })).unwrap()
+        .then(()=>{
+          setDisabled(false);
+        });
     }
   };
-
   return (
     <div className="page page--gray page--login">
       <Helmet>
-        <title>Шесть городов. Авторизация</title>
+        <title>6 cities: authorization</title>
       </Helmet>
       <header className="header">
         <div className="container">
@@ -62,8 +67,8 @@ export default function Login(): JSX.Element {
                   required
                 />
               </div>
-              <button className="login__submit form__submit button" type="submit">
-              Sign in
+              <button className="login__submit form__submit button" type="submit" disabled={disabled}>
+                Sign in
               </button>
             </form>
           </section>
