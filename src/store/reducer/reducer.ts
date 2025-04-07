@@ -1,21 +1,29 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {selectCity, loadOffers, changeSort, toggleSortsMenu, resetSort, requireAuthorization, setOffersDataLoadingStatus, login} from '../action';
+import {selectCity, loadOffers, changeSort, toggleSortsMenu, resetSort, requireAuthorization, setOffersDataLoadingStatus, setEmail, loadReviews, loadAroundOffers, setComment, setRating, loadOffer, hoverOffer, setError, submitReviewAction} from '../action';
 import {sortOffers} from '../../components/sort/utils';
 import {Sorts} from '../../components/sort/const';
 import {AuthorizationStatus} from '../../constants';
-import {Offer} from '../../types/offer';
+import {Offer, ExtendedOffer} from '../../types/offer';
+import {Review} from '../../types/review';
 
 const INITIAL_CITY = 'Paris';
 
 type State = {
   city: string;
   offers: Offer[];
+  aroundOffers: Offer[];
   sortOffers: string;
   isFiltersOpen: boolean;
   authorizationStatus: AuthorizationStatus;
   isOffersDataLoading: boolean;
   error: string | null;
   user: string;
+  offer: ExtendedOffer | undefined;
+  reviews: Review[];
+  comment: string;
+  rating: number;
+  activeOfferId: string;
+  isSubmittingReview: boolean;
 };
 
 const initialState: State = {
@@ -26,7 +34,14 @@ const initialState: State = {
   authorizationStatus: AuthorizationStatus.Unknown,
   isOffersDataLoading: false,
   error: null,
-  user:''
+  user:'',
+  offer: undefined,
+  reviews: [],
+  aroundOffers: [],
+  comment: '',
+  activeOfferId: '',
+  rating: 0,
+  isSubmittingReview: false
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -53,7 +68,31 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(setOffersDataLoadingStatus, (state, action) => {
       state.isOffersDataLoading = action.payload;
     })
-    .addCase(login, (state, action) => {
+    .addCase(setEmail, (state, action) => {
       state.user = action.payload;
+    })
+    .addCase(loadOffer, (state, action) => {
+      state.offer = action.payload;
+    })
+    .addCase(loadReviews, (state, action) => {
+      state.reviews = action.payload;
+    })
+    .addCase(loadAroundOffers, (state, action) => {
+      state.aroundOffers = action.payload;
+    })
+    .addCase(setComment, (state, action) => {
+      state.comment = action.payload;
+    })
+    .addCase(setError, (state, action) => {
+      state.error = action.payload;
+    })
+    .addCase(hoverOffer, (state, action) => {
+      state.activeOfferId = action.payload;
+    })
+    .addCase(setRating, (state, action) => {
+      state.rating = action.payload;
+    })
+    .addCase(submitReviewAction, (state, action) => {
+      state.isSubmittingReview = action.payload;
     });
 });

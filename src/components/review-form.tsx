@@ -1,17 +1,40 @@
-import {useState, ChangeEvent} from 'react';
+import {useState, FormEvent, ChangeEvent, useRef} from 'react';
+import {useParams} from 'react-router-dom';
+import {useAppDispatch, useAppSelector} from '../hooks';
+import {postReviewAction} from '../store/api-actions';
+import {setComment, setRating} from '../store/action';
+import {MIN_COMMENT_LENGTH, DEFAULT_RATING} from '../constants';
 
 export default function ReviewForm(): JSX.Element {
-  const [review, setReview] = useState('');
+  const dispatch = useAppDispatch();
+  const comment = useAppSelector((state) => state.comment);
+  const rating = useAppSelector((state) => state.rating);
+  const isSubmittingReview = useAppSelector((state) => state.isSubmittingReview);
+
+  const [hoveredRating, setHoveredRating] = useState(0);
+  const formRef = useRef<HTMLFormElement | null>(null);
+  const params = useParams();
+  const activeOfferId = params.id;
+
   const handleReviewChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
-    setReview(evt.target.value);
+    dispatch(setComment(evt.target.value));
   };
 
-  const [rating, setRating] = useState(0);
   const handleRatingButtonClick = (evt: ChangeEvent<HTMLInputElement>) => {
-    setRating(Number(evt.target.value));
+    dispatch(setRating(Number(evt.target.value)));
   };
 
-  const [hoveredRating, setHoveredRating] = useState(0); // Для хранения состояния наведения
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    if (comment !== null && rating !== null && activeOfferId !== undefined && formRef.current !== null) {
+      dispatch(postReviewAction({
+        pageId: activeOfferId,
+        comment: comment,
+        rating: rating,
+        formRef: formRef.current,
+      }));
+    }
+  };
 
   const ratings = [
     { value: 5, title: 'perfect' },
@@ -22,7 +45,7 @@ export default function ReviewForm(): JSX.Element {
   ];
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form ref={formRef} onSubmit={handleSubmit} className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
@@ -41,14 +64,14 @@ export default function ReviewForm(): JSX.Element {
               htmlFor={`${ratingItem.value}-stars`}
               className="reviews__rating-label form__rating-label"
               title={ratingItem.title}
-              onMouseEnter={() => setHoveredRating(ratingItem.value)} // Устанавливаем рейтинг при наведении
-              onMouseLeave={() => setHoveredRating(0)} // Сбрасываем рейтинг при уходе курсора
+              onMouseEnter={() => setHoveredRating(ratingItem.value)}
+              onMouseLeave={() => setHoveredRating(0)}
             >
               <svg
                 className="form__star-image"
                 width={37}
                 height={33}
-                style={{ fill: (ratingItem.value <= (hoveredRating || rating)) ? '#ff9000' : '#c7c7c7' }} // Меняем цвет в зависимости от состояния
+                style={{ fill: (ratingItem.value <= (hoveredRating || rating)) ? '#ff9000' : '#c7c7c7' }}
               >
                 <use xlinkHref="#icon-star" />
               </svg>
@@ -57,6 +80,7 @@ export default function ReviewForm(): JSX.Element {
         ))}
       </div>
       <textarea
+        disabled={isSubmittingReview}
         onChange={handleReviewChange}
         className="reviews__textarea form__textarea"
         id="review"
@@ -69,12 +93,12 @@ export default function ReviewForm(): JSX.Element {
           To submit review please make sure to set{' '}
           <span className="reviews__star">rating</span> and describe
           your stay with at least{' '}
-          <b className="reviews__text-amount">50 characters</b>.
+          <b className="reviews__text-amount">{MIN_COMMENT_LENGTH} characters</b>.
         </p>
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={review.length < 50 || rating === 0}
+          disabled={comment.length < MIN_COMMENT_LENGTH || rating === DEFAULT_RATING || isSubmittingReview}
         >
           Submit
         </button>
