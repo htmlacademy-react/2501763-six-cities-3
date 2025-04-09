@@ -3,7 +3,7 @@ import {Sorts} from '../../components/sort/const';
 import {useNavigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {changeSort, toggleSortsMenu} from '../../store/action';
-import {selectSortOffers, selectIsFiltersOpen} from '../../store/selectors';
+import {selectSortOffers, selectIsFiltersOpen} from '../../store/app-actions/selectors';
 
 export const Sort = (): JSX.Element => {
   const navigate = useNavigate();

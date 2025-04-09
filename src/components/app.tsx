@@ -9,10 +9,14 @@ import NotFound from '../pages/not-found/not-found';
 import PrivateRoute from './private-route';
 import {Offers} from '../types/offer';
 import {useAppSelector} from '../hooks/index';
-import {selectOffers, selectCurrentCity} from '../store/selectors';
+//import {selectOffers, selectCurrentCity} from '../store/selectors';
 import Loading from '../components/loading';
 import HistoryRouter from '../components/history-route/history-route';
 import browserHistory from '../components/browser-history';
+import {getAuthorizationStatus, getAuthCheckedStatus} from '../store/user-authorization/selectors';
+import {getOffersLoadingStatus} from '../store/offers-load/selectors';
+import {getOffers} from '../store/offers-load/selectors';
+import {getCity} from '../store/app-actions/selectors';
 
 type AppProps = {
   favoriteOffers: Offers;
@@ -20,14 +24,13 @@ type AppProps = {
 }
 
 export default function App({favoriteOffers, cities}:AppProps): JSX.Element {
-  const storeOffers = useAppSelector(selectOffers);
-  const actualCity = useAppSelector(selectCurrentCity);
+  const storeOffers = useAppSelector(getOffers);
+  const actualCity = useAppSelector(getCity);
 
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-
-  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
-
-  if (isOffersDataLoading) {
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isOffersLoading = useAppSelector(getOffersLoadingStatus);
+  const isAuthChecked = useAppSelector(getAuthCheckedStatus);
+  if (!isAuthChecked || isOffersLoading) {
     return (
       <Loading />
     );
