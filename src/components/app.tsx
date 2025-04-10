@@ -9,7 +9,6 @@ import NotFound from '../pages/not-found/not-found';
 import PrivateRoute from './private-route';
 import {Offers} from '../types/offer';
 import {useAppSelector} from '../hooks/index';
-//import {selectOffers, selectCurrentCity} from '../store/selectors';
 import Loading from '../components/loading';
 import HistoryRouter from '../components/history-route/history-route';
 import browserHistory from '../components/browser-history';

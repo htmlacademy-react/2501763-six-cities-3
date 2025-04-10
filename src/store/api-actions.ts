@@ -5,11 +5,10 @@ import {Offer, ExtendedOffer} from '../types/offer';
 import {Review, NewComment} from '../types/review';
 import {AuthData} from '../types/auth-type.js';
 import {UserData} from '../types/user-data-type.js';
-import {setError, redirectToRoute} from './action.js';
+import {redirectToRoute} from './action.js';
+import {setError} from './app-actions/app-actions.js';
 import {saveToken, dropToken} from '../services/token';
 import {AppRoute, APIRoute, TIMEOUT_SHOW_ERROR} from '../constants';
-
-
 import {store} from './';
 
 export const clearErrorAction = createAsyncThunk(

@@ -2,15 +2,12 @@ import {useState, FormEvent, ChangeEvent, useRef} from 'react';
 import {useParams} from 'react-router-dom';
 import {useAppDispatch} from '../hooks';
 import {postReviewAction} from '../store/api-actions';
-//import {setComment, setRating} from '../store/action';
 import {MIN_COMMENT_LENGTH, DEFAULT_RATING} from '../constants';
-
 
 export default function ReviewForm(): JSX.Element {
   const dispatch = useAppDispatch();
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
-  //const isSubmittingReview = useAppSelector((state) => state.isSubmittingReview);
 
   const [hoveredRating, setHoveredRating] = useState(0);
   const formRef = useRef<HTMLFormElement | null>(null);

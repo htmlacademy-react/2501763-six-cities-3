@@ -14,6 +14,8 @@ export type UserAuth = {
 
 export type OffersLoad = {
   offers: Offer[];
+  sortOffers: string;
+  isFiltersOpen: boolean;
   isOffersLoading: boolean;
   offer: ExtendedOffer | undefined;
   aroundOffers: Offer[];
@@ -24,8 +26,6 @@ export type ReviewsLoad = {
 }
 
 export type AppActions = {
-  sortOffers: string;
-  isFiltersOpen: boolean;
   activeOfferId: string;
   error: string | null;
   city: string;

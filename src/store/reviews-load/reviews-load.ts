@@ -16,7 +16,5 @@ export const reviewsLoad = createSlice({
       .addCase(fetchReviewsAction.fulfilled, (state, action) => {
         state.reviews = action.payload;
       });
-    /*.addCase(fetchReviewsAction.rejected, (state) => {
-      });*/
   }
 });

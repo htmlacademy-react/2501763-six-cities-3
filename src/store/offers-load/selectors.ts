@@ -9,3 +9,7 @@ export const getOffersLoadingStatus = (state: State): boolean => state[NameSpace
 export const getDataOffer = (state: State): ExtendedOffer |undefined => state[NameSpace.OffersData].offer;
 
 export const getOffers = (state: State): Offer[]=> state[NameSpace.OffersData].offers;
+
+export const selectSortOffers = (state: State): string => state[NameSpace.OffersData].sortOffers;
+
+export const selectIsFiltersOpen = (state: State)=> state[NameSpace.OffersData].isFiltersOpen;

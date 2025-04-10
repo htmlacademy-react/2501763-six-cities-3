@@ -1,11 +1,16 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {NameSpace} from '../../constants';
 import {fetchOffersAction, fetchAroundOffersAction, fetchOfferPageAction} from '../api-actions';
-import {loadOffer} from '../action';
 import {OffersLoad} from '../../types/state';
+import {Sorts} from '../../components/sort/const';
+import {sortOffers} from '../../components/sort/utils';
+
+const INITIAL_SORT = 'Popular';
 
 const initialState: OffersLoad = {
   offers: [],
+  sortOffers: INITIAL_SORT,
+  isFiltersOpen: false,
   isOffersLoading: false,
   offer: undefined,
   aroundOffers: [],
@@ -14,7 +19,21 @@ const initialState: OffersLoad = {
 export const offersLoad = createSlice({
   name: NameSpace.OffersData,
   initialState,
-  reducers: {},
+  reducers: {
+    loadOffer:(state, action: PayloadAction<OffersLoad['offer']>) => {
+      state.offer = action.payload;
+    },
+    changeSort: (state, action: PayloadAction<string>) => {
+      state.sortOffers = action.payload;
+      state.offers = sortOffers[action.payload]([...state.offers]);
+    },
+    resetSort: (state) => {
+      state.sortOffers = Sorts.POPULAR;
+    },
+    toggleSortsMenu: (state) => {
+      state.isFiltersOpen = !state.isFiltersOpen;
+    }
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchOffersAction.pending, (state) => {
@@ -36,9 +55,8 @@ export const offersLoad = createSlice({
       })
       .addCase(fetchOfferPageAction.rejected, (state) => {
         state.isOffersLoading = false;
-      })
-      .addCase(loadOffer, (state, action) => {
-        state.offer = action.payload;
       });
   }
 });
+
+export const {loadOffer, changeSort, resetSort, toggleSortsMenu} = offersLoad.actions;
