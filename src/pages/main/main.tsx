@@ -10,7 +10,8 @@ import {Sort} from '../../components/sort/sort';
 import Header from '../../components/header/header';
 import {useEffect} from 'react';
 import {useAppDispatch} from '../../hooks/index';
-import {loadOffer, selectCity} from '../../store/action';
+import {loadOffer} from '../../store/offers-load/offers-load';
+import {selectCity} from '../../store/app-actions/app-actions';
 
 type MainProps = {
   offers: Offers;

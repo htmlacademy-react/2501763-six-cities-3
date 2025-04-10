@@ -11,18 +11,22 @@ import { useState, useEffect } from 'react';
 import { fetchOfferPageAction, fetchReviewsAction, fetchAroundOffersAction } from '../../store/api-actions';
 import getStarsStyle from '../../components/utils';
 import cn from 'classnames';
+import {getAroundOffers,getDataOffer, getOffers} from '../../store/offers-load/selectors';
+import {getCity} from '../../store/app-actions/selectors';
+import {getReviews} from '../../store/reviews-load/selectors';
+import {getAuthorizationStatus} from '../../store/user-authorization/selectors';
 
 
 export default function Offer(): JSX.Element | undefined {
   const { offerId } = useParams();
-  const offers = useAppSelector((state) => state.offers);
+  const offers = useAppSelector(getOffers);
   const foundOffer = offers.find((item) => item.id.toString() === offerId);
   const [selectedOfferId, setSelectedOfferId] = useState<string | undefined>(undefined);
-  const reviews = useAppSelector((state) => state.reviews);
-  const offer = useAppSelector((state) => state.offer);
-  const authStatus = useAppSelector((state) => state.authorizationStatus);
-  const actualCity = useAppSelector((state) => state.city);
-  const aroundOffers = useAppSelector((state) => state.aroundOffers);
+  const reviews = useAppSelector(getReviews);
+  const offer = useAppSelector(getDataOffer);
+  const authStatus = useAppSelector(getAuthorizationStatus);
+  const actualCity = useAppSelector(getCity);
+  const aroundOffers = useAppSelector(getAroundOffers);
 
   const dispatch = useAppDispatch();
 

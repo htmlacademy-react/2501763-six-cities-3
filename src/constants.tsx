@@ -18,6 +18,12 @@ export enum AppRoute {
 
 export const cities = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
+export enum NameSpace {
+  OffersData = 'DATA_OFFERS',
+  ReviewsData = 'DATA_REVIEWS',
+  User = 'USER',
+  AppActions = 'APP_ACTIONS',
+}
 
 export enum APIRoute {
   Offers = '/offers',

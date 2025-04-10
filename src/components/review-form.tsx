@@ -1,38 +1,42 @@
 import {useState, FormEvent, ChangeEvent, useRef} from 'react';
 import {useParams} from 'react-router-dom';
-import {useAppDispatch, useAppSelector} from '../hooks';
+import {useAppDispatch} from '../hooks';
 import {postReviewAction} from '../store/api-actions';
-import {setComment, setRating} from '../store/action';
 import {MIN_COMMENT_LENGTH, DEFAULT_RATING} from '../constants';
 
 export default function ReviewForm(): JSX.Element {
   const dispatch = useAppDispatch();
-  const comment = useAppSelector((state) => state.comment);
-  const rating = useAppSelector((state) => state.rating);
-  const isSubmittingReview = useAppSelector((state) => state.isSubmittingReview);
+  const [comment, setComment] = useState('');
+  const [rating, setRating] = useState(0);
 
   const [hoveredRating, setHoveredRating] = useState(0);
   const formRef = useRef<HTMLFormElement | null>(null);
   const params = useParams();
   const activeOfferId = params.id;
+  const [disabled, setDisabled] = useState(false);
 
   const handleReviewChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
-    dispatch(setComment(evt.target.value));
+    setComment(evt.target.value);
   };
 
   const handleRatingButtonClick = (evt: ChangeEvent<HTMLInputElement>) => {
-    dispatch(setRating(Number(evt.target.value)));
+    setRating(Number(evt.target.value));
   };
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    if (comment !== null && rating !== null && activeOfferId !== undefined && formRef.current !== null) {
+    if (comment !== null && rating !== null && activeOfferId !== undefined && formRef !== null) {
+      setDisabled(true);
       dispatch(postReviewAction({
         pageId: activeOfferId,
         comment: comment,
         rating: rating,
-        formRef: formRef.current,
-      }));
+        formRef: formRef.current
+      })).unwrap().then(()=>{
+        setComment('');
+        setRating(0);
+        setDisabled(false);
+      });
     }
   };
 
@@ -80,7 +84,7 @@ export default function ReviewForm(): JSX.Element {
         ))}
       </div>
       <textarea
-        disabled={isSubmittingReview}
+        disabled={disabled}
         onChange={handleReviewChange}
         className="reviews__textarea form__textarea"
         id="review"
@@ -98,7 +102,7 @@ export default function ReviewForm(): JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={comment.length < MIN_COMMENT_LENGTH || rating === DEFAULT_RATING || isSubmittingReview}
+          disabled={comment.length < MIN_COMMENT_LENGTH || rating === DEFAULT_RATING || disabled}
         >
           Submit
         </button>

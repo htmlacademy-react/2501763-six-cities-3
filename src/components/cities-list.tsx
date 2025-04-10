@@ -1,7 +1,8 @@
 import {Link} from 'react-router-dom';
 import {MouseEvent} from 'react';
 import {useAppDispatch, useAppSelector} from '../hooks/index';
-import {selectCity} from '../store/action';
+import {selectCity} from '../store/app-actions/app-actions';
+import {getCity} from '../store/app-actions/selectors';
 
 type CitiesListProp = {
   cities: string[];
@@ -10,7 +11,7 @@ type CitiesListProp = {
 export default function CitiesList(props: CitiesListProp): JSX.Element {
   const {cities} = props;
   const dispatch = useAppDispatch();
-  const actualCity = useAppSelector((state) => state.city);
+  const actualCity = useAppSelector(getCity);
 
   const handleCitySelect = (event: MouseEvent<HTMLLIElement>)=>{
     const value = event.currentTarget.innerText;
