@@ -7,7 +7,6 @@ import Favorites from '../pages/favorites/favorites';
 import Offer from '../pages/offer/offer';
 import NotFound from '../pages/not-found/not-found';
 import PrivateRoute from './private-route';
-import {Offers} from '../types/offer';
 import {useAppSelector} from '../hooks/index';
 import Loading from '../components/loading';
 import HistoryRouter from '../components/history-route/history-route';
@@ -17,12 +16,7 @@ import {getOffersLoadingStatus} from '../store/offers-load/selectors';
 import {getOffers} from '../store/offers-load/selectors';
 import {getCity} from '../store/app-actions/selectors';
 
-type AppProps = {
-  favoriteOffers: Offers;
-  cities: string[];
-}
-
-export default function App({favoriteOffers, cities}:AppProps): JSX.Element {
+export default function App(): JSX.Element {
   const storeOffers = useAppSelector(getOffers);
   const actualCity = useAppSelector(getCity);
 
@@ -41,7 +35,7 @@ export default function App({favoriteOffers, cities}:AppProps): JSX.Element {
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<Main cities={cities} actualCity={actualCity} offers={storeOffers}/>}
+            element={<Main actualCity={actualCity} offers={storeOffers}/>}
           />
           <Route
             path={AppRoute.Login}
@@ -53,7 +47,7 @@ export default function App({favoriteOffers, cities}:AppProps): JSX.Element {
               <PrivateRoute
                 authorizationStatus={authorizationStatus}
               >
-                <Favorites favoriteOffers={favoriteOffers}/>
+                <Favorites/>
               </PrivateRoute>
             }
           />

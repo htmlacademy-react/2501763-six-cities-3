@@ -2,14 +2,15 @@ import {useRef, useEffect} from 'react';
 import {Icon, Marker, layerGroup} from 'leaflet';
 import useMap from '../../hooks/use-map';
 import {City, Offer} from '../../types/offer';
-import {UrlMarker, EMPTY_LOCATION} from '../map/const';
+import {UrlMarker} from '../map/const';
+import {CITY_LOCATIONS} from '../utils';
 import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
   offers: Offer[];
   selectedOfferId: string | undefined;
-  actualCity: string;
-  offerPageMap: boolean;
+  actualCity?: string;
+  isOfferPageMap: boolean;
 };
 
 const defaultCustomIcon = new Icon({
@@ -21,11 +22,21 @@ const currentCustomIcon = new Icon({
 });
 
 export default function Map(props: MapProps): JSX.Element {
-  const { offers, selectedOfferId, actualCity, offerPageMap } = props;
-  const cityOffer = offers.find((item) => item.city.name === actualCity);
+  const { offers, selectedOfferId, actualCity, isOfferPageMap } = props;
   const selectedOffer = offers.find((offer) => offer.id === selectedOfferId);
-  const getCityFromOffer = (offer: Offer | undefined): City => offer?.city ?? EMPTY_LOCATION;
-  const activeCity = getCityFromOffer(cityOffer);
+
+  const getCityCoords = (isOfferPage:boolean):City| undefined=> {
+    let city;
+    if(isOfferPage && selectedOffer) {
+      city = CITY_LOCATIONS.find((cityItem)=> cityItem.name === selectedOffer.city.name);
+    } else {
+      city = CITY_LOCATIONS.find((item)=> item.name === actualCity);
+    }
+    return city;
+  };
+
+  const activeCity = getCityCoords(isOfferPageMap);
+
   const mapRef = useRef(null);
   const map = useMap(mapRef, activeCity);
 
@@ -43,7 +54,7 @@ export default function Map(props: MapProps): JSX.Element {
           lng: selectedOffer.location.longitude,
         }) : null;
 
-        if (offerPageMap && selectedMarker) {
+        if (isOfferPageMap && selectedMarker) {
           selectedMarker
             .setIcon(currentCustomIcon)
             .addTo(markerLayer);
@@ -51,7 +62,7 @@ export default function Map(props: MapProps): JSX.Element {
 
         marker
           .setIcon(
-            selectedOfferId !== undefined && item.id === selectedOfferId
+            selectedOfferId !== undefined && item.id === selectedOfferId && !isOfferPageMap
               ? currentCustomIcon
               : defaultCustomIcon
           )
@@ -62,7 +73,7 @@ export default function Map(props: MapProps): JSX.Element {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, offers, selectedOfferId, offerPageMap, selectedOffer]);
+  }, [map, offers, selectedOfferId, isOfferPageMap, selectedOffer]);
 
   return <div style={{ height: '100%' }} ref={mapRef}></div>;
 }

@@ -1,53 +1,40 @@
-import { Helmet } from 'react-helmet-async';
 import {Link} from 'react-router-dom';
-import Logo from '../../components/logo';
-import {Offers} from '../../types/offer';
+import {MouseEvent} from 'react';
+import {Helmet} from 'react-helmet-async';
+import {postFavoriteAction} from '../../store/api-actions';
+import {useAppSelector, useAppDispatch} from '../../hooks/index';
+import {getFavoriteOffers} from '../../store/offers-load/selectors';
+import Header from '../../components/header/header';
+import {Offer} from '../../types/offer';
 
-type FavoritesProp = {
-  favoriteOffers: Offers;
-}
+export default function Favorite(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const favoriteOffers: Offer[] = useAppSelector(getFavoriteOffers);
 
-export default function Favorites(props: FavoritesProp): JSX.Element {
-  const {favoriteOffers} = props;
-  const favoriteCities: string[] = [];
+  const allFavoriteCities: string[] = [];
   favoriteOffers.forEach((item)=>{
-    favoriteCities.push(item.city.name);
+    allFavoriteCities.push(item.city.name);
   });
+  const favoriteCities = [... new Set(allFavoriteCities)];
+
+  const handleBookmarkButtonClick = (evt: MouseEvent<HTMLButtonElement>) => {
+    const placeCard = evt.currentTarget.closest('article');
+    const dataSetOffer = placeCard ? placeCard.dataset.offer : '';
+    const offerClicked: Offer | null = dataSetOffer ? JSON.parse(dataSetOffer) as Offer : null;
+
+    if(placeCard && offerClicked){
+      dispatch(postFavoriteAction({
+        offerId: offerClicked.id,
+        favoriteStatus: !offerClicked.isFavorite ? 1 : 0
+      }));
+    }
+  };
   return (
     <div className="page">
       <Helmet>
-        <title>6 cities: favorites</title>
+        <title>Шесть городов. Избранное</title>
       </Helmet>
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <Logo/>
-            </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <Link
-                    className="header__nav-link header__nav-link--profile"
-                    to="#"
-                  >
-                    <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                    <span className="header__user-name user__name">
-                  Oliver.conner@gmail.com
-                    </span>
-                    <span className="header__favorite-count">3</span>
-                  </Link>
-                </li>
-                <li className="header__nav-item">
-                  <Link className="header__nav-link" to="#">
-                    <span className="header__signout">Sign out</span>
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header/>
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
           <section className="favorites">
@@ -64,12 +51,16 @@ export default function Favorites(props: FavoritesProp): JSX.Element {
                     </div>
                   </div>
                   <div className="favorites__places">
-                    { favoriteOffers.map((item)=> (
+                    { favoriteOffers.map((item: Offer)=> (
                       item.city.name === city ?
-                        <article key={item.id} className="favorites__card place-card">
-                          {item.isPremium ? `<div className="place-card__mark">
-                            <span>Premium</span>
-                          </div>` : ''}
+                        <article key={item.id}
+                          className="favorites__card place-card"
+                          data-offer={JSON.stringify(item)}
+                        >
+                          {item.isPremium ?
+                            <div className="place-card__mark">
+                              <span>Premium</span>
+                            </div> : ''}
                           <div className="favorites__image-wrapper place-card__image-wrapper">
                             <Link to="#">
                               <img
@@ -90,7 +81,9 @@ export default function Favorites(props: FavoritesProp): JSX.Element {
                                 </span>
                               </div>
                               <button
-                                className="place-card__bookmark-button place-card__bookmark-button--active button"
+                                onClick={handleBookmarkButtonClick}
+                                className={item.isFavorite ?
+                                  'place-card__bookmark-button button place-card__bookmark-button--active' : 'place-card__bookmark-button button'}
                                 type="button"
                               >
                                 <svg
