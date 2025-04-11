@@ -13,3 +13,5 @@ export const getOffers = (state: State): Offer[]=> state[NameSpace.OffersData].o
 export const selectSortOffers = (state: State): string => state[NameSpace.OffersData].sortOffers;
 
 export const selectIsFiltersOpen = (state: State)=> state[NameSpace.OffersData].isFiltersOpen;
+
+export const getFavoriteOffers = (state: State): Offer[] => state[NameSpace.OffersData].favoriteOffers;

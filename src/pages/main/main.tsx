@@ -15,11 +15,10 @@ import {selectCity} from '../../store/app-actions/app-actions';
 
 type MainProps = {
   offers: Offers;
-  cities: string[];
   actualCity: string;
 }
 
-export default function Main({offers, cities, actualCity}: MainProps): JSX.Element {
+export default function Main({offers, actualCity}: MainProps): JSX.Element {
   const [selectedOfferId, setSelectedOfferId] = useState<string | undefined>(undefined);
 
   const filtredOffersByCity = getOffersByCity(actualCity, offers);
@@ -41,7 +40,7 @@ export default function Main({offers, cities, actualCity}: MainProps): JSX.Eleme
   }, [dispatch, actualCity]);
 
   if (cardsCount === 0) {
-    return <MainEmpty cities={cities} />;
+    return <MainEmpty/>;
   }
 
   return (
@@ -54,7 +53,7 @@ export default function Main({offers, cities, actualCity}: MainProps): JSX.Eleme
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <CitiesList cities={cities}/>
+            <CitiesList/>
           </section>
         </div>
         <div className="cities">
@@ -69,7 +68,7 @@ export default function Main({offers, cities, actualCity}: MainProps): JSX.Eleme
             </section>
             <div className="cities__right-section">
               <section className="cities__map map" >
-                <Map offers={filtredOffersByCity} selectedOfferId={selectedOfferId} actualCity = {actualCity} offerPageMap={false}/>
+                <Map offers={filtredOffersByCity} selectedOfferId={selectedOfferId} actualCity = {actualCity} isOfferPageMap={false}/>
               </section>
             </div>
           </div>

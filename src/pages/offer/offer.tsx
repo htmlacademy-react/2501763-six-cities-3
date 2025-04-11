@@ -8,14 +8,13 @@ import { useParams } from 'react-router-dom';
 import { AuthorizationStatus } from '../../constants';
 import { useAppDispatch, useAppSelector } from '../../hooks/index';
 import { useState, useEffect } from 'react';
-import { fetchOfferPageAction, fetchReviewsAction, fetchAroundOffersAction } from '../../store/api-actions';
+import {loadOffer} from '../../store/offers-load/offers-load';
+import {fetchOfferPageAction, fetchReviewsAction, fetchAroundOffersAction, postFavoriteAction} from '../../store/api-actions';
 import getStarsStyle from '../../components/utils';
 import cn from 'classnames';
 import {getAroundOffers,getDataOffer, getOffers} from '../../store/offers-load/selectors';
-import {getCity} from '../../store/app-actions/selectors';
 import {getReviews} from '../../store/reviews-load/selectors';
 import {getAuthorizationStatus} from '../../store/user-authorization/selectors';
-
 
 export default function Offer(): JSX.Element | undefined {
   const { offerId } = useParams();
@@ -25,10 +24,20 @@ export default function Offer(): JSX.Element | undefined {
   const reviews = useAppSelector(getReviews);
   const offer = useAppSelector(getDataOffer);
   const authStatus = useAppSelector(getAuthorizationStatus);
-  const actualCity = useAppSelector(getCity);
   const aroundOffers = useAppSelector(getAroundOffers);
 
   const dispatch = useAppDispatch();
+
+  const handleBookmarkButtonClick = () => {
+    if(offer && offerId){
+      dispatch(postFavoriteAction({
+        offerId: offerId,
+        favoriteStatus:!offer.isFavorite ? 1 : 0
+      }));
+      dispatch(loadOffer());
+    }
+  };
+
 
   useEffect(() => {
     if (offerId && offer === undefined) {
@@ -88,6 +97,7 @@ export default function Offer(): JSX.Element | undefined {
                     {offer.title}
                   </h1>
                   <button
+                    onClick={handleBookmarkButtonClick}
                     className={cn('offer__bookmark-button button', {
                       'offer__bookmark-button--active': offer.isFavorite,
                     })}
@@ -158,8 +168,7 @@ export default function Offer(): JSX.Element | undefined {
             <section className="offer__map map" >
               <Map offers={offersNear}
                 selectedOfferId={selectedOfferId}
-                actualCity={actualCity}
-                offerPageMap
+                isOfferPageMap
               />
             </section>
           </section>

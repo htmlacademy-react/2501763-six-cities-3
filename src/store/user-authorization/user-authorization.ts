@@ -4,8 +4,10 @@ import {UserAuth} from '../../types/state';
 import {checkAuthAction, loginAction, logoutAction} from '../api-actions';
 
 const initialState: UserAuth = {
-  authorizationStatus: AuthorizationStatus.NoAuth,
-  email: '',
+  authorizationStatus: AuthorizationStatus.Unknown,
+  user: null,
+  isLoginFormDasabled: false,
+  email: ''
 };
 
 export const userAuthorization = createSlice({
@@ -16,16 +18,21 @@ export const userAuthorization = createSlice({
     builder
       .addCase(checkAuthAction.fulfilled, (state, action) => {
         state.authorizationStatus = AuthorizationStatus.Auth;
-        state.email = action.payload;
+        state.user = action.payload;
       })
       .addCase(checkAuthAction.rejected, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
       })
+      .addCase(loginAction.pending, (state) => {
+        state.isLoginFormDasabled = true;
+      })
       .addCase(loginAction.fulfilled, (state, action) => {
+        state.isLoginFormDasabled = false;
         state.authorizationStatus = AuthorizationStatus.Auth;
         state.email = action.payload;
       })
       .addCase(loginAction.rejected, (state) => {
+        state.isLoginFormDasabled = false;
         state.authorizationStatus = AuthorizationStatus.NoAuth;
       })
       .addCase(logoutAction.fulfilled, (state) => {

@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {NameSpace} from '../../constants';
-import {fetchOffersAction, fetchAroundOffersAction, fetchOfferPageAction} from '../api-actions';
+import {fetchOffersAction, fetchAroundOffersAction, fetchOfferPageAction, fetchFavoriteOffersAction} from '../api-actions';
 import {OffersLoad} from '../../types/state';
 import {Sorts} from '../../components/sort/const';
 import {sortOffers} from '../../components/sort/utils';
@@ -14,6 +14,7 @@ const initialState: OffersLoad = {
   isOffersLoading: false,
   offer: undefined,
   aroundOffers: [],
+  favoriteOffers: []
 };
 
 export const offersLoad = createSlice({
@@ -22,6 +23,13 @@ export const offersLoad = createSlice({
   reducers: {
     loadOffer:(state, action: PayloadAction<OffersLoad['offer']>) => {
       state.offer = action.payload;
+    },
+    refreshCards:(state, action: PayloadAction<OffersLoad['offer']>)=>{
+      state.offers.map((item)=>{
+        if(action.payload && item.id === action.payload.id){
+          item.isFavorite = !action.payload.isFavorite;
+        }
+      });
     },
     changeSort: (state, action: PayloadAction<string>) => {
       state.sortOffers = action.payload;
@@ -55,8 +63,15 @@ export const offersLoad = createSlice({
       })
       .addCase(fetchOfferPageAction.rejected, (state) => {
         state.isOffersLoading = false;
+      })
+      .addCase(fetchFavoriteOffersAction.fulfilled, (state, action) => {
+        state.isOffersLoading = false;
+        state.favoriteOffers = action.payload;
+      })
+      .addCase(fetchFavoriteOffersAction.rejected, (state) => {
+        state.isOffersLoading = false;
       });
   }
 });
 
-export const {loadOffer, changeSort, resetSort, toggleSortsMenu} = offersLoad.actions;
+export const {loadOffer, refreshCards, changeSort, resetSort, toggleSortsMenu} = offersLoad.actions;

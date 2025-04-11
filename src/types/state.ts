@@ -7,8 +7,18 @@ export type State = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;
 
+export type User = {
+  avatarUrl: string;
+  email: string;
+  isPro: boolean;
+  name: string;
+  token: string;
+};
+
 export type UserAuth = {
   authorizationStatus: AuthorizationStatus;
+  user: User| null;
+  isLoginFormDasabled: boolean;
   email: string;
 };
 
@@ -19,10 +29,13 @@ export type OffersLoad = {
   isOffersLoading: boolean;
   offer: ExtendedOffer | undefined;
   aroundOffers: Offer[];
+  favoriteOffers: Offer[];
+
 }
 
 export type ReviewsLoad = {
   reviews: Review[];
+  isReviewFormDasabled: boolean;
 }
 
 export type AppActions = {
