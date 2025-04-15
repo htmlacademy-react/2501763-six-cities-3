@@ -22,14 +22,14 @@ const currentCustomIcon = new Icon({
 });
 
 export default function Map(props: MapProps): JSX.Element {
-  const {offers, selectedOffer, actualCity, isOfferPageMap} = props;
+  const { offers, selectedOffer, actualCity, isOfferPageMap } = props;
 
-  const getCityCoords = (isOfferPage:boolean):City| undefined=> {
+  const getCityCoords = (isOfferPage: boolean): City | undefined => {
     let city;
-    if(isOfferPage && selectedOffer) {
-      city = CITY_LOCATIONS.find((cityItem)=> cityItem.name === selectedOffer.city.name);
+    if (isOfferPage && selectedOffer) {
+      city = CITY_LOCATIONS.find((cityItem) => cityItem.name === selectedOffer.city.name);
     } else {
-      city = CITY_LOCATIONS.find((item)=> item.name === actualCity);
+      city = CITY_LOCATIONS.find((item) => item.name === actualCity);
     }
     return city;
   };
@@ -49,7 +49,7 @@ export default function Map(props: MapProps): JSX.Element {
           lng: item.location.longitude
         });
 
-        if(isOfferPageMap) {
+        if (isOfferPageMap) {
           const selectedMarker = new Marker(
             selectedOffer !== undefined ? {
               lat: selectedOffer.location.latitude,
@@ -78,5 +78,5 @@ export default function Map(props: MapProps): JSX.Element {
     }
   }, [map, offers, selectedOffer, isOfferPageMap]);
 
-  return <div style={{height: '100%'}} ref={mapRef}></div>;
+  return <div style={{ height: '100%' }} ref={mapRef}></div>;
 }
