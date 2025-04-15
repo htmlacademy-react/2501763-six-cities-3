@@ -17,7 +17,7 @@ export default function FavoritePlaceCard(props: PropPlaceCard): JSX.Element {
 
     dispatch(postFavoriteAction({
       offerId: offer.id,
-      favoriteStatus: !offer.isFavorite ? 1 : 0
+      status: !offer.isFavorite ? 1 : 0
     })).unwrap().then(() => {
       dispatch(refreshFavoriteCards(offer));
       dispatch(fetchOffersAction(true));

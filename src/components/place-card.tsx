@@ -28,7 +28,7 @@ export default function PlaceCard(props: PlaceCardProps): JSX.Element {
       if (offer) {
         dispatch(postFavoriteAction({
           offerId: offer.id,
-          favoriteStatus: !offer.isFavorite ? 1 : 0
+          status: !offer.isFavorite ? 1 : 0
         }));
         dispatch(refreshCards(offer));
       }
