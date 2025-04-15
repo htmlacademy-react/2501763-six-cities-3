@@ -1,23 +1,23 @@
 import Logo from '../../components/logo';
-import {Link, useSearchParams} from 'react-router-dom';
-import {Helmet} from 'react-helmet-async';
+import { Link, useSearchParams } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import CitiesList from '../../components/cities-list';
 
 const INITIAL_CITY = 'Paris';
 
 export default function MainEmpty(): JSX.Element {
-  const [searchParams, ] = useSearchParams();
+  const [searchParams,] = useSearchParams();
   const searchCityParams = searchParams.get('city') || INITIAL_CITY;
   return (
     <div className="page page--gray page--main">
       <Helmet>
-        <title>6 cities</title>
+        <title>Шесть городов</title>
       </Helmet>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <Logo/>
+              <Logo />
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
@@ -28,7 +28,7 @@ export default function MainEmpty(): JSX.Element {
                   >
                     <div className="header__avatar-wrapper user__avatar-wrapper"></div>
                     <span className="header__user-name user__name">
-                  Oliver.conner@gmail.com
+                      Oliver.conner@gmail.com
                     </span>
                     <span className="header__favorite-count">3</span>
                   </Link>
@@ -47,7 +47,7 @@ export default function MainEmpty(): JSX.Element {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <CitiesList/>
+            <CitiesList />
           </section>
         </div>
         <div className="cities">
@@ -56,7 +56,7 @@ export default function MainEmpty(): JSX.Element {
               <div className="cities__status-wrapper tabs__content">
                 <b className="cities__status">No places to stay available</b>
                 <p className="cities__status-description">
-              We could not find any property available at the moment in {searchCityParams}
+                  We could not find any property available at the moment in {searchCityParams}
                 </p>
               </div>
             </section>

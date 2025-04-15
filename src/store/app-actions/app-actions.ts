@@ -1,9 +1,8 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {NameSpace} from '../../constants';
-import {AppActions} from '../../types/state';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { NameSpace } from '../../constants';
+import { AppActions } from '../../types/state';
 
 const INITIAL_CITY = 'Paris';
-
 
 const initialState: AppActions = {
   activeOfferId: '',
@@ -18,13 +17,13 @@ export const appActions = createSlice({
     hoverOffer: (state, action: PayloadAction<string>) => {
       state.activeOfferId = action.payload;
     },
-    selectCity: (state, action:PayloadAction<string>) => {
+    selectCity: (state, action: PayloadAction<string>) => {
       state.city = action.payload;
     },
-    setError: (state, action:PayloadAction<string | null>) => {
+    setError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
     }
   }
 });
 
-export const {selectCity, hoverOffer, setError} = appActions.actions;
+export const { selectCity, hoverOffer, setError } = appActions.actions;

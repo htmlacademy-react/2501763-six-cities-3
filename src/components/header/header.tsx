@@ -1,10 +1,10 @@
-import {Link} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../../constants';
-import {useAppSelector, useAppDispatch} from '../../hooks/index';
+import { Link } from 'react-router-dom';
+import { AppRoute, AuthorizationStatus } from '../../constants';
+import { useAppSelector, useAppDispatch } from '../../hooks/index';
 import Logo from '../logo';
-import {logoutAction} from '../../store/api-actions';
-import {getAuthorizationStatus, getUser, getAuthCheckedStatus, getEmail} from '../../store/user-authorization/selectors';
-import {getFavoriteOffers} from '../../store/offers-load/selectors';
+import { logoutAction } from '../../store/api-actions';
+import { getAuthorizationStatus, getUser, getAuthCheckedStatus, getEmail } from '../../store/user-authorization/selectors';
+import { getFavoriteOffers } from '../../store/offers-load/selectors';
 
 export default function Header(): JSX.Element {
   const authStatus = useAppSelector(getAuthorizationStatus);
@@ -14,12 +14,12 @@ export default function Header(): JSX.Element {
   const isAuthChecked = useAppSelector(getAuthCheckedStatus);
   const favoriteOffers = useAppSelector(getFavoriteOffers);
 
-  return(
+  return (
     <header className="header">
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <Logo/>
+            <Logo />
           </div>
           <nav className="header__nav">
             {isAuthChecked && authStatus === AuthorizationStatus.Auth ?
@@ -29,9 +29,8 @@ export default function Header(): JSX.Element {
                     className="header__nav-link header__nav-link--profile"
                     to={AppRoute.Favorites}
                   >
-                    <div className="header__avatar-wrapper user__avatar-wrapper" style={{backgroundImage:
-                    `url(${login ? login.avatarUrl : '../img/avatar.svg'})`}}
-                    >
+                    <div className="header__avatar-wrapper user__avatar-wrapper">
+                      <img src={login?.avatarUrl}></img>
                     </div>
                     <span className="header__user-name user__name">
                       {login ? login.email : email}

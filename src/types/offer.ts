@@ -40,5 +40,5 @@ export type ExtendedOffer = Offer & {
 
 export type FavoriteOffer = {
   offerId: string;
-  favoriteStatus: number;
+  status: number;
 }

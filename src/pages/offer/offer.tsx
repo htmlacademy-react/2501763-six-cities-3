@@ -5,22 +5,22 @@ import ReviewList from '../../components/review-list';
 import Map from '../../components/map/map';
 import CardsList from '../../components/cards-list';
 import { useParams } from 'react-router-dom';
-import { AuthorizationStatus } from '../../constants';
+import { AuthorizationStatus, AppRoute } from '../../constants';
 import { useAppDispatch, useAppSelector } from '../../hooks/index';
-import { useState, useEffect } from 'react';
-import {loadOffer} from '../../store/offers-load/offers-load';
-import {fetchOfferPageAction, fetchReviewsAction, fetchAroundOffersAction, postFavoriteAction} from '../../store/api-actions';
+import { useEffect } from 'react';
+import { loadOffer } from '../../store/offers-load/offers-load';
+import { fetchOfferPageAction, fetchReviewsAction, fetchAroundOffersAction, postFavoriteAction, fetchOffersAction } from '../../store/api-actions';
 import getStarsStyle from '../../components/utils';
 import cn from 'classnames';
-import {getAroundOffers,getDataOffer, getOffers} from '../../store/offers-load/selectors';
-import {getReviews} from '../../store/reviews-load/selectors';
-import {getAuthorizationStatus} from '../../store/user-authorization/selectors';
+import { getAroundOffers, getDataOffer, getOffers } from '../../store/offers-load/selectors';
+import { getReviews } from '../../store/reviews-load/selectors';
+import { redirectToRoute } from '../../store/action';
+import { getAuthorizationStatus } from '../../store/user-authorization/selectors';
 
 export default function Offer(): JSX.Element | undefined {
   const { offerId } = useParams();
   const offers = useAppSelector(getOffers);
   const foundOffer = offers.find((item) => item.id.toString() === offerId);
-  const [selectedOfferId, setSelectedOfferId] = useState<string | undefined>(undefined);
   const reviews = useAppSelector(getReviews);
   const offer = useAppSelector(getDataOffer);
   const authStatus = useAppSelector(getAuthorizationStatus);
@@ -29,23 +29,28 @@ export default function Offer(): JSX.Element | undefined {
   const dispatch = useAppDispatch();
 
   const handleBookmarkButtonClick = () => {
-    if(offer && offerId){
-      dispatch(postFavoriteAction({
-        offerId: offerId,
-        favoriteStatus:!offer.isFavorite ? 1 : 0
-      }));
-      dispatch(loadOffer());
+    if (authStatus !== AuthorizationStatus.Auth) {
+      dispatch(redirectToRoute(AppRoute.Login));
+    } else {
+      if (offer && offerId) {
+        dispatch(postFavoriteAction({
+          offerId: offerId,
+          status: !offer.isFavorite ? 1 : 0
+        })).unwrap().then(() => {
+          dispatch(fetchOffersAction(true));
+          dispatch(loadOffer(!offer.isFavorite));
+        });
+      }
     }
   };
 
-
   useEffect(() => {
-    if (offerId && offer === undefined) {
+    if (offerId) {
       dispatch(fetchOfferPageAction(offerId));
       dispatch(fetchReviewsAction(offerId));
       dispatch(fetchAroundOffersAction(offerId));
     }
-  }, [offerId, dispatch, offer]);
+  }, [offerId, dispatch]);
 
   if (!foundOffer) {
     return <div>Offer not found</div>;
@@ -53,17 +58,9 @@ export default function Offer(): JSX.Element | undefined {
 
   const offersNear = aroundOffers.slice(0, 3);
 
-  const handleListItemHover = (listItemId: string) => {
-    setSelectedOfferId(listItemId);
-  };
-
-  const handleListItemOut = () => {
-    setSelectedOfferId(undefined);
-  };
-
   if (offer) {
     return (
-      <div className="page">
+      <div className="page" data-testid="offer-page">
         <Helmet>
           <title>Шесть городов. Предложение</title>
         </Helmet>
@@ -167,7 +164,7 @@ export default function Offer(): JSX.Element | undefined {
             </div>
             <section className="offer__map map" >
               <Map offers={offersNear}
-                selectedOfferId={selectedOfferId}
+                selectedOffer={foundOffer}
                 isOfferPageMap
               />
             </section>
@@ -178,7 +175,7 @@ export default function Offer(): JSX.Element | undefined {
                 Other places in the neighbourhood
               </h2>
               <div className="near-places__list places__list">
-                <CardsList offers={offersNear} onListItemHover={handleListItemHover} onListItemOut={handleListItemOut} />
+                <CardsList offers={offersNear} />
               </div>
             </section>
           </div>

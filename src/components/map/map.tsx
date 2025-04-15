@@ -1,14 +1,14 @@
-import {useRef, useEffect} from 'react';
-import {Icon, Marker, layerGroup} from 'leaflet';
+import { useRef, useEffect } from 'react';
+import { Icon, Marker, layerGroup } from 'leaflet';
 import useMap from '../../hooks/use-map';
-import {City, Offer} from '../../types/offer';
-import {UrlMarker} from '../map/const';
-import {CITY_LOCATIONS} from '../utils';
+import { City, Offer } from '../../types/offer';
+import { UrlMarker } from '../map/const';
+import { CITY_LOCATIONS } from '../utils';
 import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
   offers: Offer[];
-  selectedOfferId: string | undefined;
+  selectedOffer: Offer | undefined;
   actualCity?: string;
   isOfferPageMap: boolean;
 };
@@ -22,8 +22,7 @@ const currentCustomIcon = new Icon({
 });
 
 export default function Map(props: MapProps): JSX.Element {
-  const { offers, selectedOfferId, actualCity, isOfferPageMap } = props;
-  const selectedOffer = offers.find((offer) => offer.id === selectedOfferId);
+  const {offers, selectedOffer, actualCity, isOfferPageMap} = props;
 
   const getCityCoords = (isOfferPage:boolean):City| undefined=> {
     let city;
@@ -37,6 +36,7 @@ export default function Map(props: MapProps): JSX.Element {
 
   const activeCity = getCityCoords(isOfferPageMap);
 
+
   const mapRef = useRef(null);
   const map = useMap(mapRef, activeCity);
 
@@ -46,15 +46,18 @@ export default function Map(props: MapProps): JSX.Element {
       offers.forEach((item) => {
         const marker = new Marker({
           lat: item.location.latitude,
-          lng: item.location.longitude,
+          lng: item.location.longitude
         });
 
-        const selectedMarker = selectedOffer ? new Marker({
-          lat: selectedOffer.location.latitude,
-          lng: selectedOffer.location.longitude,
-        }) : null;
-
-        if (isOfferPageMap && selectedMarker) {
+        if(isOfferPageMap) {
+          const selectedMarker = new Marker(
+            selectedOffer !== undefined ? {
+              lat: selectedOffer.location.latitude,
+              lng: selectedOffer.location.longitude
+            } : {
+              lat: 0,
+              lng: 0
+            });
           selectedMarker
             .setIcon(currentCustomIcon)
             .addTo(markerLayer);
@@ -62,7 +65,7 @@ export default function Map(props: MapProps): JSX.Element {
 
         marker
           .setIcon(
-            selectedOfferId !== undefined && item.id === selectedOfferId && !isOfferPageMap
+            selectedOffer !== undefined && item.id === selectedOffer.id && !isOfferPageMap
               ? currentCustomIcon
               : defaultCustomIcon
           )
@@ -73,7 +76,7 @@ export default function Map(props: MapProps): JSX.Element {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, offers, selectedOfferId, isOfferPageMap, selectedOffer]);
+  }, [map, offers, selectedOffer, isOfferPageMap]);
 
-  return <div style={{ height: '100%' }} ref={mapRef}></div>;
+  return <div style={{height: '100%'}} ref={mapRef}></div>;
 }

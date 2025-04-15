@@ -1,10 +1,10 @@
-import {Link} from 'react-router-dom';
-import {Helmet} from 'react-helmet-async';
-import {useRef, FormEvent} from 'react';
-import {useAppDispatch, useAppSelector} from '../../hooks';
-import {loginAction} from '../../store/api-actions';
-import {AppRoute} from '../../constants';
-import {getDisabledStatus} from '../../store/user-authorization/selectors';
+import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import { useRef, FormEvent } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { loginAction } from '../../store/api-actions';
+import { AppRoute } from '../../constants';
+import { getDisabledStatus } from '../../store/user-authorization/selectors';
 import Logo from '../../components/logo';
 
 export default function Login(): JSX.Element {
@@ -32,7 +32,7 @@ export default function Login(): JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <Logo/>
+              <Logo />
             </div>
           </div>
         </div>

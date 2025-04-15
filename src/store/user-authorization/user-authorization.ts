@@ -1,12 +1,12 @@
-import {createSlice} from '@reduxjs/toolkit';
-import {AuthorizationStatus, NameSpace} from '../../constants';
-import {UserAuth} from '../../types/state';
-import {checkAuthAction, loginAction, logoutAction} from '../api-actions';
+import { createSlice } from '@reduxjs/toolkit';
+import { AuthorizationStatus, NameSpace } from '../../constants';
+import { UserAuth } from '../../types/state';
+import { checkAuthAction, loginAction, logoutAction } from '../api-actions';
 
 const initialState: UserAuth = {
   authorizationStatus: AuthorizationStatus.Unknown,
   user: null,
-  isLoginFormDasabled: false,
+  isLoginFormDisabled: false,
   email: ''
 };
 
@@ -24,15 +24,15 @@ export const userAuthorization = createSlice({
         state.authorizationStatus = AuthorizationStatus.NoAuth;
       })
       .addCase(loginAction.pending, (state) => {
-        state.isLoginFormDasabled = true;
+        state.isLoginFormDisabled = true;
       })
       .addCase(loginAction.fulfilled, (state, action) => {
-        state.isLoginFormDasabled = false;
+        state.isLoginFormDisabled = false;
         state.authorizationStatus = AuthorizationStatus.Auth;
         state.email = action.payload;
       })
       .addCase(loginAction.rejected, (state) => {
-        state.isLoginFormDasabled = false;
+        state.isLoginFormDisabled = false;
         state.authorizationStatus = AuthorizationStatus.NoAuth;
       })
       .addCase(logoutAction.fulfilled, (state) => {

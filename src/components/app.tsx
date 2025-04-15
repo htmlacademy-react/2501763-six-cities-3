@@ -13,12 +13,10 @@ import HistoryRouter from '../components/history-route/history-route';
 import browserHistory from '../components/browser-history';
 import {getAuthorizationStatus, getAuthCheckedStatus} from '../store/user-authorization/selectors';
 import {getOffersLoadingStatus} from '../store/offers-load/selectors';
-import {getOffers} from '../store/offers-load/selectors';
-import {getCity} from '../store/app-actions/selectors';
+//import {getOffers} from '../store/offers-load/selectors';
 
 export default function App(): JSX.Element {
-  const storeOffers = useAppSelector(getOffers);
-  const actualCity = useAppSelector(getCity);
+  //const storeOffers = useAppSelector(getOffers);
 
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const isOffersLoading = useAppSelector(getOffersLoadingStatus);
@@ -35,7 +33,7 @@ export default function App(): JSX.Element {
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<Main actualCity={actualCity} offers={storeOffers}/>}
+            element={<Main/>}
           />
           <Route
             path={AppRoute.Login}
