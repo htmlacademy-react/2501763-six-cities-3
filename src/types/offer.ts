@@ -37,3 +37,8 @@ export type ExtendedOffer = Offer & {
   images: string[];
   maxAdults: number;
 }
+
+export type FavoriteOffer = {
+  offerId: string;
+  status: number;
+}

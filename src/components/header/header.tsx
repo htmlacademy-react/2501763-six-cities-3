@@ -1,34 +1,41 @@
-import {Link} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../../constants';
-import {useAppSelector, useAppDispatch} from '../../hooks/index';
+import { Link } from 'react-router-dom';
+import { AppRoute, AuthorizationStatus } from '../../constants';
+import { useAppSelector, useAppDispatch } from '../../hooks/index';
 import Logo from '../logo';
-import {logoutAction} from '../../store/api-actions';
-import {getAuthorizationStatus, getEmail} from '../../store/user-authorization/selectors';
+import { logoutAction } from '../../store/api-actions';
+import { getAuthorizationStatus, getUser, getAuthCheckedStatus, getEmail } from '../../store/user-authorization/selectors';
+import { getFavoriteOffers } from '../../store/offers-load/selectors';
 
 export default function Header(): JSX.Element {
   const authStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useAppDispatch();
-  const login = useAppSelector(getEmail);
-  return(
+  const login = useAppSelector(getUser);
+  const email = useAppSelector(getEmail);
+  const isAuthChecked = useAppSelector(getAuthCheckedStatus);
+  const favoriteOffers = useAppSelector(getFavoriteOffers);
+
+  return (
     <header className="header">
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <Logo/>
+            <Logo />
           </div>
           <nav className="header__nav">
-            {authStatus === AuthorizationStatus.Auth ?
+            {isAuthChecked && authStatus === AuthorizationStatus.Auth ?
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
                   <Link
                     className="header__nav-link header__nav-link--profile"
-                    to="#"
+                    to={AppRoute.Favorites}
                   >
-                    <div className="header__avatar-wrapper user__avatar-wrapper"></div>
+                    <div className="header__avatar-wrapper user__avatar-wrapper">
+                      <img src={login?.avatarUrl}></img>
+                    </div>
                     <span className="header__user-name user__name">
-                      {login}
+                      {login ? login.email : email}
                     </span>
-                    <span className="header__favorite-count">3</span>
+                    <span className="header__favorite-count">{favoriteOffers.length}</span>
                   </Link>
                 </li>
                 <li className="header__nav-item">
