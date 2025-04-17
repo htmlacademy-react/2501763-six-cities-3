@@ -14,7 +14,6 @@ import { AuthData } from '../types/auth-type';
 import { FavoriteOffer } from '../types/offer';
 import * as tokenStorage from '../services/token';
 
-
 describe('Async actions', () => {
   const axios = createAPI();
   const mockAxiosAdapter = new MockAdapter(axios);
@@ -185,11 +184,11 @@ describe('Async actions', () => {
     it('should dispatch "postFavoriteAction.pending", "postFavoriteAction.fulfilled" when server response 200', async () => {
       const fakeFavoriteOffer: FavoriteOffer = {
         offerId: 'ghghytyty',
-        favoriteStatus: 1
+        status: 1
       };
       const fakeServerReplay = { token: 'secret' };
 
-      mockAxiosAdapter.onPost(`${APIRoute.Favorite}/${fakeFavoriteOffer.offerId}/${fakeFavoriteOffer.favoriteStatus}`).reply(200, fakeServerReplay);
+      mockAxiosAdapter.onPost(`${APIRoute.Favorite}/${fakeFavoriteOffer.offerId}/${fakeFavoriteOffer.status}`).reply(200, fakeServerReplay);
 
       await store.dispatch(postFavoriteAction(fakeFavoriteOffer));
       const actions = extractActionsTypes(store.getActions());
