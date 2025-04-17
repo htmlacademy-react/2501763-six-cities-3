@@ -1,9 +1,9 @@
 import { Helmet } from 'react-helmet-async';
 import Header from '../../components/header/header';
 import ReviewForm from '../../components/review-form';
-import ReviewList from '../../components/review-list';
+import ReviewList from '../../components/review-list/review-list';
 import Map from '../../components/map/map';
-import CardsList from '../../components/cards-list';
+import CardsList from '../../components/cards-list/cards-list';
 import { useParams } from 'react-router-dom';
 import { AuthorizationStatus, AppRoute } from '../../constants';
 import { useAppDispatch, useAppSelector } from '../../hooks/index';
@@ -163,10 +163,7 @@ export default function Offer(): JSX.Element | undefined {
               </div>
             </div>
             <section className="offer__map map" >
-              <Map offers={offersNear}
-                selectedOffer={foundOffer}
-                isOfferPageMap
-              />
+              <Map offers={offersNear} selectedOffer={foundOffer} actualCity={foundOffer.city.name} />
             </section>
           </section>
           <div className="container">

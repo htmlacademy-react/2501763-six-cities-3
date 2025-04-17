@@ -38,11 +38,10 @@ export type OffersLoad = {
 
 export type ReviewsLoad = {
   reviews: Review[];
-  isReviewFormDasabled: boolean;
+  isReviewFormDisabled: boolean;
 }
 
 export type AppActions = {
   activeOfferId: string;
   error: string | null;
-  city: string;
 }

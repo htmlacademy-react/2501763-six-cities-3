@@ -1,5 +1,5 @@
-import { Offers } from '../types/offer';
-import PlaceCard from './place-card';
+import { Offers } from '../../types/offer';
+import PlaceCard from '../place-card/place-card';
 
 type CardsListProp = {
   offers: Offers;
@@ -10,8 +10,7 @@ export default function CardsList(props: CardsListProp): JSX.Element {
   return (
     <>
       {
-        offers.map((item) => (<PlaceCard offer={item} key={item.id} />)
-        )
+        offers.map((item) => <PlaceCard offer={item} key={item.id} />)
       }
     </>
   );

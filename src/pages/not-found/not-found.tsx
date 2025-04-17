@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import Logo from '../../components/logo';
+import Logo from '../../components/logo/logo';
 
 const styles = {
   container: {
@@ -21,8 +21,8 @@ const styles = {
   }
 } as const;
 
-export default function NotFound (): JSX.Element {
-  return(
+export default function NotFound(): JSX.Element {
+  return (
     <div>
       <Helmet>
         <title>Шесть городов. Страница не найдена</title>

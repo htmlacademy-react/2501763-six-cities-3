@@ -4,8 +4,7 @@ import { fetchOffersAction, fetchAroundOffersAction, fetchOfferPageAction, fetch
 import { OffersLoad } from '../../types/state';
 import { Sorts } from '../../components/sort/const';
 import { sortOffers } from '../../components/sort/utils';
-
-const INITIAL_SORT = 'Popular';
+import { INITIAL_SORT } from '../../constants';
 
 const initialState: OffersLoad = {
   offers: [],

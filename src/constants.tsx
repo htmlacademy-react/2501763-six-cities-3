@@ -38,3 +38,7 @@ export const TIMEOUT_SHOW_ERROR = 2000;
 export const MIN_COMMENT_LENGTH = 50;
 
 export const DEFAULT_RATING = 0;
+
+export const INITIAL_CITY = 'Paris';
+
+export const INITIAL_SORT = 'Popular';

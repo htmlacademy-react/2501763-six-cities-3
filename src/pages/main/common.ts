@@ -1,7 +1,6 @@
 import { Offer } from '../../types/offer';
 import { Sorts } from '../../components/sort/const';
 
-
 export const getOffersByCity = (city: string, offers: Offer[]): Offer[] => {
   const offersByCity = offers.filter((offer) =>
     offer.city.name === city);

@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../constants';
 import { useAppSelector, useAppDispatch } from '../../hooks/index';
-import Logo from '../logo';
+import Logo from '../../components/logo/logo';
 import { logoutAction } from '../../store/api-actions';
 import { getAuthorizationStatus, getUser, getAuthCheckedStatus, getEmail } from '../../store/user-authorization/selectors';
-import { getFavoriteOffers } from '../../store/offers-load/selectors';
+import { getOffers } from '../../store/offers-load/selectors';
 
 export default function Header(): JSX.Element {
   const authStatus = useAppSelector(getAuthorizationStatus);
@@ -12,7 +12,14 @@ export default function Header(): JSX.Element {
   const login = useAppSelector(getUser);
   const email = useAppSelector(getEmail);
   const isAuthChecked = useAppSelector(getAuthCheckedStatus);
-  const favoriteOffers = useAppSelector(getFavoriteOffers);
+  const offers = useAppSelector(getOffers);
+
+  const favoriteOffers = [];
+  offers.map((item) => {
+    if (item.isFavorite === true) {
+      favoriteOffers.push(item);
+    }
+  });
 
   return (
     <header className="header">
