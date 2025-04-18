@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import { Offer } from '../types/offer';
-import { AppRoute } from '../constants';
-import { postFavoriteAction, fetchOffersAction } from '../store/api-actions';
-import { refreshFavoriteCards } from '../store/offers-load/offers-load';
-import { useAppDispatch } from '../hooks/index';
+import { Offer } from '../../types/offer';
+import { AppRoute } from '../../constants';
+import { postFavoriteAction, fetchOffersAction } from '../../store/api-actions';
+import { refreshFavoriteCards } from '../../store/offers-load/offers-load';
+import { useAppDispatch } from '../../hooks/index';
 
 type PropPlaceCard = {
   offer: Offer;
@@ -23,6 +23,7 @@ export default function FavoritePlaceCard(props: PropPlaceCard): JSX.Element {
       dispatch(fetchOffersAction(true));
     });
   };
+
   return (
     <article
       data-testid="favorite-card"

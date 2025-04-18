@@ -5,7 +5,7 @@ import { useAppSelector, useAppDispatch } from '../../hooks/index';
 import { getFavoriteOffers } from '../../store/offers-load/selectors';
 import Header from '../../components/header/header';
 import FavoriteEmpty from '../favorites-empty/favorites-empty';
-import FavoritePlaceCard from '../../components/favorite-place-card';
+import FavoritePlaceCard from '../../components/favorite-place-card/favorite-place-card';
 import { fetchFavoriteOffersAction } from '../../store/api-actions';
 
 export default function Favorite(): JSX.Element {

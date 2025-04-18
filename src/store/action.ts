@@ -1,5 +1,5 @@
-import {createAction} from '@reduxjs/toolkit';
-import {AppRoute} from '../constants';
+import { createAction } from '@reduxjs/toolkit';
+import { AppRoute } from '../constants';
 
 export const Action = {
   REDIRECT: 'REDIRECT'

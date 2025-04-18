@@ -1,9 +1,8 @@
-import Logo from '../../components/logo';
+import Logo from '../../components/logo/logo';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import CitiesList from '../../components/cities-list';
-
-const INITIAL_CITY = 'Paris';
+import CitiesList from '../../components/cities-list/cities-list';
+import { INITIAL_CITY } from '../../constants';
 
 export default function MainEmpty(): JSX.Element {
   const [searchParams,] = useSearchParams();

@@ -1,25 +1,27 @@
 import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../constants';
 import { useAppSelector, useAppDispatch } from '../../hooks/index';
-import Logo from '../logo';
+import Logo from '../../components/logo/logo';
 import { logoutAction } from '../../store/api-actions';
 import { getAuthorizationStatus, getUser, getAuthCheckedStatus, getEmail } from '../../store/user-authorization/selectors';
-import { getFavoriteOffers } from '../../store/offers-load/selectors';
+import {getFavoritesLength} from '../../store/offers-load/selectors';
 
 export default function Header(): JSX.Element {
+
   const authStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useAppDispatch();
   const login = useAppSelector(getUser);
   const email = useAppSelector(getEmail);
   const isAuthChecked = useAppSelector(getAuthCheckedStatus);
-  const favoriteOffers = useAppSelector(getFavoriteOffers);
+  const favoritesLength = useAppSelector(getFavoritesLength);
 
-  return (
+
+  return(
     <header className="header">
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <Logo />
+            <Logo/>
           </div>
           <nav className="header__nav">
             {isAuthChecked && authStatus === AuthorizationStatus.Auth ?
@@ -29,13 +31,14 @@ export default function Header(): JSX.Element {
                     className="header__nav-link header__nav-link--profile"
                     to={AppRoute.Favorites}
                   >
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                      <img src={login?.avatarUrl}></img>
+                    <div className="header__avatar-wrapper user__avatar-wrapper" style={{backgroundImage:
+                    `url(${login ? login.avatarUrl : '../img/avatar.svg'})`}}
+                    >
                     </div>
                     <span className="header__user-name user__name">
                       {login ? login.email : email}
                     </span>
-                    <span className="header__favorite-count">{favoriteOffers.length}</span>
+                    <span className="header__favorite-count">{favoritesLength}</span>
                   </Link>
                 </li>
                 <li className="header__nav-item">
@@ -45,6 +48,7 @@ export default function Header(): JSX.Element {
                       dispatch(logoutAction());
                     }}
                     className="header__nav-link" to={AppRoute.Main}
+                    data-testid= "logout-link"
                   >
                     <span className="header__signout">Sign out</span>
                   </Link>

@@ -4,8 +4,7 @@ import { fetchOffersAction, fetchAroundOffersAction, fetchOfferPageAction, fetch
 import { OffersLoad } from '../../types/state';
 import { Sorts } from '../../components/sort/const';
 import { sortOffers } from '../../components/sort/utils';
-
-const INITIAL_SORT = 'Popular';
+import { INITIAL_SORT } from '../../constants';
 
 const initialState: OffersLoad = {
   offers: [],
@@ -31,6 +30,13 @@ export const offersLoad = createSlice({
       }
     },
     refreshCards: (state, action: PayloadAction<OffersLoad['offerCard']>) => {
+      if(state.aroundOffers) {
+        state.aroundOffers.forEach((item)=>{
+          if(action.payload && item.id === action.payload.id){
+            item.isFavorite = !action.payload.isFavorite;
+          }
+        });
+      }
       state.offers.forEach((item) => {
         if (action.payload && item.id === action.payload.id) {
           item.isFavorite = !action.payload.isFavorite;

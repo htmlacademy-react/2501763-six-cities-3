@@ -8,9 +8,8 @@ import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
   offers: Offer[];
-  selectedOffer: Offer | undefined;
+  selectedOffer?: Offer;
   actualCity?: string;
-  isOfferPageMap: boolean;
 };
 
 const defaultCustomIcon = new Icon({
@@ -22,20 +21,14 @@ const currentCustomIcon = new Icon({
 });
 
 export default function Map(props: MapProps): JSX.Element {
-  const { offers, selectedOffer, actualCity, isOfferPageMap } = props;
+  const { offers, selectedOffer, actualCity } = props;
 
-  const getCityCoords = (isOfferPage: boolean): City | undefined => {
-    let city;
-    if (isOfferPage && selectedOffer) {
-      city = CITY_LOCATIONS.find((cityItem) => cityItem.name === selectedOffer.city.name);
-    } else {
-      city = CITY_LOCATIONS.find((item) => item.name === actualCity);
-    }
-    return city;
+  const getCityCoords = (): City | undefined => {
+    const cityName = selectedOffer?.city.name || actualCity;
+    return CITY_LOCATIONS.find((item) => item.name === cityName);
   };
 
-  const activeCity = getCityCoords(isOfferPageMap);
-
+  const activeCity = getCityCoords();
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, activeCity);
@@ -47,36 +40,32 @@ export default function Map(props: MapProps): JSX.Element {
         const marker = new Marker({
           lat: item.location.latitude,
           lng: item.location.longitude
-        });
-
-        if (isOfferPageMap) {
-          const selectedMarker = new Marker(
-            selectedOffer !== undefined ? {
-              lat: selectedOffer.location.latitude,
-              lng: selectedOffer.location.longitude
-            } : {
-              lat: 0,
-              lng: 0
-            });
-          selectedMarker
-            .setIcon(currentCustomIcon)
-            .addTo(markerLayer);
-        }
+        }, { alt: 'pin-image' });
 
         marker
           .setIcon(
-            selectedOffer !== undefined && item.id === selectedOffer.id && !isOfferPageMap
+            selectedOffer && item.id === selectedOffer.id
               ? currentCustomIcon
               : defaultCustomIcon
           )
           .addTo(markerLayer);
       });
 
+      if (selectedOffer) {
+        const selectedMarker = new Marker({
+          lat: selectedOffer.location.latitude,
+          lng: selectedOffer.location.longitude
+        });
+        selectedMarker
+          .setIcon(currentCustomIcon)
+          .addTo(markerLayer);
+      }
+
       return () => {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, offers, selectedOffer, isOfferPageMap]);
+  }, [map, offers, selectedOffer]);
 
-  return <div style={{ height: '100%' }} ref={mapRef}></div>;
+  return <div data-testid="map-id" style={{ height: '100%' }} ref={mapRef}></div>;
 }

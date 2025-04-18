@@ -1,9 +1,9 @@
 import { Helmet } from 'react-helmet-async';
 import Header from '../../components/header/header';
 import ReviewForm from '../../components/review-form';
-import ReviewList from '../../components/review-list';
+import ReviewList from '../../components/review-list/review-list';
 import Map from '../../components/map/map';
-import CardsList from '../../components/cards-list';
+import CardsList from '../../components/cards-list/cards-list';
 import { useParams } from 'react-router-dom';
 import { AuthorizationStatus, AppRoute } from '../../constants';
 import { useAppDispatch, useAppSelector } from '../../hooks/index';
@@ -16,6 +16,7 @@ import { getAroundOffers, getDataOffer, getOffers } from '../../store/offers-loa
 import { getReviews } from '../../store/reviews-load/selectors';
 import { redirectToRoute } from '../../store/action';
 import { getAuthorizationStatus } from '../../store/user-authorization/selectors';
+import NotFound from '../../pages/not-found/not-found';
 
 export default function Offer(): JSX.Element | undefined {
   const { offerId } = useParams();
@@ -53,7 +54,7 @@ export default function Offer(): JSX.Element | undefined {
   }, [offerId, dispatch]);
 
   if (!foundOffer) {
-    return <div>Offer not found</div>;
+    return <NotFound />;
   }
 
   const offersNear = aroundOffers.slice(0, 3);
@@ -93,7 +94,7 @@ export default function Offer(): JSX.Element | undefined {
                   <h1 className="offer__name">
                     {offer.title}
                   </h1>
-                  <button
+                  <button data-testid="bookmark-button"
                     onClick={handleBookmarkButtonClick}
                     className={cn('offer__bookmark-button button', {
                       'offer__bookmark-button--active': offer.isFavorite,
@@ -163,10 +164,7 @@ export default function Offer(): JSX.Element | undefined {
               </div>
             </div>
             <section className="offer__map map" >
-              <Map offers={offersNear}
-                selectedOffer={foundOffer}
-                isOfferPageMap
-              />
+              <Map offers={offersNear} selectedOffer={foundOffer} actualCity={foundOffer.city.name} />
             </section>
           </section>
           <div className="container">

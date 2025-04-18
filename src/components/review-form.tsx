@@ -1,9 +1,9 @@
-import {useState, FormEvent, ChangeEvent, useRef} from 'react';
-import {useParams} from 'react-router-dom';
-import {useAppDispatch, useAppSelector} from '../hooks';
-import {postReviewAction} from '../store/api-actions';
-import {MIN_COMMENT_LENGTH, DEFAULT_RATING} from '../constants';
-import {getDisabledReviewStatus} from '../store/reviews-load/selectors';
+import { useState, FormEvent, ChangeEvent, useRef } from 'react';
+import { useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { postReviewAction } from '../store/api-actions';
+import { MIN_COMMENT_LENGTH, DEFAULT_RATING } from '../constants';
+import { getDisabledReviewStatus } from '../store/reviews-load/selectors';
 
 export default function ReviewForm(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -32,7 +32,7 @@ export default function ReviewForm(): JSX.Element {
         comment: comment,
         rating: rating,
         formRef: formRef.current
-      })).unwrap().then(()=>{
+      })).unwrap().then(() => {
         setComment('');
         setRating(0);
       });
