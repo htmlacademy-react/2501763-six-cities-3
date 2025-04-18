@@ -9,12 +9,11 @@ import NotFound from '../../pages/not-found/not-found';
 import PrivateRoute from '../private-route';
 import { useAppSelector } from '../../hooks/index';
 import Loading from '../loading/loading';
-import HistoryRouter from '../../components/history-route/history-route';
-import browserHistory from '../../components/browser-history';
 import { getAuthorizationStatus, getAuthCheckedStatus } from '../../store/user-authorization/selectors';
 import { getOffersLoadingStatus } from '../../store/offers-load/selectors';
+import LoginPrivateRoute from '../login-private-route/login-private-route';
 
-export default function App(): JSX.Element {
+export default function App() : JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const isOffersLoading = useAppSelector(getOffersLoadingStatus);
   const isAuthChecked = useAppSelector(getAuthCheckedStatus);
@@ -24,39 +23,42 @@ export default function App(): JSX.Element {
       <Loading />
     );
   }
-
   return (
     <HelmetProvider>
-      <HistoryRouter history={browserHistory}>
-        <Routes>
-          <Route
-            path={AppRoute.Main}
-            element={<Main />}
-          />
-          <Route
-            path={AppRoute.Login}
-            element={<Login />}
-          />
-          <Route
-            path={AppRoute.Favorites}
-            element={
-              <PrivateRoute
-                authorizationStatus={authorizationStatus}
-              >
-                <Favorites />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path={`${AppRoute.Offer}/:offerId`}
-            element={<Offer />}
-          />
-          <Route
-            path='*'
-            element={<NotFound />}
-          />
-        </Routes>
-      </HistoryRouter>
+      <Routes>
+        <Route
+          path={'/'}
+          element={
+            <Main/>
+          }
+        />
+        <Route
+          path={AppRoute.Login}
+          element={
+            <LoginPrivateRoute status={authorizationStatus}>
+              <Login/>
+            </LoginPrivateRoute>
+          }
+        />
+        <Route
+          path={AppRoute.Favorites}
+          element={
+            <PrivateRoute
+              authorizationStatus={authorizationStatus}
+            >
+              <Favorites/>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={`/${AppRoute.Offer}/:id`}
+          element={<Offer/>}
+        />
+        <Route
+          path='*'
+          element={<NotFound/>}
+        />
+      </Routes>
     </HelmetProvider>
   );
 }

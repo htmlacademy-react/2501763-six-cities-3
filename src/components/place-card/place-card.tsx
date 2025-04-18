@@ -55,7 +55,7 @@ export default function PlaceCard(props: PlaceCardProps): JSX.Element {
       ) : null}
 
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to={`${AppRoute.Offer}/${id}`}>
+        <Link data-testid ="placeCard-link" to={`${AppRoute.Offer}/${id}`}>
           <img
             className="place-card__image"
             src={previewImage}
@@ -80,7 +80,7 @@ export default function PlaceCard(props: PlaceCardProps): JSX.Element {
             <svg className="place-card__bookmark-icon" width={18} height={19}>
               <use xlinkHref="#icon-bookmark" />
             </svg>
-            <span className="visually-hidden">To bookmarks</span>
+            <span className="visually-hidden" data-testid="bookmark">To bookmarks</span>
           </button>
         </div>
         <div className="place-card__rating rating">

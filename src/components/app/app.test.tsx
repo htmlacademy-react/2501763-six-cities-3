@@ -1,9 +1,9 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen} from '@testing-library/react';
 import { MemoryHistory, createMemoryHistory } from 'history';
-import { AppRoute, AuthorizationStatus } from '../../constants';
+import {AuthorizationStatus,AppRoute} from '../../constants';
 import App from './app';
-import { withHistory, withStore } from '../../utils/mock-component';
-import { makeFakeStore, makeFakeOfferCard } from '../../utils/moks';
+import {withHistory, withStore} from '../../utils/mock-component';
+import { makeFakeStore, makeFakeOfferCard} from '../../utils/moks';
 
 describe('Application Routing', () => {
   let mockHistory: MemoryHistory;
@@ -20,6 +20,7 @@ describe('Application Routing', () => {
     expect(mainContainerTestId).toBeDefined();
   });
 
+
   it('should render "Login" when user navigate to "/login"', () => {
     const withHistoryComponent = withHistory(<App />, mockHistory);
     const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore());
@@ -30,14 +31,12 @@ describe('Application Routing', () => {
   });
   it('should render "Favorite" when user navigate to "/favorites"', () => {
     const withHistoryComponent = withHistory(<App />, mockHistory);
-    const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({
-      USER: {
-        authorizationStatus: AuthorizationStatus.Auth,
-        user: null,
-        isLoginFormDisabled: false,
-        email: ''
-      }
-    }));
+    const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({ USER: {
+      authorizationStatus: AuthorizationStatus.Auth,
+      user: null,
+      isLoginFormDisabled: false,
+      email: ''
+    } }));
     const favoriteContainerTestId = 'favorite-page';
     mockHistory.push(AppRoute.Favorites);
     render(withStoreComponent);
@@ -51,6 +50,9 @@ describe('Application Routing', () => {
     mockHistory.push(`${AppRoute.Offer}/${fakeOffer.id}`);
     const offerContainerTestId = 'offer-page';
     render(withStoreComponent);
+    //expect(screen.getByText(/What's inside/i)).toBeInTheDocument();
+    //expect(screen.getByText(/Meet the host/i)).toBeInTheDocument();
+    //expect(screen.getByText(/Reviews/i)).toBeInTheDocument();
 
     expect(offerContainerTestId).toBeDefined();
   });
@@ -60,7 +62,7 @@ describe('Application Routing', () => {
     const unknownRoute = '/unknown-route';
     mockHistory.push(unknownRoute);
     render(withStoreComponent);
-    expect(screen.getByText('Page is not Found')).toBeInTheDocument();
-    expect(screen.getByText('На главную')).toBeInTheDocument();
+    expect(screen.getByText('404 - Page Not Found')).toBeInTheDocument();
+    expect(screen.getByText('Вернуться на главную')).toBeInTheDocument();
   });
 });

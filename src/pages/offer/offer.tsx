@@ -16,6 +16,7 @@ import { getAroundOffers, getDataOffer, getOffers } from '../../store/offers-loa
 import { getReviews } from '../../store/reviews-load/selectors';
 import { redirectToRoute } from '../../store/action';
 import { getAuthorizationStatus } from '../../store/user-authorization/selectors';
+import NotFound from '../../pages/not-found/not-found';
 
 export default function Offer(): JSX.Element | undefined {
   const { offerId } = useParams();
@@ -53,7 +54,7 @@ export default function Offer(): JSX.Element | undefined {
   }, [offerId, dispatch]);
 
   if (!foundOffer) {
-    return <div>Offer not found</div>;
+    return <NotFound />;
   }
 
   const offersNear = aroundOffers.slice(0, 3);
@@ -93,7 +94,7 @@ export default function Offer(): JSX.Element | undefined {
                   <h1 className="offer__name">
                     {offer.title}
                   </h1>
-                  <button
+                  <button data-testid="bookmark-button"
                     onClick={handleBookmarkButtonClick}
                     className={cn('offer__bookmark-button button', {
                       'offer__bookmark-button--active': offer.isFavorite,

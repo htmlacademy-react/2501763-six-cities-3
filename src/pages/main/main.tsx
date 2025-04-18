@@ -29,7 +29,7 @@ export default function Main(): JSX.Element {
   }
 
   return (
-    <div className="page page--gray page--main">
+    <div className="page page--gray page--main" data-testid="main-page">
       <Helmet>
         <title>Шесть городов. Главная</title>
       </Helmet>

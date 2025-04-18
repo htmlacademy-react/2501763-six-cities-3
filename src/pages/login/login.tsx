@@ -6,8 +6,12 @@ import { loginAction } from '../../store/api-actions';
 import { AppRoute } from '../../constants';
 import { getDisabledStatus } from '../../store/user-authorization/selectors';
 import Logo from '../../components/logo/logo';
+import {CITY_NAMES, getRandomIntInclusive} from '../../components/utils';
 
 export default function Login(): JSX.Element {
+  const randomIndex = getRandomIntInclusive(0, CITY_NAMES.length - 1);
+  const randomCity = CITY_NAMES[randomIndex];
+
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useAppDispatch();
@@ -32,7 +36,7 @@ export default function Login(): JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <Logo />
+              <Logo/>
             </div>
           </div>
         </div>
@@ -45,6 +49,7 @@ export default function Login(): JSX.Element {
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input
+                  data-testid="loginElement"
                   ref={loginRef}
                   className="login__input form__input"
                   type="email"
@@ -56,11 +61,13 @@ export default function Login(): JSX.Element {
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
                 <input
+                  data-testid="passwordElement"
                   ref={passwordRef}
                   className="login__input form__input"
                   type="password"
                   name="password"
                   placeholder="Password"
+                  pattern="\w{1,}\w{1,}" title="Пароль должен содержать по крайней мере одно число и одну букву"
                   required
                 />
               </div>
@@ -71,8 +78,8 @@ export default function Login(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link className="locations__item-link" to={AppRoute.Main}>
-                <span>Paris</span>
+              <Link className="locations__item-link" to={`${AppRoute.Main}?city=${randomCity}`}>
+                <span>{randomCity}</span>
               </Link>
             </div>
           </section>

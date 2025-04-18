@@ -1,12 +1,13 @@
-import { system, name, internet, database, datatype, address, image } from 'faker';
-import { User } from '../types/state';
-import { Offer, ExtendedOffer } from '../types/offer';
-import { Review } from '../types/review';
-import { AuthorizationStatus } from '../constants';
+import {system, name, internet, datatype, image} from 'faker';
+import {User} from '../types/state';
+import {Offer, ExtendedOffer, City} from '../types/offer';
+import {Review} from '../types/review';
+import {AuthorizationStatus} from '../constants';
+
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { createAPI } from '../services/api';
-import { State } from '../types/state';
+import { State} from '../types/state';
 
 export type AppThunkDispatch = ThunkDispatch<State, ReturnType<typeof createAPI>, Action>;
 
@@ -18,13 +19,13 @@ export const makeFakeUser = (): User => ({
   token: system.fileExt(),
 } as User);
 
-export const makeFakeOfferCard = (): Offer => ({
-  id: database.column(),
-  title: name.title(),
+export const makeFakeOfferCard = ():Offer =>({
+  id: datatype.string(),
+  title:  name.title(),
   type: name.title(),
   price: datatype.number(),
   city: {
-    name: address.city(),
+    name: 'Paris',
     location: {
       latitude: datatype.number(),
       longitude: datatype.number(),
@@ -36,15 +37,40 @@ export const makeFakeOfferCard = (): Offer => ({
     longitude: datatype.number(),
     zoom: datatype.number()
   },
-  isFavorite: datatype.boolean(),
+  isFavorite: false,
   isPremium: datatype.boolean(),
   rating: datatype.number(),
   previewImage: image.imageUrl(),
 });
 
-export const makeFakeOfferPage = (): ExtendedOffer => ({
-  id: database.column(),
-  title: name.title(),
+
+export const makeFakeFavoriteOfferCard = ():Offer =>({
+  id: datatype.string(),
+  title:  name.title(),
+  type: name.title(),
+  price: datatype.number(),
+  city: {
+    name: 'Paris',
+    location: {
+      latitude: datatype.number(),
+      longitude: datatype.number(),
+      zoom: datatype.number()
+    }
+  },
+  location: {
+    latitude: datatype.number(),
+    longitude: datatype.number(),
+    zoom: datatype.number()
+  },
+  isFavorite: true,
+  isPremium: datatype.boolean(),
+  rating: datatype.number(),
+  previewImage: image.imageUrl(),
+});
+
+export const makeFakeOfferPage = ():ExtendedOffer =>({
+  id: datatype.string(),
+  title:  name.title(),
   type: name.title(),
   price: datatype.number(),
   isFavorite: datatype.boolean(),
@@ -62,16 +88,25 @@ export const makeFakeOfferPage = (): ExtendedOffer => ({
   maxAdults: datatype.number(),
 });
 
-export const makeFakeReview = (): Review => ({
+export const makeFakeReview = ():Review =>({
   id: datatype.string(),
   date: datatype.string(),
   user: {
     name: datatype.string(),
     avatarUrl: datatype.string(),
-    isPro: datatype.boolean()
+    isPro:datatype.boolean()
   },
   comment: datatype.string(),
-  rating: datatype.number(),
+  rating:  datatype.number(),
+});
+
+export const makeFakeCity = (): City =>({
+  name: datatype.string(),
+  location: {
+    latitude: datatype.number(),
+    longitude: datatype.number(),
+    zoom: datatype.number(),
+  }
 });
 
 export const extractActionsTypes = (actions: Action<string>[]) => actions.map(({ type }) => type);
