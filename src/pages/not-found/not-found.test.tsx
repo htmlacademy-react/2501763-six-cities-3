@@ -2,10 +2,10 @@ import { render, screen } from '@testing-library/react';
 import { withHistory } from '../../utils/mock-component';
 import NotFound from './not-found';
 
-describe('Component: NotFoundScreen', () => {
+describe('Component: NotFound', () => {
   it('should render correctly', () => {
-    const expectedHeaderText = 'Page is not Found';
-    const expectedLinkText = 'На главную';
+    const expectedHeaderText = '404 - Page Not Found';
+    const expectedLinkText = 'Вернуться на главную';
 
     render(withHistory(<NotFound />));
 

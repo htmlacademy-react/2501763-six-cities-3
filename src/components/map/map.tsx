@@ -40,7 +40,7 @@ export default function Map(props: MapProps): JSX.Element {
         const marker = new Marker({
           lat: item.location.latitude,
           lng: item.location.longitude
-        });
+        },{ alt: 'pin-image'});
 
         marker
           .setIcon(
@@ -67,5 +67,5 @@ export default function Map(props: MapProps): JSX.Element {
     }
   }, [map, offers, selectedOffer]);
 
-  return <div style={{ height: '100%' }} ref={mapRef}></div>;
+  return <div data-testid= "map-id" style={{ height: '100%' }} ref={mapRef}></div>;
 }
