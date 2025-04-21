@@ -30,9 +30,9 @@ export const offersLoad = createSlice({
       }
     },
     refreshCards: (state, action: PayloadAction<OffersLoad['offerCard']>) => {
-      if(state.aroundOffers) {
+      if (state.aroundOffers) {
         state.aroundOffers.forEach((item)=>{
-          if(action.payload && item.id === action.payload.id){
+          if (action.payload && item.id === action.payload.id){
             item.isFavorite = !action.payload.isFavorite;
           }
         });

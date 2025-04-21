@@ -2,14 +2,16 @@ import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useAppSelector, useAppDispatch } from '../../hooks/index';
-import { getFavoriteOffers } from '../../store/offers-load/selectors';
+import { getFavoriteOffers, getFavoriteLoadingStatus } from '../../store/offers-load/selectors';
 import Header from '../../components/header/header';
+import Loading from '../../components/loading/loading';
 import FavoriteEmpty from '../favorites-empty/favorites-empty';
 import FavoritePlaceCard from '../../components/favorite-place-card/favorite-place-card';
 import { fetchFavoriteOffersAction } from '../../store/api-actions';
 
 export default function Favorite(): JSX.Element {
   const favoriteOffers = useAppSelector(getFavoriteOffers);
+  const isFavoriteLoading = useAppSelector(getFavoriteLoadingStatus);
 
   const allFavoriteCities: string[] = [];
   favoriteOffers.forEach((item) => {
@@ -21,6 +23,12 @@ export default function Favorite(): JSX.Element {
   useEffect(() => {
     dispatch(fetchFavoriteOffersAction());
   }, [dispatch]);
+
+  if (isFavoriteLoading) {
+    return (
+      <Loading />
+    );
+  }
 
   if (favoriteOffers.length === 0) {
     return (
@@ -40,7 +48,7 @@ export default function Favorite(): JSX.Element {
             <ul className="favorites__list">
 
               {favoriteCities.map((city) => (
-                <li key={city} className="favorites__locations-items">
+                <li data-testid="city-favorite" key={city} className="favorites__locations-items">
                   <div className="favorites__locations locations locations--current">
                     <div className="locations__item">
                       <Link className="locations__item-link" to="#">
@@ -51,7 +59,7 @@ export default function Favorite(): JSX.Element {
                   <div className="favorites__places">
                     {favoriteOffers.map((item) => (
                       item.city.name === city ?
-                        <FavoritePlaceCard offer={item} key={item.id} />
+                        <FavoritePlaceCard data-testid="favorite-card" offer={item} key={item.id} />
                         : null
                     ))}
                   </div>

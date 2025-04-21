@@ -4,7 +4,7 @@ import Map from '../../components/map/map';
 import CitiesList from '../../components/cities-list/cities-list';
 import { getOffersByCity, getSortedOffers } from '../main/common';
 import MainEmpty from '../main-empty/main-empty';
-import { Sort } from '../../components/sort/sort';
+import Sort from '../../components/sort/sort';
 import Header from '../../components/header/header';
 import { useSearchParams } from 'react-router-dom';
 import { getOffers, selectSortOffers } from '../../store/offers-load/selectors';

@@ -16,7 +16,7 @@ export const reviewsLoad = createSlice({
     builder
       .addCase(fetchReviewsAction.fulfilled, (state, action) => {
         state.isReviewFormDisabled = false;
-        state.reviews = action.payload;
+        state.reviews = action.payload.sort((a,b)=> new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0,10);
       })
       .addCase(fetchReviewsAction.rejected, (state) => {
         state.isReviewFormDisabled = false;

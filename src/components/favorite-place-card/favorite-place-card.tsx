@@ -66,7 +66,7 @@ export default function FavoritePlaceCard(props: PropPlaceCard): JSX.Element {
             >
               <use xlinkHref="#icon-bookmark" />
             </svg>
-            <span className="visually-hidden">In bookmarks</span>
+            <span className="visually-hidden" data-testid="bookmark">In bookmarks</span>
           </button>
         </div>
         <div className="place-card__rating rating">

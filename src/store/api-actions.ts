@@ -93,12 +93,9 @@ export const postReviewAction = createAsyncThunk<void, NewComment, {
   extra: AxiosInstance;
 }>(
   'offer/review',
-  async ({ pageId, comment, rating, formRef }, { dispatch, extra: api }) => {
+  async ({ pageId, comment, rating }, { dispatch, extra: api }) => {
 
     await api.post<NewComment>(`${APIRoute.Comments}/${pageId}`, { comment, rating });
-    if (formRef) {
-      formRef.reset();
-    }
     dispatch(fetchReviewsAction(pageId));
   },
 );

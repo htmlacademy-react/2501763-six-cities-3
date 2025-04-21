@@ -7,7 +7,7 @@ import { State } from '../types/state';
 import { createAPI } from '../services/api';
 import thunk from 'redux-thunk';
 import { Action } from 'redux';
-import { AppThunkDispatch } from './moks';
+import { AppThunkDispatch } from './mocks';
 import { Provider } from 'react-redux';
 
 

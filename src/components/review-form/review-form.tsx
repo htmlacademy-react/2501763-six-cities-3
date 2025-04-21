@@ -1,9 +1,9 @@
 import { useState, FormEvent, ChangeEvent, useRef } from 'react';
-import { useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../hooks';
-import { postReviewAction } from '../store/api-actions';
-import { MIN_COMMENT_LENGTH, DEFAULT_RATING } from '../constants';
-import { getDisabledReviewStatus } from '../store/reviews-load/selectors';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { postReviewAction } from '../../store/api-actions';
+import { MIN_COMMENT_LENGTH, DEFAULT_RATING } from '../../constants';
+import { getDisabledReviewStatus } from '../../store/reviews-load/selectors';
+import {getDataOffer} from '../../store/offers-load/selectors';
 
 export default function ReviewForm(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -12,8 +12,7 @@ export default function ReviewForm(): JSX.Element {
 
   const [hoveredRating, setHoveredRating] = useState(0);
   const formRef = useRef<HTMLFormElement | null>(null);
-  const params = useParams();
-  const activeOfferId = params.id;
+  const offer = useAppSelector(getDataOffer);
   const disabled = useAppSelector(getDisabledReviewStatus);
 
   const handleReviewChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
@@ -26,13 +25,15 @@ export default function ReviewForm(): JSX.Element {
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    if (comment !== null && rating !== null && activeOfferId !== undefined && formRef !== null) {
+    if (offer && comment !== null && rating !== null) {
       dispatch(postReviewAction({
-        pageId: activeOfferId,
+        pageId: offer.id,
         comment: comment,
         rating: rating,
-        formRef: formRef.current
       })).unwrap().then(() => {
+        if(formRef.current){
+          formRef.current.reset();
+        }
         setComment('');
         setRating(0);
       });
@@ -48,7 +49,7 @@ export default function ReviewForm(): JSX.Element {
   ];
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit} className="reviews__form form" action="#" method="post">
+    <form data-testid="form-review" ref={formRef} onSubmit={handleSubmit} className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
@@ -56,6 +57,7 @@ export default function ReviewForm(): JSX.Element {
         {ratings.map((ratingItem) => (
           <div key={ratingItem.value} className="rating-item">
             <input
+              data-testid ="input-star"
               onChange={handleRatingButtonClick}
               className="form__rating-input visually-hidden"
               name="rating"
@@ -83,6 +85,7 @@ export default function ReviewForm(): JSX.Element {
         ))}
       </div>
       <textarea
+        data-testid = "comment-text"
         disabled={disabled}
         onChange={handleReviewChange}
         className="reviews__textarea form__textarea"
@@ -101,7 +104,7 @@ export default function ReviewForm(): JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={comment.length < MIN_COMMENT_LENGTH || rating === DEFAULT_RATING || disabled}
+          disabled={comment.length >= MIN_COMMENT_LENGTH && rating >= DEFAULT_RATING ? disabled : true}
         >
           Submit
         </button>

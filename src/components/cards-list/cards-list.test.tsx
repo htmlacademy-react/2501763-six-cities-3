@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import { makeFakeOfferCard } from '../../utils/moks';
+import { makeFakeOfferCard } from '../../utils/mocks';
 import { withHistory, withStore } from '../../utils/mock-component';
 import CardsList from './cards-list';
 import PlaceCard from '../place-card/place-card';

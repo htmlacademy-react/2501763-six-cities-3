@@ -2,7 +2,7 @@ import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {withHistory, withStore} from '../../utils/mock-component';
 import PlaceCard from './place-card';
-import {makeFakeOfferCard, makeFakeStore} from '../../utils/moks';
+import {makeFakeOfferCard, makeFakeStore} from '../../utils/mocks';
 import {AuthorizationStatus} from '../../constants';
 
 describe('Component: PlaceCard', () => {

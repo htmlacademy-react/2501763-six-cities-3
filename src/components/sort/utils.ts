@@ -1,5 +1,5 @@
-import {Offer} from '../../types/offer';
-import {Sorts} from '../../components/sort/const';
+import { Offer } from '../../types/offer';
+import { Sorts } from '../../components/sort/const';
 
 const sortOffersPriceLowToHigh = (offerA: Offer, offerB: Offer) => offerA.price - offerB.price;
 const sortOffersPriceHighToLow = (offerA: Offer, offerB: Offer) => offerB.price - offerA.price;

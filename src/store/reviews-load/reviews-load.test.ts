@@ -1,4 +1,4 @@
-import { makeFakeReview } from '../../utils/moks';
+import { makeFakeReview } from '../../utils/mocks';
 import { fetchReviewsAction, postReviewAction } from '../api-actions';
 import { reviewsLoad } from './reviews-load';
 
