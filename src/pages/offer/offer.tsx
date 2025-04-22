@@ -28,7 +28,6 @@ export default function Offer(): JSX.Element | undefined {
   const authStatus = useAppSelector(getAuthorizationStatus);
   const aroundOffers = useAppSelector(getAroundOffers);
   const isOfferLoading = useAppSelector(getOfferPageLoadingStatus);
- 
 
   const dispatch = useAppDispatch();
 
