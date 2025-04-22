@@ -3,7 +3,7 @@ import { createAPI } from '../services/api';
 import MockAdapter from 'axios-mock-adapter';
 import thunk from 'redux-thunk';
 import { Action } from 'redux';
-import { AppThunkDispatch, extractActionsTypes, makeFakeOfferCard, makeFakeOfferPage, makeFakeReview } from '../utils/moks';
+import { AppThunkDispatch, extractActionsTypes, makeFakeOfferCard, makeFakeOfferPage, makeFakeReview } from '../utils/mocks';
 import { State } from '../types/state';
 import { checkAuthAction, loginAction, logoutAction, fetchOffersAction, fetchAroundOffersAction, fetchOfferPageAction, fetchFavoriteOffersAction, postFavoriteAction, fetchReviewsAction, postReviewAction } from './api-actions';
 import { loading } from '../store/offers-load/offers-load';
@@ -242,7 +242,6 @@ describe('Async actions', () => {
         pageId: 'ghghytyty',
         comment: 'should dispatch "postReviewAction.pending",',
         rating: 5,
-        formRef: null
       };
       const fakeServerReplay = { token: 'secret' };
 

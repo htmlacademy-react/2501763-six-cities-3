@@ -1,4 +1,4 @@
-import { makeFakeOfferCard, makeFakeOfferPage } from '../../utils/moks';
+import { makeFakeOfferCard, makeFakeOfferPage } from '../../utils/mocks';
 import { fetchOffersAction, fetchAroundOffersAction, fetchOfferPageAction, fetchFavoriteOffersAction } from '../api-actions';
 import { offersLoad, loadOffer, refreshCards, loading, refreshFavoriteCards } from './offers-load';
 import { INITIAL_SORT } from '../../constants';

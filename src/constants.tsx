@@ -13,7 +13,7 @@ export enum AppRoute {
   Favorites = '/favorites',
   Main = '/',
   Offer = '/offer',
-  NotFound = '/*'
+  NotFound = 'not-found'
 }
 
 export const cities = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];

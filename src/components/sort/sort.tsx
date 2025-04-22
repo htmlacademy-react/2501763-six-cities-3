@@ -1,11 +1,11 @@
-import {AppRoute} from '../../constants';
-import {Sorts} from '../../components/sort/const';
-import {useNavigate} from 'react-router-dom';
-import {useAppDispatch, useAppSelector} from '../../hooks';
-import {changeSort, toggleSortsMenu} from '../../store/offers-load/offers-load';
-import {selectSortOffers, selectIsFiltersOpen} from '../../store/offers-load/selectors';
+import { AppRoute } from '../../constants';
+import { Sorts } from '../../components/sort/const';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { changeSort, toggleSortsMenu } from '../../store/offers-load/offers-load';
+import { selectSortOffers, selectIsFiltersOpen } from '../../store/offers-load/selectors';
 
-export const Sort = (): JSX.Element => {
+export default function Sort(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -24,7 +24,7 @@ export const Sort = (): JSX.Element => {
   };
 
   return (
-    <form className="places__sorting" action="#" method="get"
+    <form className="places__sorting" action="#" method="get" data-testid='sort'
       onClick={sortFormClickHandler}
     >
       <span className="places__sorting-caption">Sort by</span>
@@ -53,4 +53,4 @@ export const Sort = (): JSX.Element => {
       </ul>
     </form>
   );
-};
+}

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import ReviewItem from './review';
-import { makeFakeReview } from '../../utils/moks';
+import { makeFakeReview } from '../../utils/mocks';
 
 
 describe('Component: ReviewItem', () => {

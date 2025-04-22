@@ -15,7 +15,6 @@ export default function Header(): JSX.Element {
   const isAuthChecked = useAppSelector(getAuthCheckedStatus);
   const favoritesLength = useAppSelector(getFavoritesLength);
 
-
   return(
     <header className="header">
       <div className="container">

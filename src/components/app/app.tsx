@@ -6,14 +6,14 @@ import Login from '../../pages/login/login';
 import Favorites from '../../pages/favorites/favorites';
 import Offer from '../../pages/offer/offer';
 import NotFound from '../../pages/not-found/not-found';
-import PrivateRoute from '../private-route';
+import PrivateRoute from '../private-route/private-route';
 import { useAppSelector } from '../../hooks/index';
 import Loading from '../loading/loading';
 import { getAuthorizationStatus, getAuthCheckedStatus } from '../../store/user-authorization/selectors';
 import { getOffersLoadingStatus } from '../../store/offers-load/selectors';
 import LoginPrivateRoute from '../login-private-route/login-private-route';
 
-export default function App() : JSX.Element {
+export default function App(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const isOffersLoading = useAppSelector(getOffersLoadingStatus);
   const isAuthChecked = useAppSelector(getAuthCheckedStatus);
@@ -29,14 +29,14 @@ export default function App() : JSX.Element {
         <Route
           path={'/'}
           element={
-            <Main/>
+            <Main />
           }
         />
         <Route
           path={AppRoute.Login}
           element={
             <LoginPrivateRoute status={authorizationStatus}>
-              <Login/>
+              <Login />
             </LoginPrivateRoute>
           }
         />
@@ -46,17 +46,17 @@ export default function App() : JSX.Element {
             <PrivateRoute
               authorizationStatus={authorizationStatus}
             >
-              <Favorites/>
+              <Favorites />
             </PrivateRoute>
           }
         />
         <Route
-          path={`/${AppRoute.Offer}/:id`}
-          element={<Offer/>}
+          path={`${AppRoute.Offer}/:offerId`}
+          element={<Offer />}
         />
         <Route
           path='*'
-          element={<NotFound/>}
+          element={<NotFound />}
         />
       </Routes>
     </HelmetProvider>

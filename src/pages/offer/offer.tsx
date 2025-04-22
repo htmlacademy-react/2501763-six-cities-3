@@ -1,9 +1,10 @@
 import { Helmet } from 'react-helmet-async';
 import Header from '../../components/header/header';
-import ReviewForm from '../../components/review-form';
+import ReviewForm from '../../components/review-form/review-form';
 import ReviewList from '../../components/review-list/review-list';
 import Map from '../../components/map/map';
 import CardsList from '../../components/cards-list/cards-list';
+import Loading from '../../components/loading/loading';
 import { useParams } from 'react-router-dom';
 import { AuthorizationStatus, AppRoute } from '../../constants';
 import { useAppDispatch, useAppSelector } from '../../hooks/index';
@@ -13,19 +14,20 @@ import { fetchOfferPageAction, fetchReviewsAction, fetchAroundOffersAction, post
 import getStarsStyle from '../../components/utils';
 import cn from 'classnames';
 import { getAroundOffers, getDataOffer, getOffers } from '../../store/offers-load/selectors';
-import { getReviews } from '../../store/reviews-load/selectors';
+import { getSortedReviews } from '../../store/reviews-load/selectors';
 import { redirectToRoute } from '../../store/action';
 import { getAuthorizationStatus } from '../../store/user-authorization/selectors';
-import NotFound from '../../pages/not-found/not-found';
+import { getOfferPageLoadingStatus } from '../../store/offers-load/selectors';
 
 export default function Offer(): JSX.Element | undefined {
   const { offerId } = useParams();
   const offers = useAppSelector(getOffers);
   const foundOffer = offers.find((item) => item.id.toString() === offerId);
-  const reviews = useAppSelector(getReviews);
+  const reviews = useAppSelector(getSortedReviews);
   const offer = useAppSelector(getDataOffer);
   const authStatus = useAppSelector(getAuthorizationStatus);
   const aroundOffers = useAppSelector(getAroundOffers);
+  const isOfferLoading = useAppSelector(getOfferPageLoadingStatus);
 
   const dispatch = useAppDispatch();
 
@@ -33,9 +35,9 @@ export default function Offer(): JSX.Element | undefined {
     if (authStatus !== AuthorizationStatus.Auth) {
       dispatch(redirectToRoute(AppRoute.Login));
     } else {
-      if (offer && offerId) {
+      if (offer) {
         dispatch(postFavoriteAction({
-          offerId: offerId,
+          offerId: offer.id,
           status: !offer.isFavorite ? 1 : 0
         })).unwrap().then(() => {
           dispatch(fetchOffersAction(true));
@@ -51,15 +53,16 @@ export default function Offer(): JSX.Element | undefined {
       dispatch(fetchReviewsAction(offerId));
       dispatch(fetchAroundOffersAction(offerId));
     }
-  }, [offerId, dispatch]);
-
-  if (!foundOffer) {
-    return <NotFound />;
-  }
+  }, [offerId, authStatus, dispatch]);
 
   const offersNear = aroundOffers.slice(0, 3);
 
   if (offer) {
+    if (isOfferLoading) {
+      return (
+        <Loading />
+      );
+    }
     return (
       <div className="page" data-testid="offer-page">
         <Helmet>
@@ -112,15 +115,15 @@ export default function Offer(): JSX.Element | undefined {
                     <span style={{ width: getStarsStyle(offer.rating) }} />
                     <span className="visually-hidden">Rating</span>
                   </div>
-                  <span className="offer__rating-value rating__value">4.8</span>
+                  <span className="offer__rating-value rating__value">{offer.rating}</span>
                 </div>
                 <ul className="offer__features">
                   <li className="offer__feature offer__feature--entire">{offer.type}</li>
                   <li className="offer__feature offer__feature--bedrooms">
-                    {offer.bedrooms} {offer.bedrooms > 0 ? 'Bedrooms' : 'Bedroom'}
+                    {offer.bedrooms} {offer.bedrooms > 1 ? 'Bedrooms' : 'Bedroom'}
                   </li>
                   <li className="offer__feature offer__feature--adults">
-                    Max {offer.maxAdults} {offer.maxAdults > 0 ? 'adults' : 'adult'}
+                    Max {offer.maxAdults} {offer.maxAdults > 1 ? 'adults' : 'adult'}
                   </li>
                 </ul>
                 <div className="offer__price">
@@ -137,7 +140,7 @@ export default function Offer(): JSX.Element | undefined {
                 <div className="offer__host">
                   <h2 className="offer__host-title">Meet the host</h2>
                   <div className="offer__host-user user">
-                    <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
+                    <div className={offer.host.isPro ? 'offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper' : 'offer__avatar-wrapper user__avatar-wrapper'}>
                       <img
                         className="offer__avatar user__avatar"
                         src={offer.host.avatarUrl}
@@ -164,7 +167,7 @@ export default function Offer(): JSX.Element | undefined {
               </div>
             </div>
             <section className="offer__map map" >
-              <Map offers={offersNear} selectedOffer={foundOffer} actualCity={foundOffer.city.name} />
+              <Map offers={offersNear} selectedOffer={foundOffer} actualCity={foundOffer?.city?.name} />
             </section>
           </section>
           <div className="container">

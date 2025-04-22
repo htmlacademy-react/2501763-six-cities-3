@@ -1,5 +1,5 @@
 import { NameSpace } from '../../constants';
-import { getReviews, getDisabledReviewStatus } from './selectors';
+import { getSortedReviews, getDisabledReviewStatus } from './selectors';
 
 describe('ReviewsData selectors', () => {
   const state = {
@@ -10,7 +10,7 @@ describe('ReviewsData selectors', () => {
   };
   it('should return reviews', () => {
     const { reviews } = state[NameSpace.ReviewsData];
-    const result = getReviews(state);
+    const result = getSortedReviews(state);
     expect(result).toBe(reviews);
   });
 

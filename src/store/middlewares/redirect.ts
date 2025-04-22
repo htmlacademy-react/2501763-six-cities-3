@@ -13,5 +13,6 @@ export const redirect: Middleware<unknown, Reducer> =
         if (action.type === Action.REDIRECT) {
           browserHistory.push(action.payload);
         }
+
         return next(action);
       };
