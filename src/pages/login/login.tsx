@@ -67,7 +67,7 @@ export default function Login(): JSX.Element {
                   type="password"
                   name="password"
                   placeholder="Password"
-                  pattern="\w{1,}\w{1,}" title="Пароль должен содержать по крайней мере одно число и одну букву"
+                  pattern="\w+\W?\g" title="Пароль должен содержать по крайней мере одно число и одну букву"
                   required
                 />
               </div>

@@ -17,7 +17,6 @@ import { getAroundOffers, getDataOffer, getOffers } from '../../store/offers-loa
 import { getSortedReviews } from '../../store/reviews-load/selectors';
 import { redirectToRoute } from '../../store/action';
 import { getAuthorizationStatus } from '../../store/user-authorization/selectors';
-//import NotFound from '../../pages/not-found/not-found';
 import { getOfferPageLoadingStatus } from '../../store/offers-load/selectors';
 
 export default function Offer(): JSX.Element | undefined {
@@ -29,6 +28,7 @@ export default function Offer(): JSX.Element | undefined {
   const authStatus = useAppSelector(getAuthorizationStatus);
   const aroundOffers = useAppSelector(getAroundOffers);
   const isOfferLoading = useAppSelector(getOfferPageLoadingStatus);
+ 
 
   const dispatch = useAppDispatch();
 

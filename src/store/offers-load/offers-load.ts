@@ -31,8 +31,8 @@ export const offersLoad = createSlice({
     },
     refreshCards: (state, action: PayloadAction<OffersLoad['offerCard']>) => {
       if (state.aroundOffers) {
-        state.aroundOffers.forEach((item)=>{
-          if (action.payload && item.id === action.payload.id){
+        state.aroundOffers.forEach((item) => {
+          if (action.payload && item.id === action.payload.id) {
             item.isFavorite = !action.payload.isFavorite;
           }
         });
@@ -80,7 +80,7 @@ export const offersLoad = createSlice({
         state.isOfferLoading = true;
       })
       .addCase(fetchOfferPageAction.fulfilled, (state, action) => {
-        state.isOffersLoading = false;
+        state.isOfferLoading = false;
         state.offer = action.payload;
       })
       .addCase(fetchOfferPageAction.rejected, (state) => {
@@ -90,11 +90,11 @@ export const offersLoad = createSlice({
         state.isFavoriteLoading = true;
       })
       .addCase(fetchFavoriteOffersAction.fulfilled, (state, action) => {
-        state.isOfferLoading = false;
+        state.isFavoriteLoading = false;
         state.favoriteOffers = action.payload;
       })
       .addCase(fetchFavoriteOffersAction.rejected, (state) => {
-        state.isOfferLoading = false;
+        state.isFavoriteLoading = false;
       });
   }
 });
