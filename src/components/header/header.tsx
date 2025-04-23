@@ -3,24 +3,23 @@ import { AppRoute, AuthorizationStatus } from '../../constants';
 import { useAppSelector, useAppDispatch } from '../../hooks/index';
 import Logo from '../../components/logo/logo';
 import { logoutAction } from '../../store/api-actions';
-import { getAuthorizationStatus, getUser, getAuthCheckedStatus, getEmail } from '../../store/user-authorization/selectors';
-import {getFavoritesLength} from '../../store/offers-load/selectors';
+import { getAuthorizationStatus, getUser, getAuthCheckedStatus } from '../../store/user-authorization/selectors';
+import { getFavoritesLength, getFavoriteOffers } from '../../store/offers-load/selectors';
 
 export default function Header(): JSX.Element {
-
   const authStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useAppDispatch();
-  const login = useAppSelector(getUser);
-  const email = useAppSelector(getEmail);
+  const user = useAppSelector(getUser);
   const isAuthChecked = useAppSelector(getAuthCheckedStatus);
   const favoritesLength = useAppSelector(getFavoritesLength);
+  const favorites = useAppSelector(getFavoriteOffers);
 
-  return(
+  return (
     <header className="header">
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <Logo/>
+            <Logo />
           </div>
           <nav className="header__nav">
             {isAuthChecked && authStatus === AuthorizationStatus.Auth ?
@@ -30,14 +29,16 @@ export default function Header(): JSX.Element {
                     className="header__nav-link header__nav-link--profile"
                     to={AppRoute.Favorites}
                   >
-                    <div className="header__avatar-wrapper user__avatar-wrapper" style={{backgroundImage:
-                    `url(${login ? login.avatarUrl : '../img/avatar.svg'})`}}
+                    <div className="header__avatar-wrapper user__avatar-wrapper" style={{
+                      backgroundImage:
+                        `url(${user ? user.avatarUrl : '../img/avatar.svg'})`
+                    }}
                     >
                     </div>
                     <span className="header__user-name user__name">
-                      {login ? login.email : email}
+                      {user ? user.email : ''}
                     </span>
-                    <span className="header__favorite-count">{favoritesLength}</span>
+                    <span className="header__favorite-count">{favoritesLength ? favoritesLength : favorites.length}</span>
                   </Link>
                 </li>
                 <li className="header__nav-item">
@@ -47,7 +48,7 @@ export default function Header(): JSX.Element {
                       dispatch(logoutAction());
                     }}
                     className="header__nav-link" to={AppRoute.Main}
-                    data-testid= "logout-link"
+                    data-testid="logout-link"
                   >
                     <span className="header__signout">Sign out</span>
                   </Link>
@@ -55,16 +56,10 @@ export default function Header(): JSX.Element {
               </ul> :
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <Link
-                    className="header__nav-link header__nav-link--profile"
-                    to="#"
-                  >
-                    <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                  </Link>
-                </li>
-                <li className="header__nav-item">
-                  <Link className="header__nav-link" to={AppRoute.Login}>
-                    <span className="header__signout">Sign in</span>
+                  <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Login}>
+                    <div className="header__avatar-wrapper user__avatar-wrapper">
+                    </div>
+                    <span className="header__login">Sign in</span>
                   </Link>
                 </li>
               </ul>}

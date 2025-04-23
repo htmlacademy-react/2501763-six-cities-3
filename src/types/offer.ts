@@ -31,6 +31,8 @@ type Host = {
 
 export type ExtendedOffer = {
   id: Offer['id'];
+  city: City;
+  location: Location;
   title: Offer['title'];
   type: Offer['type'];
   price: Offer['price'];

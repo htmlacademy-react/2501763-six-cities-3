@@ -13,6 +13,7 @@ describe('Component: Map', () => {
         offers={fakeOffers}
         selectedOffer={fakeOffer}
         actualCity={'Paris'}
+        isOfferPageMap={false}
       />);
 
     const mapContainer = screen.getByTestId(mapContainerId);

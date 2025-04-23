@@ -3,7 +3,7 @@ import { MemoryHistory, createMemoryHistory } from 'history';
 import { AuthorizationStatus, AppRoute } from '../../constants';
 import App from './app';
 import { withHistory, withStore } from '../../utils/mock-component';
-import { makeFakeStore, makeFakeOfferPage } from '../../utils/mocks';
+import {makeFakeStore, makeFakeOfferPage, makeFakeReview} from '../../utils/mocks';
 import { INITIAL_SORT } from '../../constants';
 
 describe('Application Routing', () => {
@@ -38,7 +38,6 @@ describe('Application Routing', () => {
         authorizationStatus: AuthorizationStatus.Auth,
         user: null,
         isLoginFormDisabled: false,
-        email: ''
       }
     }));
 
@@ -51,13 +50,13 @@ describe('Application Routing', () => {
   });
   it('should render "Offer" when user navigate to "/offers/{offerId}"', () => {
     const fakeOfferPage = makeFakeOfferPage();
+    const fakeReview = makeFakeReview();
     const withHistoryComponent = withHistory(<App />, mockHistory);
     const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({
       user: {
         authorizationStatus: AuthorizationStatus.Auth,
         user: null,
         isLoginFormDisabled: false,
-        email: ''
       }, offers: {
         offers: [],
         sortOffers: INITIAL_SORT,
@@ -70,12 +69,23 @@ describe('Application Routing', () => {
         isOfferLoading: false,
         isFavoriteLoading: false,
         favoriteStatus: false,
-      }
+      },
+      reviews: {
+        reviews: [fakeReview],
+        isReviewFormDisabled: false
+      },
     }));
     mockHistory.push(`${AppRoute.Offer}/${fakeOfferPage.id}`);
     render(withStoreComponent);
+    expect(screen.getByText(fakeOfferPage.host.name)).toBeInTheDocument();
+    expect(screen.getByText(fakeOfferPage.rating)).toBeInTheDocument();
+    expect(screen.getByText(`${fakeOfferPage.bedrooms} Bedrooms`)).toBeInTheDocument();
+    expect(screen.getByText(`Max ${fakeOfferPage.maxAdults} adults`)).toBeInTheDocument();
+    expect(screen.getByText(fakeOfferPage.title)).toBeInTheDocument();
     expect(screen.getByText(/Meet the host/i)).toBeInTheDocument();
     expect(screen.getByText(/Reviews/i)).toBeInTheDocument();
+    expect(screen.getByText(fakeReview.comment)).toBeInTheDocument();
+    expect(screen.getByText('Other places in the neighbourhood')).toBeInTheDocument();
 
   });
   it('should render "NotFound" when user navigate to non-existent route', () => {

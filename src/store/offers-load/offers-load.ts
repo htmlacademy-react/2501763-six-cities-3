@@ -46,13 +46,6 @@ export const offersLoad = createSlice({
     loading: (state, action: PayloadAction<boolean>) => {
       state.isOffersLoading = !action.payload;
     },
-    refreshFavoriteCards: (state, action: PayloadAction<OffersLoad['offerCard']>) => {
-      state.favoriteOffers.forEach((item) => {
-        if (action.payload && item.id === action.payload.id) {
-          item.isFavorite = !action.payload.isFavorite;
-        }
-      });
-    },
     changeSort: (state, action: PayloadAction<string>) => {
       state.sortOffers = action.payload;
       state.offers = sortOffers[action.payload]([...state.offers]);
@@ -99,4 +92,4 @@ export const offersLoad = createSlice({
   }
 });
 
-export const { loadOffer, refreshCards, changeSort, resetSort, toggleSortsMenu, loading, refreshFavoriteCards } = offersLoad.actions;
+export const { loadOffer, refreshCards, loading, changeSort, resetSort, toggleSortsMenu } = offersLoad.actions;

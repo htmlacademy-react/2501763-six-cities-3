@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { postReviewAction } from '../../store/api-actions';
 import { MIN_COMMENT_LENGTH, MAX_COMMENT_LENGTH, DEFAULT_RATING } from '../../constants';
 import { getDisabledReviewStatus } from '../../store/reviews-load/selectors';
-import {getDataOffer} from '../../store/offers-load/selectors';
+import { getDataOffer } from '../../store/offers-load/selectors';
 
 export default function ReviewForm(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -31,7 +31,7 @@ export default function ReviewForm(): JSX.Element {
         comment: comment,
         rating: rating,
       })).unwrap().then(() => {
-        if(formRef.current){
+        if (formRef.current) {
           formRef.current.reset();
         }
         setComment('');
@@ -57,7 +57,7 @@ export default function ReviewForm(): JSX.Element {
         {ratings.map((ratingItem) => (
           <div key={ratingItem.value} className="rating-item">
             <input
-              data-testid ="input-star"
+              data-testid="input-star"
               onChange={handleRatingButtonClick}
               className="form__rating-input visually-hidden"
               name="rating"
@@ -85,7 +85,7 @@ export default function ReviewForm(): JSX.Element {
         ))}
       </div>
       <textarea
-        data-testid = "comment-text"
+        data-testid="comment-text"
         disabled={disabled}
         onChange={handleReviewChange}
         className="reviews__textarea form__textarea"
@@ -93,6 +93,7 @@ export default function ReviewForm(): JSX.Element {
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         defaultValue={''}
+        minLength={MIN_COMMENT_LENGTH}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">

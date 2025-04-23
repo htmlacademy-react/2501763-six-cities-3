@@ -19,7 +19,6 @@ export type UserAuth = {
   authorizationStatus: AuthorizationStatus;
   user: User | null;
   isLoginFormDisabled: boolean;
-  email: string;
 };
 
 export type OffersLoad = {

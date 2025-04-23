@@ -11,13 +11,12 @@ describe('Component: PlaceCard', () => {
     const bookmarkButtonTextTestId = 'bookmark';
 
 
-    const withHistoryComponent = withHistory(<PlaceCard offer={fakeOffer} />);
+    const withHistoryComponent = withHistory(<PlaceCard offer={fakeOffer} isNearCard={false}/>);
     const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({
       user: {
         authorizationStatus: AuthorizationStatus.NoAuth,
         user: null,
         isLoginFormDisabled: false,
-        email: ''
       }
     }));
 

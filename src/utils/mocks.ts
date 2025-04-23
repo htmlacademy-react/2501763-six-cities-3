@@ -1,12 +1,12 @@
-import {system, name, internet, datatype, image} from 'faker';
-import {User} from '../types/state';
-import {Offer, ExtendedOffer, City} from '../types/offer';
-import {Review} from '../types/review';
-import {AuthorizationStatus} from '../constants';
+import { system, name, internet, datatype, image } from 'faker';
+import { User } from '../types/state';
+import { Offer, ExtendedOffer, City } from '../types/offer';
+import { Review } from '../types/review';
+import { AuthorizationStatus } from '../constants';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { createAPI } from '../services/api';
-import { State} from '../types/state';
+import { State } from '../types/state';
 
 export type AppThunkDispatch = ThunkDispatch<State, ReturnType<typeof createAPI>, Action>;
 
@@ -18,9 +18,9 @@ export const makeFakeUser = (): User => ({
   token: system.fileExt(),
 } as User);
 
-export const makeFakeOfferCard = ():Offer =>({
+export const makeFakeOfferCard = (): Offer => ({
   id: datatype.string(),
-  title:  name.title(),
+  title: name.title(),
   type: name.title(),
   price: datatype.number(),
   city: {
@@ -43,9 +43,9 @@ export const makeFakeOfferCard = ():Offer =>({
 });
 
 
-export const makeFakeFavoriteOfferCard = ():Offer =>({
+export const makeFakeFavoriteOfferCard = (): Offer => ({
   id: datatype.string(),
-  title:  name.title(),
+  title: name.title(),
   type: name.title(),
   price: datatype.number(),
   city: {
@@ -67,9 +67,17 @@ export const makeFakeFavoriteOfferCard = ():Offer =>({
   previewImage: image.imageUrl(),
 });
 
-export const makeFakeOfferPage = ():ExtendedOffer =>({
+export const makeFakeOfferPage = (): ExtendedOffer => ({
   id: datatype.string(),
-  title:  name.title(),
+  city: {
+    name: datatype.string(),
+    location: {
+      latitude: datatype.number(),
+      longitude: datatype.number(),
+      zoom: datatype.number(),
+    }
+  },
+  title: name.title(),
   type: name.title(),
   price: datatype.number(),
   isFavorite: datatype.boolean(),
@@ -87,19 +95,19 @@ export const makeFakeOfferPage = ():ExtendedOffer =>({
   maxAdults: datatype.number(),
 });
 
-export const makeFakeReview = ():Review =>({
+export const makeFakeReview = (): Review => ({
   id: datatype.string(),
   date: datatype.string(),
   user: {
     name: datatype.string(),
     avatarUrl: datatype.string(),
-    isPro:datatype.boolean()
+    isPro: datatype.boolean()
   },
   comment: datatype.string(),
-  rating:  datatype.number(),
+  rating: datatype.number(),
 });
 
-export const makeFakeCity = (): City =>({
+export const makeFakeCity = (): City => ({
   name: datatype.string(),
   location: {
     latitude: datatype.number(),
@@ -114,8 +122,7 @@ export const makeFakeStore = (initialState?: Partial<State>): State => ({
   user: {
     authorizationStatus: AuthorizationStatus.NoAuth,
     user: null,
-    isLoginFormDisabled: false,
-    email: ''
+    isLoginFormDisabled: false
   },
   offers: {
     offers: [],

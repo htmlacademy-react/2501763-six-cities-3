@@ -4,7 +4,6 @@ import { AppDispatch, State, User } from '../types/state';
 import { Offer, ExtendedOffer, FavoriteOffer } from '../types/offer';
 import { Review, NewComment } from '../types/review';
 import { AuthData } from '../types/auth-type';
-import { UserData } from '../types/user-data-type';
 import { redirectToRoute } from './action';
 import { saveToken, dropToken } from '../services/token';
 import { AppRoute, APIRoute } from '../constants';
@@ -94,7 +93,6 @@ export const postReviewAction = createAsyncThunk<void, NewComment, {
 }>(
   'offer/review',
   async ({ pageId, comment, rating }, { dispatch, extra: api }) => {
-
     await api.post<NewComment>(`${APIRoute.Comments}/${pageId}`, { comment, rating });
     dispatch(fetchReviewsAction(pageId));
   },
@@ -111,18 +109,17 @@ export const checkAuthAction = createAsyncThunk<User, undefined, {
     return data;
   },
 );
-export const loginAction = createAsyncThunk<string, AuthData, {
+export const loginAction = createAsyncThunk<User, AuthData, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'user/login',
-  async ({ login: email, password }, { dispatch, extra: api }) => {
-    const { data: { token } } = await api.post<UserData>(APIRoute.Login, { email, password });
-    saveToken(token);
-    dispatch(checkAuthAction());
+  async ({ email, password }, { dispatch, extra: api }) => {
+    const { data } = await api.post<User>(APIRoute.Login, { email, password });
+    saveToken(data.token);
     dispatch(redirectToRoute(AppRoute.Main));
-    return (email);
+    return data;
   },
 );
 

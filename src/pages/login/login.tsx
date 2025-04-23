@@ -22,7 +22,7 @@ export default function Login(): JSX.Element {
     evt.preventDefault();
     if (loginRef.current !== null && passwordRef.current !== null) {
       dispatch(loginAction({
-        login: loginRef.current.value,
+        email: loginRef.current.value,
         password: passwordRef.current.value
       }));
     }

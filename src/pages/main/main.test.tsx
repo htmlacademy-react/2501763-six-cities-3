@@ -22,7 +22,6 @@ describe('Component: Main', () => {
         authorizationStatus: AuthorizationStatus.Auth,
         user: null,
         isLoginFormDisabled: false,
-        email: ''
       },
       offers: {
         offers: [fakeOffer],
@@ -57,7 +56,6 @@ describe('Component: Main', () => {
         authorizationStatus: AuthorizationStatus.Auth,
         user: null,
         isLoginFormDisabled: false,
-        email: ''
       },
       offers: {
         offers: [],

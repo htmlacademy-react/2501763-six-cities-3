@@ -8,12 +8,11 @@ describe('Component: CardsList', () => {
   it('should render correctly', () => {
     const fakeOffers = [makeFakeOfferCard()];
     const cardValueTestId = 'placeCard';
-    const { withStoreComponent } = withStore(<CardsList offers={fakeOffers} />, makeFakeStore({
+    const { withStoreComponent } = withStore(<CardsList offers={fakeOffers} isNearList={false} />, makeFakeStore({
       user: {
         authorizationStatus: AuthorizationStatus.NoAuth,
         user: null,
         isLoginFormDisabled: false,
-        email: ''
       }
     }));
     const preparedComponent = withHistory(withStoreComponent);

@@ -15,7 +15,6 @@ describe('Component: Login', () => {
         authorizationStatus: AuthorizationStatus.NoAuth,
         user: null,
         isLoginFormDisabled: false,
-        email: ''
       }
     }));
 
@@ -38,7 +37,6 @@ describe('Component: Login', () => {
         authorizationStatus: AuthorizationStatus.NoAuth,
         user: null,
         isLoginFormDisabled: false,
-        email: ''
       }
     }));
 

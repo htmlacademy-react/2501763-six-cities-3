@@ -1,11 +1,12 @@
 import { NameSpace } from '../../constants';
 import { getSortedReviews, getDisabledReviewStatus } from './selectors';
+import { makeFakeReview } from '../../utils/mocks';
 
 describe('ReviewsData selectors', () => {
   const state = {
     [NameSpace.ReviewsData]: {
-      reviews: [],
-      isReviewFormDisabled: false
+      reviews: [makeFakeReview()],
+      isReviewFormDasabled: false,
     }
   };
   it('should return reviews', () => {

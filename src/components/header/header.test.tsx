@@ -27,7 +27,6 @@ describe('Component: Header', () => {
         authorizationStatus: AuthorizationStatus.Auth,
         user: fakeUser,
         isLoginFormDisabled: false,
-        email: ''
       }, offers: {
         offers: [fakeOffer],
         sortOffers: INITIAL_SORT,
@@ -62,7 +61,6 @@ describe('Component: Header', () => {
         authorizationStatus: AuthorizationStatus.NoAuth,
         user: null,
         isLoginFormDisabled: false,
-        email: ''
       }
     }));
 
@@ -100,7 +98,6 @@ describe('Component: Header', () => {
         authorizationStatus: AuthorizationStatus.Auth,
         user: null,
         isLoginFormDisabled: false,
-        email: ''
       }
     }));
     mockAxiosAdapter.onDelete(APIRoute.Logout).reply(204, []);

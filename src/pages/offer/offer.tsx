@@ -13,7 +13,7 @@ import { loadOffer } from '../../store/offers-load/offers-load';
 import { fetchOfferPageAction, fetchReviewsAction, fetchAroundOffersAction, postFavoriteAction, fetchOffersAction } from '../../store/api-actions';
 import getStarsStyle from '../../components/utils';
 import cn from 'classnames';
-import { getAroundOffers, getDataOffer, getOffers } from '../../store/offers-load/selectors';
+import { getAroundOffers, getDataOffer } from '../../store/offers-load/selectors';
 import { getSortedReviews } from '../../store/reviews-load/selectors';
 import { redirectToRoute } from '../../store/action';
 import { getAuthorizationStatus } from '../../store/user-authorization/selectors';
@@ -21,15 +21,22 @@ import { getOfferPageLoadingStatus } from '../../store/offers-load/selectors';
 
 export default function Offer(): JSX.Element | undefined {
   const { offerId } = useParams();
-  const offers = useAppSelector(getOffers);
-  const foundOffer = offers.find((item) => item.id.toString() === offerId);
   const reviews = useAppSelector(getSortedReviews);
   const offer = useAppSelector(getDataOffer);
   const authStatus = useAppSelector(getAuthorizationStatus);
   const aroundOffers = useAppSelector(getAroundOffers);
   const isOfferLoading = useAppSelector(getOfferPageLoadingStatus);
-
+  const offersNear = aroundOffers.slice(0, 3);
   const dispatch = useAppDispatch();
+
+  enum PlaceTypes {
+    apartment = 'Apartment',
+    room = 'Room',
+    house = 'House',
+    hotel = 'Hotel'
+  }
+
+  const getPlaceType = (type: string) => PlaceTypes[type as keyof typeof PlaceTypes];
 
   const handleBookmarkButtonClick = () => {
     if (authStatus !== AuthorizationStatus.Auth) {
@@ -55,8 +62,6 @@ export default function Offer(): JSX.Element | undefined {
     }
   }, [offerId, authStatus, dispatch]);
 
-  const offersNear = aroundOffers.slice(0, 3);
-
   if (offer) {
     if (isOfferLoading) {
       return (
@@ -66,7 +71,7 @@ export default function Offer(): JSX.Element | undefined {
     return (
       <div className="page" data-testid="offer-page">
         <Helmet>
-          <title>Шесть городов. Предложение</title>
+          <title>6 cities: offer</title>
         </Helmet>
         <Header />
         <main className="page__main page__main--offer">
@@ -74,7 +79,7 @@ export default function Offer(): JSX.Element | undefined {
             <div className="offer__gallery-container container">
               <div className="offer__gallery">
                 {
-                  offer.images.map((srcImg) => (
+                  offer.images.slice(0, 6).map((srcImg) => (
                     <div key={srcImg} className="offer__image-wrapper">
                       <img
                         className="offer__image"
@@ -118,7 +123,7 @@ export default function Offer(): JSX.Element | undefined {
                   <span className="offer__rating-value rating__value">{offer.rating}</span>
                 </div>
                 <ul className="offer__features">
-                  <li className="offer__feature offer__feature--entire">{offer.type}</li>
+                  <li className="offer__feature offer__feature--entire">{getPlaceType(offer.type)}</li>
                   <li className="offer__feature offer__feature--bedrooms">
                     {offer.bedrooms} {offer.bedrooms > 1 ? 'Bedrooms' : 'Bedroom'}
                   </li>
@@ -150,7 +155,7 @@ export default function Offer(): JSX.Element | undefined {
                       />
                     </div>
                     <span className="offer__user-name">{offer.host.name}</span>
-                    <span className="offer__user-status">{offer.host.isPro ? 'Pro' : ''}</span>
+                    {offer.host.isPro ? <span className="offer__user-status">Pro</span> : ''}
                   </div>
                   <div className="offer__description">
                     {offer.description}
@@ -160,14 +165,14 @@ export default function Offer(): JSX.Element | undefined {
                   <h2 className="reviews__title">
                     Reviews · <span className="reviews__amount">{reviews.length}</span>
                   </h2>
-                  <ReviewList reviews={reviews} />
+                  <ReviewList reviews={reviews.slice(0, 10)} />
                   {authStatus === AuthorizationStatus.Auth ?
                     <ReviewForm /> : ''}
                 </section>
               </div>
             </div>
             <section className="offer__map map" >
-              <Map offers={offersNear} selectedOffer={foundOffer} actualCity={foundOffer?.city?.name} />
+              <Map offers={offersNear} selectedOffer={offer} isOfferPageMap />
             </section>
           </section>
           <div className="container">
@@ -176,7 +181,7 @@ export default function Offer(): JSX.Element | undefined {
                 Other places in the neighbourhood
               </h2>
               <div className="near-places__list places__list">
-                <CardsList offers={offersNear} />
+                <CardsList offers={offersNear} isNearList />
               </div>
             </section>
           </div>

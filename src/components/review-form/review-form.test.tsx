@@ -22,7 +22,6 @@ describe('Component: ReviewForm', () => {
         authorizationStatus: AuthorizationStatus.NoAuth,
         user: null,
         isLoginFormDisabled: false,
-        email: ''
       }
     }));
 
@@ -52,7 +51,6 @@ describe('Component: ReviewForm', () => {
         authorizationStatus: AuthorizationStatus.Auth,
         user: null,
         isLoginFormDisabled: false,
-        email: ''
       }
     }));
 
@@ -86,7 +84,6 @@ describe('Component: ReviewForm', () => {
         authorizationStatus: AuthorizationStatus.Auth,
         user: null,
         isLoginFormDisabled: false,
-        email: ''
       },
       offers: {
         offers: [],

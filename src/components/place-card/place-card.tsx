@@ -12,11 +12,12 @@ import { refreshCards } from '../../store/offers-load/offers-load';
 
 type PlaceCardProps = {
   offer: Offer;
+  isNearCard: boolean;
 };
 
 export default function PlaceCard(props: PlaceCardProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const { offer } = props;
+  const { offer, isNearCard } = props;
   const { id, title, type, price, isPremium, isFavorite, rating, previewImage } = offer;
 
   const authStatus = useAppSelector(getAuthorizationStatus);
@@ -44,7 +45,7 @@ export default function PlaceCard(props: PlaceCardProps): JSX.Element {
   return (
     <article
       data-testid="placeCard"
-      className="cities__card place-card"
+      className={isNearCard ? 'near-places__card place-card' : 'cities__card place-card'}
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
     >
@@ -54,8 +55,8 @@ export default function PlaceCard(props: PlaceCardProps): JSX.Element {
         </div>
       ) : null}
 
-      <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link data-testid ="placeCard-link" to={`${AppRoute.Offer}/${id}`}>
+      <div className={isNearCard ? 'near-places__image-wrapper place-card__image-wrapper' : 'cities__image-wrapper place-card__image-wrapper'}>
+        <Link data-testid="placeCard-link" to={`${AppRoute.Offer}/${id}`}>
           <img
             className="place-card__image"
             src={previewImage}
