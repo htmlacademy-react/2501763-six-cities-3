@@ -1,7 +1,7 @@
 import { useState, FormEvent, ChangeEvent, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { postReviewAction } from '../../store/api-actions';
-import { MIN_COMMENT_LENGTH, DEFAULT_RATING } from '../../constants';
+import { MIN_COMMENT_LENGTH, MAX_COMMENT_LENGTH, DEFAULT_RATING } from '../../constants';
 import { getDisabledReviewStatus } from '../../store/reviews-load/selectors';
 import {getDataOffer} from '../../store/offers-load/selectors';
 
@@ -99,12 +99,12 @@ export default function ReviewForm(): JSX.Element {
           To submit review please make sure to set{' '}
           <span className="reviews__star">rating</span> and describe
           your stay with at least{' '}
-          <b className="reviews__text-amount">{MIN_COMMENT_LENGTH} characters</b>.
+          <b className="reviews__text-amount">{MIN_COMMENT_LENGTH} characters but no more than {MAX_COMMENT_LENGTH} characters</b>.
         </p>
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={comment.length >= MIN_COMMENT_LENGTH && rating >= DEFAULT_RATING ? disabled : true}
+          disabled={comment.length >= MIN_COMMENT_LENGTH && comment.length <= MAX_COMMENT_LENGTH && rating > DEFAULT_RATING ? disabled : true}
         >
           Submit
         </button>

@@ -11,7 +11,7 @@ describe('Component: Login', () => {
     const passwordText = 'Password';
     const withHistoryComponent = withHistory(<Login />);
     const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({
-      USER: {
+      user: {
         authorizationStatus: AuthorizationStatus.NoAuth,
         user: null,
         isLoginFormDisabled: false,
@@ -34,7 +34,7 @@ describe('Component: Login', () => {
 
     const withHistoryComponent = withHistory(<Login />);
     const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({
-      USER: {
+      user: {
         authorizationStatus: AuthorizationStatus.NoAuth,
         user: null,
         isLoginFormDisabled: false,

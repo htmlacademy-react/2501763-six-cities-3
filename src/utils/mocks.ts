@@ -3,7 +3,6 @@ import {User} from '../types/state';
 import {Offer, ExtendedOffer, City} from '../types/offer';
 import {Review} from '../types/review';
 import {AuthorizationStatus} from '../constants';
-
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { createAPI } from '../services/api';
@@ -112,13 +111,13 @@ export const makeFakeCity = (): City =>({
 export const extractActionsTypes = (actions: Action<string>[]) => actions.map(({ type }) => type);
 
 export const makeFakeStore = (initialState?: Partial<State>): State => ({
-  USER: {
+  user: {
     authorizationStatus: AuthorizationStatus.NoAuth,
     user: null,
     isLoginFormDisabled: false,
     email: ''
   },
-  DATA_OFFERS: {
+  offers: {
     offers: [],
     sortOffers: '',
     isFiltersOpen: false,
@@ -131,11 +130,11 @@ export const makeFakeStore = (initialState?: Partial<State>): State => ({
     isFavoriteLoading: false,
     favoriteStatus: false,
   },
-  APP_ACTIONS: {
+  actions: {
     activeOfferId: '',
     error: null
   },
-  DATA_REVIEWS: {
+  reviews: {
     reviews: [],
     isReviewFormDisabled: false
   },

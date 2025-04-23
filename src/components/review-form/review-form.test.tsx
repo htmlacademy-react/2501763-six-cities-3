@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { withHistory, withStore } from '../../utils/mock-component';
-import {AuthorizationStatus, APIRoute} from '../../constants';
-import {makeFakeStore, makeFakeOfferPage} from '../../utils/mocks';
+import { AuthorizationStatus, APIRoute } from '../../constants';
+import { makeFakeStore, makeFakeOfferPage } from '../../utils/mocks';
 import ReviewForm from './review-form';
-import {postReviewAction, fetchReviewsAction} from '../../store/api-actions';
-import {NewComment} from '../../types/review';
+import { postReviewAction, fetchReviewsAction } from '../../store/api-actions';
+import { NewComment } from '../../types/review';
 import { extractActionsTypes } from '../../utils/mocks';
 import { INITIAL_SORT } from '../../constants';
 
@@ -17,12 +17,14 @@ describe('Component: ReviewForm', () => {
     const commentPlaceholder = 'Tell how was your stay, what you like and what can be improved';
 
     const withHistoryComponent = withHistory(<ReviewForm />);
-    const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({ USER: {
-      authorizationStatus: AuthorizationStatus.NoAuth,
-      user: null,
-      isLoginFormDisabled: false,
-      email: ''
-    } }));
+    const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({
+      user: {
+        authorizationStatus: AuthorizationStatus.NoAuth,
+        user: null,
+        isLoginFormDisabled: false,
+        email: ''
+      }
+    }));
 
     const preparedComponent = withStoreComponent;
     render(preparedComponent);
@@ -45,12 +47,14 @@ describe('Component: ReviewForm', () => {
     const expectedInputStarValue = '5';
 
     const withHistoryComponent = withHistory(<ReviewForm />);
-    const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({ USER: {
-      authorizationStatus: AuthorizationStatus.Auth,
-      user: null,
-      isLoginFormDisabled: false,
-      email: ''
-    } }));
+    const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({
+      user: {
+        authorizationStatus: AuthorizationStatus.Auth,
+        user: null,
+        isLoginFormDisabled: false,
+        email: ''
+      }
+    }));
 
     const preparedComponent = withStoreComponent;
 
@@ -78,13 +82,13 @@ describe('Component: ReviewForm', () => {
     };
 
     const { withStoreComponent, mockStore, mockAxiosAdapter } = withStore(<ReviewForm />, makeFakeStore({
-      USER: {
+      user: {
         authorizationStatus: AuthorizationStatus.Auth,
         user: null,
         isLoginFormDisabled: false,
         email: ''
       },
-      DATA_OFFERS: {
+      offers: {
         offers: [],
         sortOffers: INITIAL_SORT,
         isFiltersOpen: false,
@@ -97,12 +101,12 @@ describe('Component: ReviewForm', () => {
         isFavoriteLoading: false,
         favoriteStatus: false,
       },
-      DATA_REVIEWS: {
+      reviews: {
         reviews: [],
         isReviewFormDisabled: false
       }
     }));
-    mockAxiosAdapter.onGet(`${APIRoute.Comments}/${fakeOffer.id}`).reply(200,[]);
+    mockAxiosAdapter.onGet(`${APIRoute.Comments}/${fakeOffer.id}`).reply(200, []);
     mockAxiosAdapter.onPost(`${APIRoute.Comments}/${fakeOffer.id}`).reply(201);
 
     render(withStoreComponent);

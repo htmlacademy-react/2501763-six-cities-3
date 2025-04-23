@@ -1,14 +1,14 @@
-import {render, screen} from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {withHistory, withStore} from '../../utils/mock-component';
+import { withHistory, withStore } from '../../utils/mock-component';
 import Offer from './offer';
-import {makeFakeStore, makeFakeOfferPage, makeFakeOfferCard, extractActionsTypes} from '../../utils/mocks';
-import {AuthorizationStatus, APIRoute} from '../../constants';
+import { makeFakeStore, makeFakeOfferPage, makeFakeOfferCard, extractActionsTypes } from '../../utils/mocks';
+import { AuthorizationStatus, APIRoute } from '../../constants';
 import ReviewList from '../../components/review-list/review-list';
 import ReviewForm from '../../components/review-form/review-form';
-import {postFavoriteAction, fetchFavoriteOffersAction, fetchOffersAction} from '../../store/api-actions';
-import {loadOffer, loading} from '../../store/offers-load/offers-load';
-import {redirectToRoute} from '../../store/action';
+import { postFavoriteAction, fetchFavoriteOffersAction, fetchOffersAction } from '../../store/api-actions';
+import { loadOffer, loading } from '../../store/offers-load/offers-load';
+import { redirectToRoute } from '../../store/action';
 import { INITIAL_SORT } from '../../constants';
 
 describe('Component: Offer', () => {
@@ -20,25 +20,27 @@ describe('Component: Offer', () => {
     const fakeOfferCard = makeFakeOfferCard();
     const placeCardId = 'placeCard';
 
-    const { withStoreComponent } = withStore(<Offer/>, makeFakeStore({ USER: {
-      authorizationStatus: AuthorizationStatus.Auth,
-      user: null,
-      isLoginFormDisabled: false,
-      email: ''
-    },
-    DATA_OFFERS: {
-      offers: [],
-      sortOffers: INITIAL_SORT,
-      isFiltersOpen: false,
-      isOffersLoading: false,
-      offerCard: undefined,
-      offer: fakeOffer,
-      aroundOffers: [fakeOfferCard],
-      favoriteOffers: [],
-      isOfferLoading: false,
-      isFavoriteLoading: false,
-      favoriteStatus: false,
-    } }));
+    const { withStoreComponent } = withStore(<Offer />, makeFakeStore({
+      user: {
+        authorizationStatus: AuthorizationStatus.Auth,
+        user: null,
+        isLoginFormDisabled: false,
+        email: ''
+      },
+      offers: {
+        offers: [],
+        sortOffers: INITIAL_SORT,
+        isFiltersOpen: false,
+        isOffersLoading: false,
+        offerCard: undefined,
+        offer: fakeOffer,
+        aroundOffers: [fakeOfferCard],
+        favoriteOffers: [],
+        isOfferLoading: false,
+        isFavoriteLoading: false,
+        favoriteStatus: false,
+      }
+    }));
 
     const preparedComponent = withHistory(withStoreComponent);
     render(preparedComponent);
@@ -61,25 +63,27 @@ describe('Component: Offer', () => {
     const fakeOfferCard = makeFakeOfferCard();
     const placeCardId = 'placeCard';
 
-    const { withStoreComponent } = withStore(<Offer/>, makeFakeStore({ USER: {
-      authorizationStatus: AuthorizationStatus.NoAuth,
-      user: null,
-      isLoginFormDisabled: false,
-      email: ''
-    },
-    DATA_OFFERS: {
-      offers: [],
-      sortOffers: INITIAL_SORT,
-      isFiltersOpen: false,
-      isOffersLoading: false,
-      offerCard: undefined,
-      offer: fakeOffer,
-      aroundOffers: [fakeOfferCard],
-      favoriteOffers: [],
-      isOfferLoading: false,
-      isFavoriteLoading: false,
-      favoriteStatus: false,
-    } }));
+    const { withStoreComponent } = withStore(<Offer />, makeFakeStore({
+      user: {
+        authorizationStatus: AuthorizationStatus.NoAuth,
+        user: null,
+        isLoginFormDisabled: false,
+        email: ''
+      },
+      offers: {
+        offers: [],
+        sortOffers: INITIAL_SORT,
+        isFiltersOpen: false,
+        isOffersLoading: false,
+        offerCard: undefined,
+        offer: fakeOffer,
+        aroundOffers: [fakeOfferCard],
+        favoriteOffers: [],
+        isOfferLoading: false,
+        isFavoriteLoading: false,
+        favoriteStatus: false,
+      }
+    }));
 
     const preparedComponent = withHistory(withStoreComponent);
     render(preparedComponent);
@@ -102,25 +106,27 @@ describe('Component: Offer', () => {
     const fakeOffer = makeFakeOfferPage();
     const fakeOfferCard = makeFakeOfferCard();
 
-    const { withStoreComponent } = withStore(<Offer/>, makeFakeStore({ USER: {
-      authorizationStatus: AuthorizationStatus.NoAuth,
-      user: null,
-      isLoginFormDisabled: false,
-      email: ''
-    },
-    DATA_OFFERS: {
-      offers: [],
-      sortOffers: INITIAL_SORT,
-      isFiltersOpen: false,
-      isOffersLoading: true,
-      offerCard: undefined,
-      offer: fakeOffer,
-      aroundOffers: [fakeOfferCard],
-      favoriteOffers: [],
-      isOfferLoading: true,
-      isFavoriteLoading: false,
-      favoriteStatus: false,
-    } }));
+    const { withStoreComponent } = withStore(<Offer />, makeFakeStore({
+      user: {
+        authorizationStatus: AuthorizationStatus.NoAuth,
+        user: null,
+        isLoginFormDisabled: false,
+        email: ''
+      },
+      offers: {
+        offers: [],
+        sortOffers: INITIAL_SORT,
+        isFiltersOpen: false,
+        isOffersLoading: true,
+        offerCard: undefined,
+        offer: fakeOffer,
+        aroundOffers: [fakeOfferCard],
+        favoriteOffers: [],
+        isOfferLoading: true,
+        isFavoriteLoading: false,
+        favoriteStatus: false,
+      }
+    }));
 
     const preparedComponent = withHistory(withStoreComponent);
     render(preparedComponent);
@@ -133,25 +139,27 @@ describe('Component: Offer', () => {
     const fakeOffer = makeFakeOfferPage();
     const bookmarkButtonId = 'bookmark-button';
 
-    const { withStoreComponent, mockStore, mockAxiosAdapter } = withStore(<Offer/>, makeFakeStore({ USER: {
-      authorizationStatus: AuthorizationStatus.Auth,
-      user: null,
-      isLoginFormDisabled: false,
-      email: ''
-    },
-    DATA_OFFERS: {
-      offers: [],
-      sortOffers: INITIAL_SORT,
-      isFiltersOpen: false,
-      isOffersLoading: false,
-      offerCard: undefined,
-      offer: fakeOffer,
-      aroundOffers: [],
-      favoriteOffers: [],
-      isOfferLoading: false,
-      isFavoriteLoading: false,
-      favoriteStatus: false,
-    } }));
+    const { withStoreComponent, mockStore, mockAxiosAdapter } = withStore(<Offer />, makeFakeStore({
+      user: {
+        authorizationStatus: AuthorizationStatus.Auth,
+        user: null,
+        isLoginFormDisabled: false,
+        email: ''
+      },
+      offers: {
+        offers: [],
+        sortOffers: INITIAL_SORT,
+        isFiltersOpen: false,
+        isOffersLoading: false,
+        offerCard: undefined,
+        offer: fakeOffer,
+        aroundOffers: [],
+        favoriteOffers: [],
+        isOfferLoading: false,
+        isFavoriteLoading: false,
+        favoriteStatus: false,
+      }
+    }));
     mockAxiosAdapter.onPost(`${APIRoute.Favorite}/${fakeOffer.id}/${!fakeOffer.isFavorite ? 1 : 0}`).reply(201);
     mockAxiosAdapter.onGet(APIRoute.Favorite).reply(200, []);
     mockAxiosAdapter.onGet(APIRoute.Offers).reply(200, []);
@@ -179,25 +187,27 @@ describe('Component: Offer', () => {
     const fakeOffer = makeFakeOfferPage();
     const bookmarkButtonId = 'bookmark-button';
 
-    const { withStoreComponent, mockStore } = withStore(<Offer/>, makeFakeStore({ USER: {
-      authorizationStatus: AuthorizationStatus.NoAuth,
-      user: null,
-      isLoginFormDisabled: false,
-      email: ''
-    },
-    DATA_OFFERS: {
-      offers: [],
-      sortOffers: INITIAL_SORT,
-      isFiltersOpen: false,
-      isOffersLoading: false,
-      offerCard: undefined,
-      offer: fakeOffer,
-      aroundOffers: [],
-      favoriteOffers: [],
-      isOfferLoading: false,
-      isFavoriteLoading: false,
-      favoriteStatus: false,
-    } }));
+    const { withStoreComponent, mockStore } = withStore(<Offer />, makeFakeStore({
+      user: {
+        authorizationStatus: AuthorizationStatus.NoAuth,
+        user: null,
+        isLoginFormDisabled: false,
+        email: ''
+      },
+      offers: {
+        offers: [],
+        sortOffers: INITIAL_SORT,
+        isFiltersOpen: false,
+        isOffersLoading: false,
+        offerCard: undefined,
+        offer: fakeOffer,
+        aroundOffers: [],
+        favoriteOffers: [],
+        isOfferLoading: false,
+        isFavoriteLoading: false,
+        favoriteStatus: false,
+      }
+    }));
 
 
     const preparedComponent = withHistory(withStoreComponent);

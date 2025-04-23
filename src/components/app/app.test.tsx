@@ -1,9 +1,9 @@
-import {render, screen} from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { MemoryHistory, createMemoryHistory } from 'history';
-import {AuthorizationStatus, AppRoute} from '../../constants';
+import { AuthorizationStatus, AppRoute } from '../../constants';
 import App from './app';
-import {withHistory, withStore} from '../../utils/mock-component';
-import {makeFakeStore, makeFakeOfferPage} from '../../utils/mocks';
+import { withHistory, withStore } from '../../utils/mock-component';
+import { makeFakeStore, makeFakeOfferPage } from '../../utils/mocks';
 import { INITIAL_SORT } from '../../constants';
 
 describe('Application Routing', () => {
@@ -33,17 +33,18 @@ describe('Application Routing', () => {
   });
   it('should render "Favorite" when user navigate to "/favorites"', () => {
     const withHistoryComponent = withHistory(<App />, mockHistory);
-    const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({ USER: {
-      authorizationStatus: AuthorizationStatus.Auth,
-      user: null,
-      isLoginFormDisabled: false,
-      email: ''
-    } }));
+    const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({
+      user: {
+        authorizationStatus: AuthorizationStatus.Auth,
+        user: null,
+        isLoginFormDisabled: false,
+        email: ''
+      }
+    }));
 
     mockHistory.push(AppRoute.Favorites);
 
     render(withStoreComponent);
-
     expect(screen.getAllByAltText('6 cities logo'));
     expect(screen.getByText('Sign out'));
     expect(screen.getByText('Nothing yet saved.'));
@@ -51,27 +52,28 @@ describe('Application Routing', () => {
   it('should render "Offer" when user navigate to "/offers/{offerId}"', () => {
     const fakeOfferPage = makeFakeOfferPage();
     const withHistoryComponent = withHistory(<App />, mockHistory);
-    const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({ USER: {
-      authorizationStatus: AuthorizationStatus.Auth,
-      user: null,
-      isLoginFormDisabled: false,
-      email: ''
-    }, DATA_OFFERS: {
-      offers: [],
-      sortOffers: INITIAL_SORT,
-      isFiltersOpen: false,
-      isOffersLoading: false,
-      offerCard: undefined,
-      offer: fakeOfferPage,
-      aroundOffers: [],
-      favoriteOffers: [],
-      isOfferLoading: false,
-      isFavoriteLoading: false,
-      favoriteStatus: false,
-    }}));
+    const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({
+      user: {
+        authorizationStatus: AuthorizationStatus.Auth,
+        user: null,
+        isLoginFormDisabled: false,
+        email: ''
+      }, offers: {
+        offers: [],
+        sortOffers: INITIAL_SORT,
+        isFiltersOpen: false,
+        isOffersLoading: false,
+        offerCard: undefined,
+        offer: fakeOfferPage,
+        aroundOffers: [],
+        favoriteOffers: [],
+        isOfferLoading: false,
+        isFavoriteLoading: false,
+        favoriteStatus: false,
+      }
+    }));
     mockHistory.push(`${AppRoute.Offer}/${fakeOfferPage.id}`);
     render(withStoreComponent);
-
     expect(screen.getByText(/Meet the host/i)).toBeInTheDocument();
     expect(screen.getByText(/Reviews/i)).toBeInTheDocument();
 

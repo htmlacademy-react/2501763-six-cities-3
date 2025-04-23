@@ -22,7 +22,7 @@ describe('Async actions', () => {
   let store: ReturnType<typeof mockStoreCreator>;
 
   beforeEach(() => {
-    store = mockStoreCreator({ DATA_OFFERS: { offers: [], isFavoriteLoading: false } });
+    store = mockStoreCreator({ offers: { offers: [], isFavoriteLoading: false } });
   });
 
   describe('checkAuthAction', () => {

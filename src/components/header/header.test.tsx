@@ -1,13 +1,13 @@
-import {render, screen} from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Link } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
-import {withHistory, withStore} from '../../utils/mock-component';
+import { withHistory, withStore } from '../../utils/mock-component';
 import Header from './header';
-import {makeFakeUser, makeFakeOfferCard, makeFakeStore} from '../../utils/mocks.js';
-import {AuthorizationStatus, AppRoute, APIRoute} from '../../constants';
+import { makeFakeUser, makeFakeOfferCard, makeFakeStore } from '../../utils/mocks.js';
+import { AuthorizationStatus, AppRoute, APIRoute } from '../../constants';
 import { extractActionsTypes } from '../../utils/mocks.js';
-import {logoutAction, fetchOffersAction} from '../../store/api-actions';
-import {loading} from '../../store/offers-load/offers-load.js';
+import { logoutAction, fetchOffersAction } from '../../store/api-actions';
+import { loading } from '../../store/offers-load/offers-load.js';
 import { INITIAL_SORT } from '../../constants';
 
 describe('Component: Header', () => {
@@ -15,31 +15,33 @@ describe('Component: Header', () => {
     const fakeOffer = makeFakeOfferCard();
     const fakeUser = makeFakeUser();
     const fakeFavorites = [];
-    [fakeOffer].forEach((item)=>{
-      if(item.isFavorite === true){
+    [fakeOffer].forEach((item) => {
+      if (item.isFavorite === true) {
         fakeFavorites.push(item);
       }
     });
 
-    const withHistoryComponent = withHistory(<Header/>);
-    const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({ USER: {
-      authorizationStatus: AuthorizationStatus.Auth,
-      user: fakeUser,
-      isLoginFormDisabled: false,
-      email: ''
-    }, DATA_OFFERS: {
-      offers: [fakeOffer],
-      sortOffers: INITIAL_SORT,
-      isFiltersOpen: false,
-      isOffersLoading: false,
-      offerCard: undefined,
-      offer: undefined,
-      aroundOffers: [],
-      favoriteOffers: [],
-      isOfferLoading: false,
-      isFavoriteLoading: false,
-      favoriteStatus: false,
-    }})
+    const withHistoryComponent = withHistory(<Header />);
+    const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({
+      user: {
+        authorizationStatus: AuthorizationStatus.Auth,
+        user: fakeUser,
+        isLoginFormDisabled: false,
+        email: ''
+      }, offers: {
+        offers: [fakeOffer],
+        sortOffers: INITIAL_SORT,
+        isFiltersOpen: false,
+        isOffersLoading: false,
+        offerCard: undefined,
+        offer: undefined,
+        aroundOffers: [],
+        favoriteOffers: [],
+        isOfferLoading: false,
+        isFavoriteLoading: false,
+        favoriteStatus: false,
+      }
+    })
     );
 
     const preparedComponent = withStoreComponent;
@@ -54,13 +56,15 @@ describe('Component: Header', () => {
 
   it('should render correct with NoAuth', () => {
 
-    const withHistoryComponent = withHistory(<Header/>);
-    const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({ USER: {
-      authorizationStatus: AuthorizationStatus.NoAuth,
-      user: null,
-      isLoginFormDisabled: false,
-      email: ''
-    } }));
+    const withHistoryComponent = withHistory(<Header />);
+    const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({
+      user: {
+        authorizationStatus: AuthorizationStatus.NoAuth,
+        user: null,
+        isLoginFormDisabled: false,
+        email: ''
+      }
+    }));
 
     const preparedComponent = withStoreComponent;
     render(preparedComponent);
@@ -91,12 +95,14 @@ describe('Component: Header', () => {
 
   it('should dispatch logoutAction', async () => {
     const logoutLinkId = 'logout-link';
-    const { withStoreComponent, mockStore, mockAxiosAdapter } = withStore(withHistory(<Header />), makeFakeStore({ USER: {
-      authorizationStatus: AuthorizationStatus.Auth,
-      user: null,
-      isLoginFormDisabled: false,
-      email: ''
-    } }));
+    const { withStoreComponent, mockStore, mockAxiosAdapter } = withStore(withHistory(<Header />), makeFakeStore({
+      user: {
+        authorizationStatus: AuthorizationStatus.Auth,
+        user: null,
+        isLoginFormDisabled: false,
+        email: ''
+      }
+    }));
     mockAxiosAdapter.onDelete(APIRoute.Logout).reply(204, []);
     mockAxiosAdapter.onGet(APIRoute.Offers).reply(200, []);
     render(withStoreComponent);

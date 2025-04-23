@@ -1,6 +1,6 @@
-import {render, screen} from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import Map from '../../components/map/map';
-import {makeFakeOfferCard} from '../../utils/mocks';
+import { makeFakeOfferCard } from '../../utils/mocks';
 
 describe('Component: Map', () => {
   it('should render correct isOfferPageMap = false', () => {
@@ -12,7 +12,7 @@ describe('Component: Map', () => {
       <Map
         offers={fakeOffers}
         selectedOffer={fakeOffer}
-        actualCity = {'Paris'}
+        actualCity={'Paris'}
       />);
 
     const mapContainer = screen.getByTestId(mapContainerId);

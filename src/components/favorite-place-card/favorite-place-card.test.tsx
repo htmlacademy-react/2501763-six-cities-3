@@ -35,7 +35,7 @@ describe('Component: FavoritePlaceCard', () => {
     const fakeServerReplay = { token: 'secret' };
 
     const { withStoreComponent, mockStore, mockAxiosAdapter } = withStore(<FavoritePlaceCard offer={fakeOffer} />, makeFakeStore({
-      USER: {
+      user: {
         authorizationStatus: AuthorizationStatus.Auth,
         user: null,
         isLoginFormDisabled: false,

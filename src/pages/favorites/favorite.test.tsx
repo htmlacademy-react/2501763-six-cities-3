@@ -19,13 +19,13 @@ describe('Component: Favorite', () => {
     const fakeFavoriteCities = [... new Set(fakeAllFavoriteCities)];
 
     const { withStoreComponent } = withStore(<Favorite />, makeFakeStore({
-      USER: {
+      user: {
         authorizationStatus: AuthorizationStatus.Auth,
         user: null,
         isLoginFormDisabled: false,
         email: ''
       },
-      DATA_OFFERS: {
+      offers: {
         offers: [fakeOffer],
         sortOffers: INITIAL_SORT,
         isFiltersOpen: false,
@@ -55,13 +55,13 @@ describe('Component: Favorite', () => {
     const expextedText = /Loading/i;
 
     const { withStoreComponent } = withStore(<Favorite />, makeFakeStore({
-      USER: {
+      user: {
         authorizationStatus: AuthorizationStatus.Auth,
         user: null,
         isLoginFormDisabled: false,
         email: ''
       },
-      DATA_OFFERS: {
+      offers: {
         offers: [],
         sortOffers: INITIAL_SORT,
         isFiltersOpen: false,
