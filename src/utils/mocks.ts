@@ -93,6 +93,11 @@ export const makeFakeOfferPage = (): ExtendedOffer => ({
   },
   images: [image.imageUrl()],
   maxAdults: datatype.number(),
+  location: {
+    latitude: datatype.number(),
+    longitude: datatype.number(),
+    zoom: datatype.number(),
+  },
 });
 
 export const makeFakeReview = (): Review => ({
