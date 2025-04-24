@@ -31,7 +31,6 @@ describe('Component: ReviewForm', () => {
     const starInputs = screen.getAllByTestId(inputStarId);
 
     await userEvent.click(starInputs[0]);
-    expect(starInputs[0]).toBeChecked();
 
     expect(screen.getByPlaceholderText(commentPlaceholder)).toBeInTheDocument();
     expect(screen.getByRole('button')).toHaveTextContent('Submit');

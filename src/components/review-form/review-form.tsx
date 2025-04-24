@@ -14,20 +14,14 @@ export default function ReviewForm(): JSX.Element {
   const formRef = useRef<HTMLFormElement | null>(null);
   const offer = useAppSelector(getDataOffer);
   const disabled = useAppSelector(getDisabledReviewStatus);
-
-  const handleReviewChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
-    setComment(evt.target.value);
-  };
-
-  const handleRatingButtonClick = (evt: ChangeEvent<HTMLInputElement>) => {
-    setRating(Number(evt.target.value));
-  };
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     if (offer && comment.length >= MIN_COMMENT_LENGTH && comment.length <= MAX_COMMENT_LENGTH && rating > DEFAULT_RATING) {
       setIsSubmitting(true);
+      setErrorMessage('');
 
       dispatch(postReviewAction({
         pageId: offer.id,
@@ -42,8 +36,18 @@ export default function ReviewForm(): JSX.Element {
         setIsSubmitting(false);
       }).catch(() => {
         setIsSubmitting(false);
+        setErrorMessage('Failed to submit review. Please try again.');
       });
     }
+  };
+
+  const handleReviewChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
+    setComment(evt.target.value);
+  };
+
+  const handleRatingButtonClick = (evt: ChangeEvent<HTMLInputElement>) => {
+    evt.preventDefault();
+    setRating(Number(evt.target.value));
   };
 
   const ratings = [
@@ -65,12 +69,13 @@ export default function ReviewForm(): JSX.Element {
             <input
               className="form__rating-input visually-hidden"
               name="rating"
+              disabled={isSubmitting}
               value={ratingItem.value}
               id={`${ratingItem.value}-stars`}
               type="radio"
-              disabled={isSubmitting}
               data-testid="input-star"
               onChange={handleRatingButtonClick}
+              checked={rating === ratingItem.value}
             />
             <label
               htmlFor={`${ratingItem.value}-stars`}
@@ -99,9 +104,10 @@ export default function ReviewForm(): JSX.Element {
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        defaultValue={''}
+        value={comment} // Изменено на value для контроля состояния
         minLength={MIN_COMMENT_LENGTH}
       />
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set{' '}
@@ -112,7 +118,7 @@ export default function ReviewForm(): JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={isSubmitting || !(comment.length >= MIN_COMMENT_LENGTH && comment.length <= MAX_COMMENT_LENGTH && rating > DEFAULT_RATING)}
+          disabled={disabled || isSubmitting || !(comment.length >= MIN_COMMENT_LENGTH && comment.length <= MAX_COMMENT_LENGTH && rating > DEFAULT_RATING)}
         >
           {isSubmitting ? 'Submitting...' : 'Submit'}
         </button>
