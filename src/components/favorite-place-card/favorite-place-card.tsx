@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import { Offer } from '../../types/offer';
 import { AppRoute } from '../../constants';
 import { postFavoriteAction, fetchOffersAction } from '../../store/api-actions';
-import { refreshFavoriteCards } from '../../store/offers-load/offers-load';
 import { useAppDispatch } from '../../hooks/index';
 
 type PropPlaceCard = {
@@ -14,16 +13,13 @@ export default function FavoritePlaceCard(props: PropPlaceCard): JSX.Element {
   const dispatch = useAppDispatch();
 
   const handleBookmarkButtonClick = () => {
-
     dispatch(postFavoriteAction({
       offerId: offer.id,
       status: !offer.isFavorite ? 1 : 0
     })).unwrap().then(() => {
-      dispatch(refreshFavoriteCards(offer));
       dispatch(fetchOffersAction(true));
     });
   };
-
   return (
     <article
       data-testid="favorite-card"
@@ -76,10 +72,11 @@ export default function FavoritePlaceCard(props: PropPlaceCard): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to="#"> {offer.title}</Link>
+          <Link to={`${AppRoute.Offer}/${offer.id}`}>{offer.title}</Link>
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>
     </article>
+
   );
 }

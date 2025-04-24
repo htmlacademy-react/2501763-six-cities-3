@@ -2,11 +2,10 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { withHistory, withStore } from '../../utils/mock-component';
 import FavoritePlaceCard from './favorite-place-card';
-import { makeFakeStore, makeFakeOfferCard } from '../../utils/mocks';
-import { extractActionsTypes } from '../../utils/mocks';
+import { makeFakeStore, makeFakeOfferCard, extractActionsTypes } from '../../utils/mocks';
 import { AuthorizationStatus, APIRoute } from '../../constants';
-import { postFavoriteAction, fetchFavoriteOffersAction, fetchOffersAction } from '../../store/api-actions';
-import { refreshFavoriteCards, loading } from '../../store/offers-load/offers-load';
+import { postFavoriteAction, fetchOffersAction } from '../../store/api-actions';
+import { loading } from '../../store/offers-load/offers-load';
 
 describe('Component: FavoritePlaceCard', () => {
   it('should render correct', () => {
@@ -35,11 +34,10 @@ describe('Component: FavoritePlaceCard', () => {
     const fakeServerReplay = { token: 'secret' };
 
     const { withStoreComponent, mockStore, mockAxiosAdapter } = withStore(<FavoritePlaceCard offer={fakeOffer} />, makeFakeStore({
-      USER: {
+      user: {
         authorizationStatus: AuthorizationStatus.Auth,
         user: null,
         isLoginFormDisabled: false,
-        email: ''
       }
     }));
 
@@ -56,12 +54,9 @@ describe('Component: FavoritePlaceCard', () => {
 
     expect(actions).toEqual([
       postFavoriteAction.pending.type,
-      fetchFavoriteOffersAction.pending.type,
       postFavoriteAction.fulfilled.type,
-      refreshFavoriteCards.type,
       fetchOffersAction.pending.type,
       loading.type,
-      fetchFavoriteOffersAction.fulfilled.type,
       fetchOffersAction.fulfilled.type
     ]);
   });

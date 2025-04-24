@@ -40,7 +40,7 @@ export default function NotFound(): JSX.Element {
       <div style={styles.container}>
         <h1 className="text-4xl font-semibold">404 - Page Not Found</h1>
         <div style={styles.links}>
-          <Link style={styles.link} to="/">Вернуться на главную</Link>
+          <Link data-testid="main-link" style={styles.link} to="/">Вернуться на главную</Link>
         </div>
       </div>
     </div>

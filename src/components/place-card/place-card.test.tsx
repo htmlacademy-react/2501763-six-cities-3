@@ -1,9 +1,9 @@
-import {render, screen} from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {withHistory, withStore} from '../../utils/mock-component';
+import { withHistory, withStore } from '../../utils/mock-component';
 import PlaceCard from './place-card';
-import {makeFakeOfferCard, makeFakeStore} from '../../utils/mocks';
-import {AuthorizationStatus} from '../../constants';
+import { makeFakeOfferCard, makeFakeStore } from '../../utils/mocks';
+import { AuthorizationStatus } from '../../constants';
 
 describe('Component: PlaceCard', () => {
   it('should render correct', () => {
@@ -11,17 +11,18 @@ describe('Component: PlaceCard', () => {
     const bookmarkButtonTextTestId = 'bookmark';
 
 
-    const withHistoryComponent = withHistory(<PlaceCard offer={fakeOffer}/>);
-    const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({ USER: {
-      authorizationStatus: AuthorizationStatus.NoAuth,
-      user: null,
-      isLoginFormDisabled: false,
-      email: ''
-    } }));
+    const withHistoryComponent = withHistory(<PlaceCard offer={fakeOffer} isNearCard={false}/>);
+    const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({
+      user: {
+        authorizationStatus: AuthorizationStatus.NoAuth,
+        user: null,
+        isLoginFormDisabled: false,
+      }
+    }));
 
     const preparedComponent = withStoreComponent;
     render(preparedComponent);
-    if(fakeOffer.isPremium){
+    if (fakeOffer.isPremium) {
       expect(screen.getByText('Premium'));
     }
 
@@ -41,7 +42,7 @@ describe('Component: PlaceCard', () => {
     render(
       <button
         onClick={mockHandleClick}
-        className= {fakeOffer.isFavorite ?
+        className={fakeOffer.isFavorite ?
           'place-card__bookmark-button button place-card__bookmark-button--active' : 'place-card__bookmark-button button'}
         type="button"
       >
@@ -55,7 +56,7 @@ describe('Component: PlaceCard', () => {
         <span className="visually-hidden" data-testid="bookmark">To bookmarks</span>
       </button>
     );
-    if(fakeOffer.isFavorite){
+    if (fakeOffer.isFavorite) {
       expect(screen.getByRole('button')).toHaveClass('place-card__bookmark-button button place-card__bookmark-button--active');
     }
     await userEvent.click(screen.getByRole('button'));

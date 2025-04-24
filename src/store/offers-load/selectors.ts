@@ -22,8 +22,8 @@ export const selectSortOffers = (state: State): string => state[NameSpace.Offers
 
 export const selectIsFiltersOpen = (state: State) => state[NameSpace.OffersData].isFiltersOpen;
 
-export const getFavoritesLength = (state: Pick<State, NameSpace.OffersData>): number=> {
-  const favoriteOffers = state[NameSpace.OffersData].offers.filter((item)=>item.isFavorite === true
+export const getFavoritesLength = (state: Pick<State, NameSpace.OffersData>): number => {
+  const favoriteOffers = state[NameSpace.OffersData].offers.filter((item) => item.isFavorite === true
   );
   return favoriteOffers.length;
 };

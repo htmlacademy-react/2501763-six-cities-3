@@ -1,6 +1,6 @@
 import { makeFakeOfferCard, makeFakeOfferPage } from '../../utils/mocks';
 import { fetchOffersAction, fetchAroundOffersAction, fetchOfferPageAction, fetchFavoriteOffersAction } from '../api-actions';
-import { offersLoad, loadOffer, refreshCards, loading, refreshFavoriteCards } from './offers-load';
+import { offersLoad, loadOffer, refreshCards, loading } from './offers-load';
 import { INITIAL_SORT } from '../../constants';
 
 describe('OffersLoad Slice', () => {
@@ -334,39 +334,6 @@ describe('OffersLoad Slice', () => {
       favoriteStatus: false
     };
     const result = offersLoad.reducer(initialState, loading(actualOffersLoading));
-    expect(result).toEqual(expectedState);
-  });
-
-  it('should return state with actual favorite status for favorite page', () => {
-    const favoriteCardMock = makeFakeOfferCard();
-    const initialState = {
-      offers: [],
-      sortOffers: INITIAL_SORT,
-      isFiltersOpen: false,
-      isOffersLoading: false,
-      offer: undefined,
-      offerCard: undefined,
-      aroundOffers: [],
-      favoriteOffers: [favoriteCardMock],
-      isOfferLoading: false,
-      isFavoriteLoading: false,
-      favoriteStatus: false
-    };
-
-    const expectedState = {
-      offers: [],
-      sortOffers: INITIAL_SORT,
-      isFiltersOpen: false,
-      isOffersLoading: false,
-      offer: undefined,
-      offerCard: undefined,
-      aroundOffers: [],
-      favoriteOffers: [{ ...favoriteCardMock, isFavorite: !favoriteCardMock.isFavorite }],
-      isOfferLoading: false,
-      isFavoriteLoading: false,
-      favoriteStatus: false
-    };
-    const result = offersLoad.reducer(initialState, refreshFavoriteCards(favoriteCardMock));
     expect(result).toEqual(expectedState);
   });
 });

@@ -18,13 +18,12 @@ describe('Component: Main', () => {
     const fakeOffer = makeFakeOfferCard();
 
     const { withStoreComponent } = withStore(<Main />, makeFakeStore({
-      USER: {
+      user: {
         authorizationStatus: AuthorizationStatus.Auth,
         user: null,
         isLoginFormDisabled: false,
-        email: ''
       },
-      DATA_OFFERS: {
+      offers: {
         offers: [fakeOffer],
         sortOffers: INITIAL_SORT,
         isFiltersOpen: false,
@@ -53,13 +52,12 @@ describe('Component: Main', () => {
     const expectedText = 'No places to stay available';
 
     const { withStoreComponent } = withStore(<Main />, makeFakeStore({
-      USER: {
+      user: {
         authorizationStatus: AuthorizationStatus.Auth,
         user: null,
         isLoginFormDisabled: false,
-        email: ''
       },
-      DATA_OFFERS: {
+      offers: {
         offers: [],
         sortOffers: INITIAL_SORT,
         isFiltersOpen: false,

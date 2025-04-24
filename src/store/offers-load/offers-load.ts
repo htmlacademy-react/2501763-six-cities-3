@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NameSpace } from '../../constants';
-import { fetchOffersAction, fetchAroundOffersAction, fetchOfferPageAction, fetchFavoriteOffersAction } from '../api-actions';
+import { fetchOffersAction, fetchAroundOffersAction, fetchOfferPageAction, fetchFavoriteOffersAction, postFavoriteAction } from '../api-actions';
 import { OffersLoad } from '../../types/state';
 import { Sorts } from '../../components/sort/const';
 import { sortOffers } from '../../components/sort/utils';
@@ -46,13 +46,6 @@ export const offersLoad = createSlice({
     loading: (state, action: PayloadAction<boolean>) => {
       state.isOffersLoading = !action.payload;
     },
-    refreshFavoriteCards: (state, action: PayloadAction<OffersLoad['offerCard']>) => {
-      state.favoriteOffers.forEach((item) => {
-        if (action.payload && item.id === action.payload.id) {
-          item.isFavorite = !action.payload.isFavorite;
-        }
-      });
-    },
     changeSort: (state, action: PayloadAction<string>) => {
       state.sortOffers = action.payload;
       state.offers = sortOffers[action.payload]([...state.offers]);
@@ -95,8 +88,17 @@ export const offersLoad = createSlice({
       })
       .addCase(fetchFavoriteOffersAction.rejected, (state) => {
         state.isFavoriteLoading = false;
+      })
+      .addCase(postFavoriteAction.fulfilled, (state, action) => {
+        const updatedOffer = action.payload;
+        const index = state.favoriteOffers.findIndex((offer) => offer.id === updatedOffer.id);
+        if (index >= 0) {
+          state.favoriteOffers.splice(index, 1);
+        } else {
+          state.favoriteOffers.push(updatedOffer);
+        }
       });
   }
 });
 
-export const { loadOffer, refreshCards, changeSort, resetSort, toggleSortsMenu, loading, refreshFavoriteCards } = offersLoad.actions;
+export const { loadOffer, refreshCards, loading, changeSort, resetSort, toggleSortsMenu } = offersLoad.actions;

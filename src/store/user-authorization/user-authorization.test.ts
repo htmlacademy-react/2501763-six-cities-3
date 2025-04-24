@@ -9,7 +9,6 @@ describe('UserAuthorization Slice', () => {
       authorizationStatus: AuthorizationStatus.Auth,
       user: null,
       isLoginFormDisabled: false,
-      email: ''
     };
     const result = userAuthorization.reducer(expectedState, emptyAction);
     expect(result).toEqual(expectedState);
@@ -21,7 +20,6 @@ describe('UserAuthorization Slice', () => {
       authorizationStatus: AuthorizationStatus.Unknown,
       user: null,
       isLoginFormDisabled: false,
-      email: ''
     };
     const result = userAuthorization.reducer(undefined, emptyAction);
     expect(result).toEqual(expectedState);
@@ -32,13 +30,11 @@ describe('UserAuthorization Slice', () => {
       authorizationStatus: AuthorizationStatus.NoAuth,
       user: null,
       isLoginFormDisabled: false,
-      email: ''
     };
     const expectedState = {
       authorizationStatus: AuthorizationStatus.Auth,
       user: undefined,
       isLoginFormDisabled: false,
-      email: ''
     };
     const result = userAuthorization.reducer(initialState, checkAuthAction.fulfilled);
     expect(result).toEqual(expectedState);
@@ -49,13 +45,11 @@ describe('UserAuthorization Slice', () => {
       authorizationStatus: AuthorizationStatus.Auth,
       user: null,
       isLoginFormDisabled: false,
-      email: ''
     };
     const expectedState = {
       authorizationStatus: AuthorizationStatus.NoAuth,
       user: null,
       isLoginFormDisabled: false,
-      email: ''
     };
     const result = userAuthorization.reducer(initialState, checkAuthAction.rejected);
     expect(result).toEqual(expectedState);
@@ -66,13 +60,11 @@ describe('UserAuthorization Slice', () => {
       authorizationStatus: AuthorizationStatus.NoAuth,
       user: null,
       isLoginFormDisabled: false,
-      email: ''
     };
     const expectedState = {
       authorizationStatus: AuthorizationStatus.Auth,
-      user: null,
+      user: undefined,
       isLoginFormDisabled: false,
-      email: undefined
     };
     const result = userAuthorization.reducer(initialState, loginAction.fulfilled);
     expect(result).toEqual(expectedState);
@@ -83,13 +75,11 @@ describe('UserAuthorization Slice', () => {
       authorizationStatus: AuthorizationStatus.Auth,
       user: null,
       isLoginFormDisabled: false,
-      email: ''
     };
     const expectedState = {
       authorizationStatus: AuthorizationStatus.NoAuth,
       user: null,
       isLoginFormDisabled: false,
-      email: ''
     };
     const result = userAuthorization.reducer(initialState, loginAction.rejected);
     expect(result).toEqual(expectedState);
@@ -100,13 +90,11 @@ describe('UserAuthorization Slice', () => {
       authorizationStatus: AuthorizationStatus.Auth,
       user: null,
       isLoginFormDisabled: false,
-      email: ''
     };
     const expectedState = {
       authorizationStatus: AuthorizationStatus.NoAuth,
       user: null,
       isLoginFormDisabled: false,
-      email: ''
     };
     const result = userAuthorization.reducer(initialState, logoutAction.fulfilled);
     expect(result).toEqual(expectedState);

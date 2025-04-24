@@ -7,7 +7,6 @@ const initialState: UserAuth = {
   authorizationStatus: AuthorizationStatus.Unknown,
   user: null,
   isLoginFormDisabled: false,
-  email: ''
 };
 
 export const userAuthorization = createSlice({
@@ -29,7 +28,7 @@ export const userAuthorization = createSlice({
       .addCase(loginAction.fulfilled, (state, action) => {
         state.isLoginFormDisabled = false;
         state.authorizationStatus = AuthorizationStatus.Auth;
-        state.email = action.payload;
+        state.user = action.payload;
       })
       .addCase(loginAction.rejected, (state) => {
         state.isLoginFormDisabled = false;

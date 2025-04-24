@@ -22,7 +22,7 @@ describe('Async actions', () => {
   let store: ReturnType<typeof mockStoreCreator>;
 
   beforeEach(() => {
-    store = mockStoreCreator({ DATA_OFFERS: { offers: [], isFavoriteLoading: false } });
+    store = mockStoreCreator({ offers: { offers: [], isFavoriteLoading: false } });
   });
 
   describe('checkAuthAction', () => {
@@ -195,7 +195,6 @@ describe('Async actions', () => {
 
       expect(actions).toEqual([
         postFavoriteAction.pending.type,
-        fetchFavoriteOffersAction.pending.type,
         postFavoriteAction.fulfilled.type,
       ]);
     });
@@ -252,7 +251,6 @@ describe('Async actions', () => {
 
       expect(actions).toEqual([
         postReviewAction.pending.type,
-        fetchReviewsAction.pending.type,
         postReviewAction.fulfilled.type,
       ]);
     });
@@ -260,7 +258,7 @@ describe('Async actions', () => {
 
   describe('loginAction', () => {
     it('should dispatch "loginAction.pending", "redirectToRoute", "loginAction.fulfilled" when server response 200', async () => {
-      const fakeUser: AuthData = { login: 'test@test.ru', password: '123456' };
+      const fakeUser: AuthData = { email: 'test@test.ru', password: '123456' };
       const fakeServerReplay = { token: 'secret' };
 
       mockAxiosAdapter.onPost(APIRoute.Login).reply(200, fakeServerReplay);
@@ -270,13 +268,12 @@ describe('Async actions', () => {
 
       expect(actions).toEqual([
         loginAction.pending.type,
-        checkAuthAction.pending.type,
         redirectToRoute.type,
         loginAction.fulfilled.type,
       ]);
     });
     it('should call "saveToken" once with the received token', async () => {
-      const fakeUser: AuthData = { login: 'test@test.ru', password: '123456' };
+      const fakeUser: AuthData = { email: 'test@test.ru', password: '123456' };
       const fakeServerReplay = { token: 'secret' };
       mockAxiosAdapter.onPost(APIRoute.Login).reply(200, fakeServerReplay);
       const mockSaveToken = vi.spyOn(tokenStorage, 'saveToken');

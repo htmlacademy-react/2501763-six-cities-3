@@ -22,7 +22,7 @@ export default function Login(): JSX.Element {
     evt.preventDefault();
     if (loginRef.current !== null && passwordRef.current !== null) {
       dispatch(loginAction({
-        login: loginRef.current.value,
+        email: loginRef.current.value,
         password: passwordRef.current.value
       }));
     }
@@ -67,7 +67,7 @@ export default function Login(): JSX.Element {
                   type="password"
                   name="password"
                   placeholder="Password"
-                  pattern="\w+\W?\g" title="Пароль должен содержать по крайней мере одно число и одну букву"
+                  pattern="^(?=.*[A-Za-z])(?=.*\d).+$" title="Пароль должен содержать по крайней мере одну букву и одну цифру."
                   required
                 />
               </div>

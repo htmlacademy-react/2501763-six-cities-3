@@ -1,43 +1,53 @@
 import { useState, FormEvent, ChangeEvent, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { postReviewAction } from '../../store/api-actions';
-import { MIN_COMMENT_LENGTH, DEFAULT_RATING } from '../../constants';
+import { MIN_COMMENT_LENGTH, MAX_COMMENT_LENGTH, DEFAULT_RATING } from '../../constants';
 import { getDisabledReviewStatus } from '../../store/reviews-load/selectors';
-import {getDataOffer} from '../../store/offers-load/selectors';
+import { getDataOffer } from '../../store/offers-load/selectors';
 
 export default function ReviewForm(): JSX.Element {
   const dispatch = useAppDispatch();
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [hoveredRating, setHoveredRating] = useState(0);
   const formRef = useRef<HTMLFormElement | null>(null);
   const offer = useAppSelector(getDataOffer);
   const disabled = useAppSelector(getDisabledReviewStatus);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+
+    if (offer && comment.length >= MIN_COMMENT_LENGTH && comment.length <= MAX_COMMENT_LENGTH && rating > DEFAULT_RATING) {
+      setIsSubmitting(true);
+      setErrorMessage('');
+
+      dispatch(postReviewAction({
+        pageId: offer.id,
+        comment: comment,
+        rating: rating,
+      })).unwrap().then(() => {
+        if (formRef.current) {
+          formRef.current.reset();
+        }
+        setComment('');
+        setRating(0);
+        setIsSubmitting(false);
+      }).catch(() => {
+        setIsSubmitting(false);
+        setErrorMessage('Failed to submit review. Please try again.');
+      });
+    }
+  };
 
   const handleReviewChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
     setComment(evt.target.value);
   };
 
   const handleRatingButtonClick = (evt: ChangeEvent<HTMLInputElement>) => {
-    setRating(Number(evt.target.value));
-  };
-
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    if (offer && comment !== null && rating !== null) {
-      dispatch(postReviewAction({
-        pageId: offer.id,
-        comment: comment,
-        rating: rating,
-      })).unwrap().then(() => {
-        if(formRef.current){
-          formRef.current.reset();
-        }
-        setComment('');
-        setRating(0);
-      });
-    }
+    setRating(Number(evt.target.value));
   };
 
   const ratings = [
@@ -57,13 +67,15 @@ export default function ReviewForm(): JSX.Element {
         {ratings.map((ratingItem) => (
           <div key={ratingItem.value} className="rating-item">
             <input
-              data-testid ="input-star"
-              onChange={handleRatingButtonClick}
               className="form__rating-input visually-hidden"
               name="rating"
+              disabled={isSubmitting}
               value={ratingItem.value}
               id={`${ratingItem.value}-stars`}
               type="radio"
+              data-testid="input-star"
+              onChange={handleRatingButtonClick}
+              checked={rating === ratingItem.value}
             />
             <label
               htmlFor={`${ratingItem.value}-stars`}
@@ -85,28 +97,30 @@ export default function ReviewForm(): JSX.Element {
         ))}
       </div>
       <textarea
-        data-testid = "comment-text"
-        disabled={disabled}
+        data-testid="comment-text"
+        disabled={disabled || isSubmitting}
         onChange={handleReviewChange}
         className="reviews__textarea form__textarea"
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        defaultValue={''}
+        value={comment} // Изменено на value для контроля состояния
+        minLength={MIN_COMMENT_LENGTH}
       />
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set{' '}
           <span className="reviews__star">rating</span> and describe
           your stay with at least{' '}
-          <b className="reviews__text-amount">{MIN_COMMENT_LENGTH} characters</b>.
+          <b className="reviews__text-amount">{MIN_COMMENT_LENGTH} characters but no more than {MAX_COMMENT_LENGTH} characters</b>.
         </p>
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={comment.length >= MIN_COMMENT_LENGTH && rating >= DEFAULT_RATING ? disabled : true}
+          disabled={disabled || isSubmitting || !(comment.length >= MIN_COMMENT_LENGTH && comment.length <= MAX_COMMENT_LENGTH && rating > DEFAULT_RATING)}
         >
-          Submit
+          {isSubmitting ? 'Submitting...' : 'Submit'}
         </button>
       </div>
     </form>

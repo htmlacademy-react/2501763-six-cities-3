@@ -48,12 +48,12 @@ export default function Main(): JSX.Element {
               <b className="places__found">{cardsCount} {cardsCount > 1 ? 'places' : 'place'} to stay in {actualCity}</b>
               <Sort />
               <div className="cities__places-list places__list tabs__content">
-                <CardsList offers={filteredOffers} />
+                <CardsList offers={filteredOffers} isNearList={false}/>
               </div>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
-                <Map offers={filteredOffers} selectedOffer={selectedOffer} actualCity={actualCity} />
+                <Map offers={filteredOffers} selectedOffer={selectedOffer} actualCity={actualCity} isOfferPageMap={false}/>
               </section>
             </div>
           </div>
