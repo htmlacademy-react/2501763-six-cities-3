@@ -33,25 +33,6 @@ describe('ReviewsLoad Slice', () => {
     expect(result).toEqual(expectedState);
   });
 
-  it('should set "isReviewFormDisabled" to "false" with "postReviewAction.fulfilled"', () => {
-    const mockComment = {
-      pageId: 'string',
-      comment: 'string',
-      rating: 5,
-      formRef: null
-    };
-    const expectedState = {
-      reviews: [],
-      isReviewFormDisabled: false
-    };
-
-    const result = reviewsLoad.reducer(
-      undefined,
-      postReviewAction.fulfilled(undefined, '', mockComment)
-    );
-    expect(result).toEqual(expectedState);
-  });
-
   it('should set "isReviewFormDisabled" to "false" with "postReviewAction.rejected"', () => {
     const expectedState = {
       reviews: [],

@@ -6,7 +6,7 @@ import { makeFakeStore, makeFakeOfferPage, makeFakeOfferCard, extractActionsType
 import { AuthorizationStatus, APIRoute } from '../../constants';
 import ReviewList from '../../components/review-list/review-list';
 import ReviewForm from '../../components/review-form/review-form';
-import { postFavoriteAction, fetchFavoriteOffersAction, fetchOffersAction } from '../../store/api-actions';
+import { postFavoriteAction, fetchOffersAction } from '../../store/api-actions';
 import { loadOffer, loading } from '../../store/offers-load/offers-load';
 import { redirectToRoute } from '../../store/action';
 import { INITIAL_SORT } from '../../constants';
@@ -170,12 +170,10 @@ describe('Component: Offer', () => {
 
     expect(actions).toEqual([
       postFavoriteAction.pending.type,
-      fetchFavoriteOffersAction.pending.type,
       postFavoriteAction.fulfilled.type,
       fetchOffersAction.pending.type,
       loading.type,
       loadOffer.type,
-      fetchFavoriteOffersAction.fulfilled.type,
       fetchOffersAction.fulfilled.type
     ]);
   });

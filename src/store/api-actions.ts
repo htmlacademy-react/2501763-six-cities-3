@@ -62,15 +62,15 @@ export const fetchFavoriteOffersAction = createAsyncThunk<Offer[], undefined, {
   },
 );
 
-export const postFavoriteAction = createAsyncThunk<void, FavoriteOffer, {
+export const postFavoriteAction = createAsyncThunk<Offer, FavoriteOffer, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'offer/favoriteStatus',
-  async ({ offerId, status }, { dispatch, extra: api }) => {
-    await api.post<Offer>(`${APIRoute.Favorite}/${offerId}/${status}`);
-    dispatch(fetchFavoriteOffersAction());
+  async ({ offerId, status }, { extra: api }) => {
+    const { data } = await api.post<Offer>(`${APIRoute.Favorite}/${offerId}/${status}`);
+    return data;
   },
 );
 
@@ -86,15 +86,15 @@ export const fetchReviewsAction = createAsyncThunk<Review[], string, {
   },
 );
 
-export const postReviewAction = createAsyncThunk<void, NewComment, {
+export const postReviewAction = createAsyncThunk<Review, NewComment, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'offer/review',
-  async ({ pageId, comment, rating }, { dispatch, extra: api }) => {
-    await api.post<NewComment>(`${APIRoute.Comments}/${pageId}`, { comment, rating });
-    dispatch(fetchReviewsAction(pageId));
+  async ({ pageId, comment, rating }, { extra: api }) => {
+    const { data } = await api.post<Review>(`${APIRoute.Comments}/${pageId}`, { comment, rating });
+    return data;
   },
 );
 

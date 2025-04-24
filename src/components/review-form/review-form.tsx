@@ -9,7 +9,7 @@ export default function ReviewForm(): JSX.Element {
   const dispatch = useAppDispatch();
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [hoveredRating, setHoveredRating] = useState(0);
   const formRef = useRef<HTMLFormElement | null>(null);
   const offer = useAppSelector(getDataOffer);
@@ -25,7 +25,10 @@ export default function ReviewForm(): JSX.Element {
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    if (offer && comment !== null && rating !== null) {
+
+    if (offer && comment.length >= MIN_COMMENT_LENGTH && comment.length <= MAX_COMMENT_LENGTH && rating > DEFAULT_RATING) {
+      setIsSubmitting(true);
+
       dispatch(postReviewAction({
         pageId: offer.id,
         comment: comment,
@@ -36,6 +39,9 @@ export default function ReviewForm(): JSX.Element {
         }
         setComment('');
         setRating(0);
+        setIsSubmitting(false);
+      }).catch(() => {
+        setIsSubmitting(false);
       });
     }
   };
@@ -57,13 +63,14 @@ export default function ReviewForm(): JSX.Element {
         {ratings.map((ratingItem) => (
           <div key={ratingItem.value} className="rating-item">
             <input
-              data-testid="input-star"
-              onChange={handleRatingButtonClick}
               className="form__rating-input visually-hidden"
               name="rating"
               value={ratingItem.value}
               id={`${ratingItem.value}-stars`}
               type="radio"
+              disabled={isSubmitting}
+              data-testid="input-star"
+              onChange={handleRatingButtonClick}
             />
             <label
               htmlFor={`${ratingItem.value}-stars`}
@@ -86,7 +93,7 @@ export default function ReviewForm(): JSX.Element {
       </div>
       <textarea
         data-testid="comment-text"
-        disabled={disabled}
+        disabled={disabled || isSubmitting}
         onChange={handleReviewChange}
         className="reviews__textarea form__textarea"
         id="review"
@@ -105,9 +112,9 @@ export default function ReviewForm(): JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={comment.length >= MIN_COMMENT_LENGTH && comment.length <= MAX_COMMENT_LENGTH && rating > DEFAULT_RATING ? disabled : true}
+          disabled={isSubmitting || !(comment.length >= MIN_COMMENT_LENGTH && comment.length <= MAX_COMMENT_LENGTH && rating > DEFAULT_RATING)}
         >
-          Submit
+          {isSubmitting ? 'Submitting...' : 'Submit'}
         </button>
       </div>
     </form>

@@ -195,7 +195,6 @@ describe('Async actions', () => {
 
       expect(actions).toEqual([
         postFavoriteAction.pending.type,
-        fetchFavoriteOffersAction.pending.type,
         postFavoriteAction.fulfilled.type,
       ]);
     });
@@ -252,7 +251,6 @@ describe('Async actions', () => {
 
       expect(actions).toEqual([
         postReviewAction.pending.type,
-        fetchReviewsAction.pending.type,
         postReviewAction.fulfilled.type,
       ]);
     });

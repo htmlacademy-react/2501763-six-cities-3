@@ -4,7 +4,7 @@ import { withHistory, withStore } from '../../utils/mock-component';
 import { AuthorizationStatus, APIRoute } from '../../constants';
 import { makeFakeStore, makeFakeOfferPage } from '../../utils/mocks';
 import ReviewForm from './review-form';
-import { postReviewAction, fetchReviewsAction } from '../../store/api-actions';
+import { postReviewAction } from '../../store/api-actions';
 import { NewComment } from '../../types/review';
 import { extractActionsTypes } from '../../utils/mocks';
 import { INITIAL_SORT } from '../../constants';
@@ -123,9 +123,7 @@ describe('Component: ReviewForm', () => {
 
     expect(actions).toEqual([
       postReviewAction.pending.type,
-      fetchReviewsAction.pending.type,
       postReviewAction.fulfilled.type,
-      fetchReviewsAction.fulfilled.type,
     ]);
   });
 });

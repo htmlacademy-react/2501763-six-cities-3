@@ -4,7 +4,7 @@ import { withHistory, withStore } from '../../utils/mock-component';
 import FavoritePlaceCard from './favorite-place-card';
 import { makeFakeStore, makeFakeOfferCard, extractActionsTypes } from '../../utils/mocks';
 import { AuthorizationStatus, APIRoute } from '../../constants';
-import { postFavoriteAction, fetchFavoriteOffersAction, fetchOffersAction } from '../../store/api-actions';
+import { postFavoriteAction, fetchOffersAction } from '../../store/api-actions';
 import { loading } from '../../store/offers-load/offers-load';
 
 describe('Component: FavoritePlaceCard', () => {
@@ -54,11 +54,9 @@ describe('Component: FavoritePlaceCard', () => {
 
     expect(actions).toEqual([
       postFavoriteAction.pending.type,
-      fetchFavoriteOffersAction.pending.type,
       postFavoriteAction.fulfilled.type,
       fetchOffersAction.pending.type,
       loading.type,
-      fetchFavoriteOffersAction.fulfilled.type,
       fetchOffersAction.fulfilled.type
     ]);
   });

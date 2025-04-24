@@ -17,7 +17,7 @@ export const reviewsLoad = createSlice({
     builder
       .addCase(fetchReviewsAction.fulfilled, (state, action) => {
         state.isReviewFormDisabled = false;
-        state.reviews = action.payload.sort((a,b)=> new Date(b.date).getTime() - new Date(a.date).getTime());
+        state.reviews = action.payload.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       })
       .addCase(fetchReviewsAction.rejected, (state) => {
         state.isReviewFormDisabled = false;
@@ -25,15 +25,13 @@ export const reviewsLoad = createSlice({
       .addCase(postReviewAction.pending, (state) => {
         state.isReviewFormDisabled = true;
       })
-      .addCase(postReviewAction.fulfilled, (state) => {
+      .addCase(postReviewAction.fulfilled, (state, action) => {
         state.isReviewFormDisabled = false;
+        state.reviews.unshift(action.payload);
       })
       .addCase(postReviewAction.rejected, (state) => {
         state.isReviewFormDisabled = false;
-
         toast.warn('Неизвестная ошибка');
-
-
       });
   }
 });
