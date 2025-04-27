@@ -3,7 +3,6 @@ import { withHistory, withStore } from '../../utils/mock-component';
 import Favorite from './favorites';
 import { AuthorizationStatus } from '../../constants';
 import { makeFakeStore, makeFakeOfferCard } from '../../utils/mocks';
-import { INITIAL_SORT } from '../../constants';
 
 describe('Component: Favorite', () => {
   it('should render correctly', () => {
@@ -26,8 +25,6 @@ describe('Component: Favorite', () => {
       },
       offers: {
         offers: [fakeOffer],
-        sortOffers: INITIAL_SORT,
-        isFiltersOpen: false,
         isOffersLoading: false,
         offerCard: undefined,
         offer: undefined,
@@ -61,8 +58,6 @@ describe('Component: Favorite', () => {
       },
       offers: {
         offers: [],
-        sortOffers: INITIAL_SORT,
-        isFiltersOpen: false,
         isOffersLoading: false,
         offerCard: undefined,
         offer: undefined,

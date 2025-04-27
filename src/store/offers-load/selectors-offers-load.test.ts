@@ -1,14 +1,11 @@
 import { NameSpace } from '../../constants';
 import { getAroundOffers, getOffersLoadingStatus, getOfferPageLoadingStatus, getFavoriteLoadingStatus, getDataOffer, getDataCard, getOffers, getFavoriteOffers, getFavoritesLength } from './selectors';
-import { INITIAL_SORT } from '../../constants';
 import {makeFakeOfferCard, makeFakeFavoriteOfferCard, makeFakeOfferPage} from '../../utils/mocks';
 
 describe('OffersData selectors', () => {
   const state = {
     [NameSpace.OffersData]: {
       offers: [makeFakeOfferCard(), makeFakeFavoriteOfferCard()],
-      sortOffers: INITIAL_SORT,
-      isFiltersOpen: false,
       isOffersLoading: false,
       offer: makeFakeOfferPage(),
       offerCard: makeFakeOfferCard(),

@@ -7,7 +7,6 @@ import CardsList from '../../components/cards-list/cards-list';
 import Sort from '../../components/sort/sort';
 import { makeFakeStore, makeFakeOfferCard } from '../../utils/mocks';
 import { AuthorizationStatus } from '../../constants';
-import { INITIAL_SORT } from '../../constants';
 
 describe('Component: Main', () => {
   it('should render correctly', () => {
@@ -25,8 +24,6 @@ describe('Component: Main', () => {
       },
       offers: {
         offers: [fakeOffer],
-        sortOffers: INITIAL_SORT,
-        isFiltersOpen: false,
         isOffersLoading: false,
         offerCard: undefined,
         offer: undefined,
@@ -59,8 +56,6 @@ describe('Component: Main', () => {
       },
       offers: {
         offers: [],
-        sortOffers: INITIAL_SORT,
-        isFiltersOpen: false,
         isOffersLoading: false,
         offerCard: undefined,
         offer: undefined,

@@ -1,5 +1,5 @@
 import { Offer } from '../../types/offer';
-import { Sorts } from '../../components/sort/const';
+import { Sorts } from '../../components/utils';
 
 export const getOffersByCity = (city: string, offers: Offer[]): Offer[] => {
   const offersByCity = offers.filter((offer) =>

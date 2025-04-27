@@ -4,3 +4,5 @@ import { State } from '../../types/state';
 export const getActiveOfferId = (state: Pick<State, NameSpace.AppActions>): string => state[NameSpace.AppActions].activeOfferId;
 
 export const getError = (state: Pick<State, NameSpace.AppActions>): string | null => state[NameSpace.AppActions].error;
+
+export const getSort = (state: Pick<State, NameSpace.AppActions>): string => state[NameSpace.AppActions].sort;

@@ -60,3 +60,15 @@ export function getRandomIntInclusive(min:number, max: number) {
   const maxFloored = Math.floor(max);
   return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);
 }
+
+export enum UrlMarker {
+  DEFAULT = '/public/img/pin.svg',
+  CURRENT = '/public/img/pin-active.svg',
+}
+
+export const Sorts = {
+  POPULAR: 'Popular',
+  PRICE_LOW_TO_HIGH: 'Price: low to high',
+  PRICE_HIGH_TO_LOW: 'Price: high to low',
+  TOP_RATED_FIRST: 'Top rated first'
+};

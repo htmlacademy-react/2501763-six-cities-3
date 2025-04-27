@@ -2,14 +2,9 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NameSpace } from '../../constants';
 import { fetchOffersAction, fetchAroundOffersAction, fetchOfferPageAction, fetchFavoriteOffersAction, postFavoriteAction } from '../api-actions';
 import { OffersLoad } from '../../types/state';
-import { Sorts } from '../../components/sort/const';
-import { sortOffers } from '../../components/sort/utils';
-import { INITIAL_SORT } from '../../constants';
 
 const initialState: OffersLoad = {
   offers: [],
-  sortOffers: INITIAL_SORT,
-  isFiltersOpen: false,
   isOffersLoading: false,
   offer: undefined,
   offerCard: undefined,
@@ -46,16 +41,6 @@ export const offersLoad = createSlice({
     loading: (state, action: PayloadAction<boolean>) => {
       state.isOffersLoading = !action.payload;
     },
-    changeSort: (state, action: PayloadAction<string>) => {
-      state.sortOffers = action.payload;
-      state.offers = sortOffers[action.payload]([...state.offers]);
-    },
-    resetSort: (state) => {
-      state.sortOffers = Sorts.POPULAR;
-    },
-    toggleSortsMenu: (state) => {
-      state.isFiltersOpen = !state.isFiltersOpen;
-    }
   },
   extraReducers(builder) {
     builder
@@ -101,4 +86,4 @@ export const offersLoad = createSlice({
   }
 });
 
-export const { loadOffer, refreshCards, loading, changeSort, resetSort, toggleSortsMenu } = offersLoad.actions;
+export const { loadOffer, refreshCards, loading } = offersLoad.actions;

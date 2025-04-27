@@ -131,8 +131,6 @@ export const makeFakeStore = (initialState?: Partial<State>): State => ({
   },
   offers: {
     offers: [],
-    sortOffers: '',
-    isFiltersOpen: false,
     isOffersLoading: false,
     offerCard: undefined,
     offer: undefined,
@@ -143,6 +141,7 @@ export const makeFakeStore = (initialState?: Partial<State>): State => ({
     favoriteStatus: false,
   },
   actions: {
+    sort: '',
     activeOfferId: '',
     error: null
   },

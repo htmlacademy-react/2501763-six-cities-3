@@ -9,7 +9,6 @@ import ReviewForm from '../../components/review-form/review-form';
 import { postFavoriteAction, fetchOffersAction } from '../../store/api-actions';
 import { loadOffer, loading } from '../../store/offers-load/offers-load';
 import { redirectToRoute } from '../../store/action';
-import { INITIAL_SORT } from '../../constants';
 
 describe('Component: Offer', () => {
 
@@ -28,8 +27,6 @@ describe('Component: Offer', () => {
       },
       offers: {
         offers: [],
-        sortOffers: INITIAL_SORT,
-        isFiltersOpen: false,
         isOffersLoading: false,
         offerCard: undefined,
         offer: fakeOffer,
@@ -70,8 +67,6 @@ describe('Component: Offer', () => {
       },
       offers: {
         offers: [],
-        sortOffers: INITIAL_SORT,
-        isFiltersOpen: false,
         isOffersLoading: false,
         offerCard: undefined,
         offer: fakeOffer,
@@ -112,8 +107,6 @@ describe('Component: Offer', () => {
       },
       offers: {
         offers: [],
-        sortOffers: INITIAL_SORT,
-        isFiltersOpen: false,
         isOffersLoading: true,
         offerCard: undefined,
         offer: fakeOffer,
@@ -144,8 +137,6 @@ describe('Component: Offer', () => {
       },
       offers: {
         offers: [],
-        sortOffers: INITIAL_SORT,
-        isFiltersOpen: false,
         isOffersLoading: false,
         offerCard: undefined,
         offer: fakeOffer,
@@ -189,8 +180,6 @@ describe('Component: Offer', () => {
       },
       offers: {
         offers: [],
-        sortOffers: INITIAL_SORT,
-        isFiltersOpen: false,
         isOffersLoading: false,
         offerCard: undefined,
         offer: fakeOffer,

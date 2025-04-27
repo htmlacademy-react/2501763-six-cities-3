@@ -6,7 +6,7 @@ import Map from '../../components/map/map';
 import CardsList from '../../components/cards-list/cards-list';
 import Loading from '../../components/loading/loading';
 import { useParams } from 'react-router-dom';
-import { AuthorizationStatus, AppRoute } from '../../constants';
+import { AuthorizationStatus, AppRoute, MIN_IMAGES_COUNT, MAX_IMAGES_COUNT, MIN_COMMENTS_COUNT, MAX_COMMENTS_COUNT } from '../../constants';
 import { useAppDispatch, useAppSelector } from '../../hooks/index';
 import { useEffect } from 'react';
 import { loadOffer } from '../../store/offers-load/offers-load';
@@ -71,7 +71,7 @@ export default function Offer(): JSX.Element | undefined {
     return (
       <div className="page" data-testid="offer-page">
         <Helmet>
-          <title>6 cities: offer</title>
+          <title>Шесть городов: Предложение</title>
         </Helmet>
         <Header />
         <main className="page__main page__main--offer">
@@ -79,7 +79,7 @@ export default function Offer(): JSX.Element | undefined {
             <div className="offer__gallery-container container">
               <div className="offer__gallery">
                 {
-                  offer.images.slice(0, 6).map((srcImg) => (
+                  offer.images.slice(MIN_IMAGES_COUNT, MAX_IMAGES_COUNT).map((srcImg) => (
                     <div key={srcImg} className="offer__image-wrapper">
                       <img
                         className="offer__image"
@@ -165,7 +165,7 @@ export default function Offer(): JSX.Element | undefined {
                   <h2 className="reviews__title">
                     Reviews · <span className="reviews__amount">{reviews.length}</span>
                   </h2>
-                  <ReviewList reviews={reviews.slice(0, 10)} />
+                  <ReviewList reviews={reviews.slice(MIN_COMMENTS_COUNT, MAX_COMMENTS_COUNT)} />
                   {authStatus === AuthorizationStatus.Auth ?
                     <ReviewForm /> : ''}
                 </section>
