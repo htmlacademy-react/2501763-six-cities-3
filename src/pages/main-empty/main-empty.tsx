@@ -10,7 +10,7 @@ export default function MainEmpty(): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <Helmet>
-        <title>6 cities</title>
+        <title>Шесть городов. Главная пусто</title>
       </Helmet>
       <Header />
       <main className="page__main page__main--index page__main--index-empty">

@@ -7,7 +7,6 @@ import ReviewForm from './review-form';
 import { postReviewAction } from '../../store/api-actions';
 import { NewComment } from '../../types/review';
 import { extractActionsTypes } from '../../utils/mocks';
-import { INITIAL_SORT } from '../../constants';
 
 describe('Component: ReviewForm', () => {
 
@@ -86,8 +85,6 @@ describe('Component: ReviewForm', () => {
       },
       offers: {
         offers: [],
-        sortOffers: INITIAL_SORT,
-        isFiltersOpen: false,
         isOffersLoading: false,
         offerCard: undefined,
         offer: fakeOffer,

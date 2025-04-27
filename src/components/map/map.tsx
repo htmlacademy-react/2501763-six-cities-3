@@ -2,7 +2,7 @@ import { useRef, useEffect } from 'react';
 import { Icon, Marker, layerGroup } from 'leaflet';
 import useMap from '../../hooks/use-map';
 import { City, Offer, ExtendedOffer } from '../../types/offer';
-import { UrlMarker } from '../map/const';
+import { UrlMarker } from '../../components/utils';
 import { CITY_LOCATIONS } from '../utils';
 import 'leaflet/dist/leaflet.css';
 

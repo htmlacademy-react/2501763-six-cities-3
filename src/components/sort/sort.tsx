@@ -1,55 +1,63 @@
-import { AppRoute } from '../../constants';
-import { Sorts } from '../../components/sort/const';
-import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { changeSort, toggleSortsMenu } from '../../store/offers-load/offers-load';
-import { selectSortOffers, selectIsFiltersOpen } from '../../store/offers-load/selectors';
+import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/index';
+import { MouseEvent } from 'react';
+import { sortOffers } from '../../store/app-actions/app-actions';
+import { useEffect } from 'react';
+import { Sorts } from '../utils';
+import { getSort } from '../../store/app-actions/selectors';
 
 export default function Sort(): JSX.Element {
-  const navigate = useNavigate();
+
+  const [sortTypesList, setSortTypesList] = useState(false);
+
+  function handleSortingArrow() {
+    setSortTypesList(!sortTypesList);
+  }
+  useEffect(() => {
+    if (sortTypesList) {
+      const onEscKeyDown = (event: KeyboardEvent) => {
+        event.preventDefault();
+        if (event.key === 'Escape') {
+          setSortTypesList(!sortTypesList);
+        }
+      };
+      document.addEventListener('keydown', onEscKeyDown);
+      return () => {
+        document.removeEventListener('keydown', onEscKeyDown);
+      };
+    }
+
+  }, [sortTypesList]);
   const dispatch = useAppDispatch();
+  const actualSort = useAppSelector(getSort);
 
-  const isOpened = useAppSelector(selectIsFiltersOpen);
-
-  const activeSort = useAppSelector(selectSortOffers);
-
-  const sortFormClickHandler = () => {
-    dispatch(toggleSortsMenu());
-    navigate(AppRoute.Main);
-  };
-
-  const sortFormChangeHandler = (filter: string) => {
-    dispatch(changeSort(filter));
-    navigate(AppRoute.Main);
+  const handleSortSelect = (event: MouseEvent<HTMLLIElement>) => {
+    const value = event.currentTarget.innerText;
+    dispatch(sortOffers(value));
+    setSortTypesList(!sortTypesList);
   };
 
   return (
-    <form className="places__sorting" action="#" method="get" data-testid='sort'
-      onClick={sortFormClickHandler}
-    >
+    <form data-testid="sort-form" className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
-      <span className="places__sorting-type" tabIndex={0}>
-        {' '}{activeSort}{' '}
-        <svg className="places__sorting-arrow" width="7" height="4">
-          <use xlinkHref="#icon-arrow-select"></use>
+      <span data-testid="sort-arrow" onClick={handleSortingArrow} className="places__sorting-type" tabIndex={0}>
+        {actualSort}
+        <svg className="places__sorting-arrow" width={7} height={4}>
+          <use xlinkHref="#icon-arrow-select" />
         </svg>
       </span>
-      <ul className={`places__options places__options--custom ${isOpened ? 'places__options--opened' : ''}`}>
-        {
-          Object.values(Sorts)
-            .map((filter) => (
-              <li
-                className={`places__option ${filter === activeSort ? 'places__option--active' : ''}`}
-                tabIndex={0}
-                key={filter}
-                onClick={() => {
-                  sortFormChangeHandler(filter);
-                }}
-              >
-                {filter}
-              </li>)
-            )
-        }
+      <ul data-testid="type-items-container" className={sortTypesList ? 'places__options places__options--custom places__options--opened' : 'places__options places__options--custom'}>
+        {Object.values(Sorts).map((type: string) => (
+          <li
+            data-testid="sort-type"
+            onClick={handleSortSelect}
+            key={type}
+            className={type === actualSort ? 'places__option places__option--active' : 'places__option'}
+            tabIndex={0}
+          >
+            {type}
+          </li>
+        ))}
       </ul>
     </form>
   );

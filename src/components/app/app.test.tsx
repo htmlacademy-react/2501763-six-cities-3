@@ -4,7 +4,6 @@ import { AuthorizationStatus, AppRoute } from '../../constants';
 import App from './app';
 import { withHistory, withStore } from '../../utils/mock-component';
 import {makeFakeStore, makeFakeOfferPage, makeFakeReview} from '../../utils/mocks';
-import { INITIAL_SORT } from '../../constants';
 
 describe('Application Routing', () => {
   let mockHistory: MemoryHistory;
@@ -59,8 +58,6 @@ describe('Application Routing', () => {
         isLoginFormDisabled: false,
       }, offers: {
         offers: [],
-        sortOffers: INITIAL_SORT,
-        isFiltersOpen: false,
         isOffersLoading: false,
         offerCard: undefined,
         offer: fakeOfferPage,

@@ -104,7 +104,7 @@ export default function ReviewForm(): JSX.Element {
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        value={comment} // Изменено на value для контроля состояния
+        value={comment}
         minLength={MIN_COMMENT_LENGTH}
       />
       {errorMessage && <p className="error-message">{errorMessage}</p>}

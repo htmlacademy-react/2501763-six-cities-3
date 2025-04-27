@@ -6,7 +6,7 @@ import { loginAction } from '../../store/api-actions';
 import { AppRoute } from '../../constants';
 import { getDisabledStatus } from '../../store/user-authorization/selectors';
 import Logo from '../../components/logo/logo';
-import {CITY_NAMES, getRandomIntInclusive} from '../../components/utils';
+import { CITY_NAMES, getRandomIntInclusive } from '../../components/utils';
 
 export default function Login(): JSX.Element {
   const randomIndex = getRandomIntInclusive(0, CITY_NAMES.length - 1);
@@ -36,7 +36,7 @@ export default function Login(): JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <Logo/>
+              <Logo />
             </div>
           </div>
         </div>

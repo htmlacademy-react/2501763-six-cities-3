@@ -44,3 +44,11 @@ export const DEFAULT_RATING = 0;
 export const INITIAL_CITY = 'Paris';
 
 export const INITIAL_SORT = 'Popular';
+
+export const MIN_COMMENTS_COUNT = 0;
+
+export const MAX_COMMENTS_COUNT = 10;
+
+export const MIN_IMAGES_COUNT = 0;
+
+export const MAX_IMAGES_COUNT = 6;

@@ -1,8 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NameSpace } from '../../constants';
 import { AppActions } from '../../types/state';
+import { INITIAL_SORT } from '../../constants';
 
 const initialState: AppActions = {
+  sort: INITIAL_SORT,
   activeOfferId: '',
   error: null,
 };
@@ -11,6 +13,9 @@ export const appActions = createSlice({
   name: NameSpace.AppActions,
   initialState,
   reducers: {
+    sortOffers: (state, action: PayloadAction<string>) => {
+      state.sort = action.payload;
+    },
     hoverOffer: (state, action: PayloadAction<string>) => {
       state.activeOfferId = action.payload;
     },
@@ -20,4 +25,4 @@ export const appActions = createSlice({
   }
 });
 
-export const { hoverOffer, setError } = appActions.actions;
+export const { sortOffers, hoverOffer, setError } = appActions.actions;

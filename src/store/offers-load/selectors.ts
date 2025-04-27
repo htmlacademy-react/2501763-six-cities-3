@@ -18,10 +18,6 @@ export const getOffers = (state: Pick<State, NameSpace.OffersData>): Offer[] => 
 
 export const getFavoriteOffers = (state: Pick<State, NameSpace.OffersData>): Offer[] => state[NameSpace.OffersData].favoriteOffers;
 
-export const selectSortOffers = (state: State): string => state[NameSpace.OffersData].sortOffers;
-
-export const selectIsFiltersOpen = (state: State) => state[NameSpace.OffersData].isFiltersOpen;
-
 export const getFavoritesLength = (state: Pick<State, NameSpace.OffersData>): number => {
   const favoriteOffers = state[NameSpace.OffersData].offers.filter((item) => item.isFavorite === true
   );

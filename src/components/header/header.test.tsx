@@ -8,7 +8,6 @@ import { AuthorizationStatus, AppRoute, APIRoute } from '../../constants';
 import { extractActionsTypes } from '../../utils/mocks.js';
 import { logoutAction, fetchOffersAction } from '../../store/api-actions';
 import { loading } from '../../store/offers-load/offers-load.js';
-import { INITIAL_SORT } from '../../constants';
 
 describe('Component: Header', () => {
   it('should render correct with Auth', () => {
@@ -29,8 +28,6 @@ describe('Component: Header', () => {
         isLoginFormDisabled: false,
       }, offers: {
         offers: [fakeOffer],
-        sortOffers: INITIAL_SORT,
-        isFiltersOpen: false,
         isOffersLoading: false,
         offerCard: undefined,
         offer: undefined,

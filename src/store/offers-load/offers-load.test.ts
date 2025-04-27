@@ -1,15 +1,12 @@
 import { makeFakeOfferCard, makeFakeOfferPage } from '../../utils/mocks';
 import { fetchOffersAction, fetchAroundOffersAction, fetchOfferPageAction, fetchFavoriteOffersAction } from '../api-actions';
 import { offersLoad, loadOffer, refreshCards, loading } from './offers-load';
-import { INITIAL_SORT } from '../../constants';
 
 describe('OffersLoad Slice', () => {
   it('should return initial state with empty action', () => {
     const emptyAction = { type: '' };
     const expectedState = {
       offers: [],
-      sortOffers: INITIAL_SORT,
-      isFiltersOpen: false,
       isOffersLoading: false,
       offer: undefined,
       offerCard: undefined,
@@ -28,8 +25,6 @@ describe('OffersLoad Slice', () => {
     const emptyAction = { type: '' };
     const expectedState = {
       offers: [],
-      sortOffers: INITIAL_SORT,
-      isFiltersOpen: false,
       isOffersLoading: false,
       offer: undefined,
       offerCard: undefined,
@@ -47,8 +42,6 @@ describe('OffersLoad Slice', () => {
     const mockOfferCard = makeFakeOfferCard();
     const expectedState = {
       offers: [mockOfferCard],
-      sortOffers: INITIAL_SORT,
-      isFiltersOpen: false,
       isOffersLoading: false,
       offer: undefined,
       offerCard: undefined,
@@ -68,8 +61,6 @@ describe('OffersLoad Slice', () => {
   it('should set "isOffersLoading" to "false" with "fetchOffersAction.rejected', () => {
     const expectedState = {
       offers: [],
-      sortOffers: INITIAL_SORT,
-      isFiltersOpen: false,
       isOffersLoading: false,
       offer: undefined,
       offerCard: undefined,
@@ -89,8 +80,6 @@ describe('OffersLoad Slice', () => {
   it('should set "isOfferPageLoading" to "true" with "fetchOfferPageAction.pending"', () => {
     const expectedState = {
       offers: [],
-      sortOffers: INITIAL_SORT,
-      isFiltersOpen: false,
       isOffersLoading: false,
       offer: undefined,
       offerCard: undefined,
@@ -108,8 +97,6 @@ describe('OffersLoad Slice', () => {
     const mockOffer = makeFakeOfferPage();
     const expectedState = {
       offers: [],
-      sortOffers: INITIAL_SORT,
-      isFiltersOpen: false,
       isOffersLoading: false,
       offer: mockOffer,
       offerCard: undefined,
@@ -130,8 +117,6 @@ describe('OffersLoad Slice', () => {
   it('should set "isOfferPageLoading" to "false" with "fetchOfferPageAction.rejected"', () => {
     const expectedState = {
       offers: [],
-      sortOffers: INITIAL_SORT,
-      isFiltersOpen: false,
       isOffersLoading: false,
       offer: undefined,
       offerCard: undefined,
@@ -152,8 +137,6 @@ describe('OffersLoad Slice', () => {
     const mockOfferCard = makeFakeOfferCard();
     const expectedState = {
       offers: [],
-      sortOffers: INITIAL_SORT,
-      isFiltersOpen: false,
       isOffersLoading: false,
       offer: undefined,
       offerCard: undefined,
@@ -175,8 +158,6 @@ describe('OffersLoad Slice', () => {
   it('should set "isFavoriteLoading" to "true" with "fetchFavoriteOffersAction.pending"', () => {
     const expectedState = {
       offers: [],
-      sortOffers: INITIAL_SORT,
-      isFiltersOpen: false,
       isOffersLoading: false,
       offer: undefined,
       offerCard: undefined,
@@ -194,8 +175,6 @@ describe('OffersLoad Slice', () => {
     const mockOffer = makeFakeOfferCard();
     const expectedState = {
       offers: [],
-      sortOffers: INITIAL_SORT,
-      isFiltersOpen: false,
       isOffersLoading: false,
       offer: undefined,
       offerCard: undefined,
@@ -216,8 +195,6 @@ describe('OffersLoad Slice', () => {
   it('should set "isFavoriteLoading" to "false" with "fetchFavoriteOffersAction.rejected"', () => {
     const expectedState = {
       offers: [],
-      sortOffers: INITIAL_SORT,
-      isFiltersOpen: false,
       isOffersLoading: false,
       offer: undefined,
       offerCard: undefined,
@@ -240,8 +217,6 @@ describe('OffersLoad Slice', () => {
 
     const initialState = {
       offers: [],
-      sortOffers: INITIAL_SORT,
-      isFiltersOpen: false,
       isOffersLoading: false,
       offer: mockOffer,
       offerCard: undefined,
@@ -254,8 +229,6 @@ describe('OffersLoad Slice', () => {
 
     const expectedState = {
       offers: [],
-      sortOffers: INITIAL_SORT,
-      isFiltersOpen: false,
       isOffersLoading: false,
       offer: { ...mockOffer, isFavorite: actualFavoriteStatus },
       offerCard: undefined,
@@ -274,8 +247,6 @@ describe('OffersLoad Slice', () => {
 
     const initialState = {
       offers: [offerMock],
-      sortOffers: INITIAL_SORT,
-      isFiltersOpen: false,
       isOffersLoading: false,
       offer: undefined,
       offerCard: undefined,
@@ -288,8 +259,6 @@ describe('OffersLoad Slice', () => {
 
     const expectedState = {
       offers: [{ ...offerMock, isFavorite: !offerMock.isFavorite }],
-      sortOffers: INITIAL_SORT,
-      isFiltersOpen: false,
       isOffersLoading: false,
       offer: undefined,
       offerCard: undefined,
@@ -308,8 +277,6 @@ describe('OffersLoad Slice', () => {
 
     const initialState = {
       offers: [],
-      sortOffers: INITIAL_SORT,
-      isFiltersOpen: false,
       isOffersLoading: false,
       offer: undefined,
       offerCard: undefined,
@@ -322,8 +289,6 @@ describe('OffersLoad Slice', () => {
 
     const expectedState = {
       offers: [],
-      sortOffers: INITIAL_SORT,
-      isFiltersOpen: false,
       isOffersLoading: !actualOffersLoading,
       offer: undefined,
       offerCard: undefined,

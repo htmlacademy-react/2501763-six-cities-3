@@ -7,9 +7,9 @@ import MainEmpty from '../main-empty/main-empty';
 import Sort from '../../components/sort/sort';
 import Header from '../../components/header/header';
 import { useSearchParams } from 'react-router-dom';
-import { getOffers, selectSortOffers } from '../../store/offers-load/selectors';
+import { getOffers } from '../../store/offers-load/selectors';
 import { useAppSelector } from '../../hooks/index';
-import { getActiveOfferId } from '../../store/app-actions/selectors';
+import { getActiveOfferId, getSort } from '../../store/app-actions/selectors';
 import { INITIAL_CITY } from '../../constants';
 
 export default function Main(): JSX.Element {
@@ -17,7 +17,7 @@ export default function Main(): JSX.Element {
   const offers = useAppSelector(getOffers);
   const [searchParams] = useSearchParams();
   const searchCityParams = searchParams.get('city') || INITIAL_CITY;
-  const actualSort = useAppSelector(selectSortOffers);
+  const actualSort = useAppSelector(getSort);
   const actualCity = searchCityParams;
 
   const filteredOffers = getSortedOffers(getOffersByCity(actualCity, offers), actualSort);
@@ -48,12 +48,12 @@ export default function Main(): JSX.Element {
               <b className="places__found">{cardsCount} {cardsCount > 1 ? 'places' : 'place'} to stay in {actualCity}</b>
               <Sort />
               <div className="cities__places-list places__list tabs__content">
-                <CardsList offers={filteredOffers} isNearList={false}/>
+                <CardsList offers={filteredOffers} isNearList={false} />
               </div>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
-                <Map offers={filteredOffers} selectedOffer={selectedOffer} actualCity={actualCity} isOfferPageMap={false}/>
+                <Map offers={filteredOffers} selectedOffer={selectedOffer} actualCity={actualCity} isOfferPageMap={false} />
               </section>
             </div>
           </div>
