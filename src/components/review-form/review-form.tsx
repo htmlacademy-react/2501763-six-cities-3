@@ -16,7 +16,7 @@ export default function ReviewForm(): JSX.Element {
   const disabled = useAppSelector(getDisabledReviewStatus);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     if (offer && comment.length >= MIN_COMMENT_LENGTH && comment.length <= MAX_COMMENT_LENGTH && rating > DEFAULT_RATING) {
@@ -59,7 +59,7 @@ export default function ReviewForm(): JSX.Element {
   ];
 
   return (
-    <form data-testid="form-review" ref={formRef} onSubmit={handleSubmit} className="reviews__form form" action="#" method="post">
+    <form data-testid="form-review" ref={formRef} onSubmit={handleFormSubmit} className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
